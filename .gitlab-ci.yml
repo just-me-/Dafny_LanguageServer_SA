@@ -18,6 +18,7 @@ build:
 
   script:
     - "cd $build_path"
+	- ls
     - "dotnet build"
 
 test:
