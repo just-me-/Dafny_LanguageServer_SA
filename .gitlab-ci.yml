@@ -5,9 +5,10 @@ stages:
   - test
 
 variables:
-  project: "Dafny_Server_Redisgn"
+  project: "Dafny_Server_Redesign"
   repo: "dafny-server-redesign"
   build_path: "$project/"
+  project_path: "$repo/"
 
 before_script:
   - apt-get update -qq && apt-get install -y -qq sshpass
@@ -20,9 +21,10 @@ before_script:
 build:
   stage: build
   script:
-    - "cd $build_path"
+    - "ls -al"
     - "echo \"building now...\""
-    - "ls"
+    - "cd $build_path"
+    - "ls -al"
     - "dotnet build"
 
 test:
