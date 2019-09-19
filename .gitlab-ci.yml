@@ -1,0 +1,27 @@
+image: microsoft/dotnet:latest
+
+stages:
+  - build
+  - test
+
+variables:
+  project: "Dafny_Server_Redisgn"
+  repo: "dafny-server-redesign"
+  build_path: "$project/"
+
+before_script:
+  - apt-get update -qq && apt-get install -y -qq sshpass
+  - "dotnet restore"
+
+build:
+  stage: build
+
+  script:
+    - "cd $build_path"
+    - "dotnet build"
+
+test:
+  stage: test
+  script:
+    - dotnet test
+
