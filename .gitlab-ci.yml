@@ -12,8 +12,9 @@ variables:
 before_script:
   - apt-get update -qq && apt-get install -y -qq sshpass
   - "echo \"before script...\""
+  - "ls -al"
   - "cd $build_path"
-  - "ls"
+  - "ls -al"
   - "dotnet restore"
 
 build:
