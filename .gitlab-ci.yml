@@ -18,12 +18,11 @@ build:
   stage: build
   script:
     - "cd $build_path"
-	- "echo \"building now...\""
-	- "ls"
+    - "echo \"building now...\""
+    - "ls"
     - "dotnet build"
 
 test:
   stage: test
   script:
     - dotnet test
-
