@@ -8,7 +8,7 @@ variables:
   project: "Dafny_Server_Redesign"
   repo: "dafny-server-redesign"
   build_path: "$project/"
-  project_path: "$repo/"
+  project_path: "Dafny_Server_Redesign/"
 
 before_script:
   - apt-get update -qq && apt-get install -y -qq sshpass
@@ -22,7 +22,7 @@ build:
   stage: build
   script:
     - "ls -al"
-    - "echo \"building now...\""
+    - "echo \"building stage...\""
     - "cd $build_path"
     - "ls -al"
     - "dotnet build"
