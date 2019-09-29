@@ -36,7 +36,7 @@ export default class DafnyLanguageClient extends LanguageClient {
             // Register the server for plain text documents
             documentSelector: [
                 {
-                    // pattern: '**/*.csproj', aus Tutorial
+                    pattern: '**/*.dfy', // aus Tutorial
                     language: "dafny",
                     scheme: "file",
                 }
