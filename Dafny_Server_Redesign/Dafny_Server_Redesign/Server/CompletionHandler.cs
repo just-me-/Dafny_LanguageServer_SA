@@ -54,6 +54,8 @@ namespace Dafny_Server_Redesign.Server
             var documentPath = request.TextDocument.Uri.ToString();
             var buffer = _bufferManager.GetBuffer(documentPath);
 
+            _router.Window.LogInfo("AAA");
+
             if (buffer == null)
             {
                 return new CompletionList();
@@ -68,6 +70,9 @@ namespace Dafny_Server_Redesign.Server
             var node = syntaxTree.FindNode(position);
 
             var attribute = node.AncestorNodes().OfType<XmlAttributeSyntax>().FirstOrDefault();
+
+            _router.Window.LogInfo($"SSSSSSS: Node: {node} attributee: {attribute}");
+
             if (attribute != null && node.ParentElement.Name.Equals(PackageReferenceElement))
             {
                 if (attribute.Name.Equals(IncludeAttribute))
@@ -75,6 +80,9 @@ namespace Dafny_Server_Redesign.Server
                     var completions = await _nuGetService.GetPackages(attribute.Value);
 
                     var diff = position - attribute.ValueNode.Start;
+
+                    _router.Window.LogInfo("BABABABABABA");
+                    _router.Window.LogInfo(completions.ToString());
 
                     return new CompletionList(completions.Select(x => new CompletionItem
                     {
