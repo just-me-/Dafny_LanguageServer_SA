@@ -1,4 +1,4 @@
-import { ExtensionContext } from "vscode";
+import { ExtensionContext, workspace } from "vscode";
 import { LanguageClient, ServerOptions } from "vscode-languageclient";
 import { TransportKind, LanguageClientOptions } from "vscode-languageclient/lib/client";
 
@@ -45,7 +45,7 @@ export default class DafnyLanguageClient extends LanguageClient {
                 /* aus tutorial */
                 // Synchronize the setting section 'languageServerExample' to the server
                 //configurationSection: 'languageServerExample',
-                //fileEvents: vscode.workspace.createFileSystemWatcher('**/*.csproj')
+                fileEvents: workspace.createFileSystemWatcher('**/*.dfy'),
                 // aus node
                 configurationSection: "dafny",
             },

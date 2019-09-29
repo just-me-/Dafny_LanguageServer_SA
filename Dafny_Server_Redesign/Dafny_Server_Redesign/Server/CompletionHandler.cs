@@ -27,7 +27,7 @@ namespace Dafny_Server_Redesign.Server
         private readonly DocumentSelector _documentSelector = new DocumentSelector(
             new DocumentFilter()
             {
-                Pattern = "**/*.csproj"
+                Pattern = "**/*.dfy"
             }
         );
 

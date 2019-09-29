@@ -20,7 +20,7 @@ namespace Dafny_Server_Redesign.Server
         private readonly DocumentSelector _documentSelector = new DocumentSelector(
             new DocumentFilter()
             {
-                Pattern = "**/*.csproj"  //TODO: Anpassen oder?
+                Pattern = "**/*.dfy"
             }
         );
 
