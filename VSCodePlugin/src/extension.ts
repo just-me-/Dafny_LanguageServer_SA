@@ -2,6 +2,9 @@
 
 import { platform } from "os";
 import * as vscode from "vscode";
+
+import { Trace } from 'vscode-jsonrpc';
+
 import { Context } from "./context";
 import { DafnyClientProvider } from "./dafnyProvider";
 import { DafnyRunner } from "./dafnyRunner";
@@ -46,6 +49,9 @@ export function activate(extensionContext: vscode.ExtensionContext) {
 
     const languageServer = new DafnyLanguageClient(extensionContext);
 
+    languageServer.trace = Trace.Verbose; // aus dem tutorial
+
+    // 1:1 aus dem node... irgend welches Registrierungszeugs/Prep... sollte weiterhin gehen
     languageServer.onReady().then(() => {
         provider = new DafnyClientProvider(extensionContext, languageServer);
 
@@ -63,6 +69,8 @@ export function activate(extensionContext: vscode.ExtensionContext) {
         });
     });
 
+    // Push the disposable to the context's subscriptions so that the
+    // client can be deactivated on extension deactivation
     const languageServerDisposable = languageServer.start();
     extensionContext.subscriptions.push(languageServerDisposable);
 }

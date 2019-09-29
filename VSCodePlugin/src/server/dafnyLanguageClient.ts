@@ -1,14 +1,21 @@
-import * as path from "path";
 import { ExtensionContext } from "vscode";
-import { LanguageClient } from "vscode-languageclient";
-import { TransportKind } from "vscode-languageclient/lib/client";
+import { LanguageClient, ServerOptions } from "vscode-languageclient";
+import { TransportKind, LanguageClientOptions } from "vscode-languageclient/lib/client";
 
 export default class DafnyLanguageClient extends LanguageClient {
 
     constructor(extensionContext: ExtensionContext) {
-        const serverModule = extensionContext.asAbsolutePath(path.join("server", "server.js"));
-
-        const serverOptions = {
+        
+        // The server is implemented in node
+        const serverExe = 'dotnet';
+        const pathm = '/Users/marcel/Documents/HSR/5. Semester/SA/_Code/dafny-server-redesign/Dafny_Server_Redesign/Dafny_Server_Redesign/bin/Debug/netcoreapp2.1/Dafny_Server_Redesign.dll';
+    
+        // If the extension is launched in debug mode then the debug server options are used
+        // Otherwise the run options are used
+        const serverOptions: ServerOptions = {
+            run: { command: serverExe, args: [pathm] },
+            debug: { command: serverExe, args: [pathm] }
+            /* old node config: 
             debug: {
                 module: serverModule,
                 options: {
@@ -20,17 +27,28 @@ export default class DafnyLanguageClient extends LanguageClient {
                 module: serverModule,
                 transport: TransportKind.ipc,
             },
-        };
-
-        const clientOptions = {
-            documentSelector: [{
-                language: "dafny",
-                scheme: "file",
-            }],
+            */
+        }
+    
+        // Options to control the language client
+        const clientOptions: LanguageClientOptions = {
+            // Register the server for plain text documents
+            documentSelector: [
+                {
+                    // pattern: '**/*.csproj', aus Tutorial
+                    language: "dafny",
+                    scheme: "file",
+                }
+            ],
             synchronize: {
+                /* aus tutorial */
+                // Synchronize the setting section 'languageServerExample' to the server
+                //configurationSection: 'languageServerExample',
+                //fileEvents: vscode.workspace.createFileSystemWatcher('**/*.csproj')
+                // aus node
                 configurationSection: "dafny",
             },
-        };
+        }
 
         super("dafny-vscode", "Dafny Language Server", serverOptions, clientOptions);
     }
