@@ -20,7 +20,7 @@ const runner: DafnyRunner = new DafnyRunner();
 export function activate(extensionContext: vscode.ExtensionContext) {
 
     // @todo This should be a gracefull feature reduction
-    if (vscode.workspace.rootPath === undefined) {
+    if (vscode.workspace.workspaceFolders === undefined) {
         vscode.window.showWarningMessage(WarningMsg.NoWorkspace);
     }
 
