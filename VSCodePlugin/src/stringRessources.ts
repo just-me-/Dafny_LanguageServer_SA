@@ -101,6 +101,7 @@ export class LanguageServerRequest {
     public static Compile: string = "compile";
     public static Install: string = "install";
     public static Uninstall: string = "uninstall";
+    public static SayHello: string = "sayhello";
 }
 
 export class LanguageServerNotification {

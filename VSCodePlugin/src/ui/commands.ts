@@ -45,7 +45,19 @@ export default class Commands {
         {name: CommandStrings.RestartServer,  callback: () => this.restartServer()},
         {name: CommandStrings.InstallDafny,   callback: () => this.installDafny()},
         {name: CommandStrings.UninstallDafny, callback: () => this.uninstallDafny()},
-        {name: CommandStrings.RequestTest, callback: () => vscode.window.showInformationMessage('Aloha')},
+        {
+            name: CommandStrings.RequestTest, 
+            callback: () => {
+                vscode.window.showInformationMessage('Aloha');
+                console.log("Lets try...");
+                this.languageServer.sendRequest(LanguageServerRequest.SayHello).then((answer) => {
+                    console.log("Answer: " + answer);
+                    vscode.window.showInformationMessage('We did it!');
+                }, (e) => {
+                    vscode.window.showErrorMessage("Request Test Error: " + e);
+                });
+            }
+        },
         {
             name: CommandStrings.Compile,
             callback: () => {
