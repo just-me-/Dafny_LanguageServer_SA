@@ -30,6 +30,8 @@ namespace Dafny_Server_Redesign.Server
         {
             _router = router;
             _bufferManager = bufferManager;
+
+            //_router.Window.LogInfo("SyncHandler Created");
         }
 
         public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full; //TODO: Incremental damit nicht der ganze Karsumpel geschickt wird

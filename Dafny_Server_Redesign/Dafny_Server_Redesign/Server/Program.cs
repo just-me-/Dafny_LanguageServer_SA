@@ -18,6 +18,11 @@ namespace Dafny_Server_Redesign.Server
                     .AddDefaultLoggingProvider()
                     .WithMinimumLogLevel(LogLevel.Trace)
                     .WithServices(ConfigureServices)
+
+                    .WithHandler<TextDocumentHandler>() // 3 Klassen aus dem OmniSharp Tut
+                    .WithHandler<DidChangeWatchedFilesHandler>()
+                    .WithHandler<FoldingRangeHandler>()
+
                     .WithHandler<TextDocumentSyncHandler>()
                     .WithHandler<CompletionHandler>()
             );

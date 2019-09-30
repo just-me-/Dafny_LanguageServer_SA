@@ -37,6 +37,8 @@ export default class DafnyLanguageClient extends LanguageClient {
             documentSelector: [
                 {
                     pattern: '**/*.dfy', // aus Tutorial
+                },
+                {
                     language: "dafny",
                     scheme: "file",
                 }
