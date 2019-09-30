@@ -45,6 +45,7 @@ export function activate(extensionContext: vscode.ExtensionContext) {
             }
         });
         return;
+        
     }
 
     const languageServer = new DafnyLanguageClient(extensionContext);

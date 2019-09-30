@@ -23,6 +23,8 @@ namespace Dafny_Server_Redesign.Server
                     .WithHandler<DidChangeWatchedFilesHandler>()
                     .WithHandler<FoldingRangeHandler>()
 
+                    //.WithHandler<ReciverHandler2>()
+
                     .WithHandler<TextDocumentSyncHandler>()
                     .WithHandler<CompletionHandler>()
             );
@@ -34,6 +36,10 @@ namespace Dafny_Server_Redesign.Server
         {
             services.AddSingleton<BufferManager>();
             services.AddSingleton<NuGetAutoCompleteService>();
+
+            services.AddSingleton<LspReciever>();
+            //services.AddSingleton<ReciverHandler1>();
+
         }
     }
 }
