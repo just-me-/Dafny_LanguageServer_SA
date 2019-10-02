@@ -1,4 +1,4 @@
-import { ExtensionContext, workspace } from "vscode";
+import { ExtensionContext, workspace, env } from "vscode";
 import { LanguageClient, ServerOptions } from "vscode-languageclient";
 import { TransportKind, LanguageClientOptions } from "vscode-languageclient/lib/client";
 
@@ -12,8 +12,8 @@ export default class DafnyLanguageClient extends LanguageClient {
         // unbedingt ;-) \t
         const path_marcel = '/Users/marcel/Documents/HSR/5. Semester/SA/_Code/dafny-server-redesign/Dafny_Server_Redesign/Dafny_Server_Redesign/bin/Debug/netcoreapp2.1/Dafny_Server_Redesign.dll';
         const path_tom_laptop = 'D:\\Eigene Dokumente\\VisualStudio\\SA\\dafny-server-redesign\\Dafny_Server_Redesign\\Dafny_Server_Redesign\\bin\\Debug\\netcoreapp2.1\\Dafny_Server_Redesign.dll'
-        
-        const path = path_tom_laptop;
+        const path = env.appRoot.match('marcel') !== null ? path_marcel : path_tom_laptop;
+
         // If the extension is launched in debug mode then the debug server options are used
         // Otherwise the run options are used
         const serverOptions: ServerOptions = {
