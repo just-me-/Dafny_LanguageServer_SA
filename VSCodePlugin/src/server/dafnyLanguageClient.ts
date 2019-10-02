@@ -9,8 +9,11 @@ export default class DafnyLanguageClient extends LanguageClient {
         // The server is implemented in node
         const serverExe = 'dotnet';
         // relativer pfad funzt ned. Evt über eine Config var angeben dass es etwas eleganter ist?
-        const path = '/Users/marcel/Documents/HSR/5. Semester/SA/_Code/dafny-server-redesign/Dafny_Server_Redesign/Dafny_Server_Redesign/bin/Debug/netcoreapp2.1/Dafny_Server_Redesign.dll';
-    
+        // unbedingt ;-) \t
+        const path_marcel = '/Users/marcel/Documents/HSR/5. Semester/SA/_Code/dafny-server-redesign/Dafny_Server_Redesign/Dafny_Server_Redesign/bin/Debug/netcoreapp2.1/Dafny_Server_Redesign.dll';
+        const path_tom_laptop = 'D:\\Eigene Dokumente\\VisualStudio\\SA\\dafny-server-redesign\\Dafny_Server_Redesign\\Dafny_Server_Redesign\\bin\\Debug\\netcoreapp2.1\\Dafny_Server_Redesign.dll'
+        
+        const path = path_tom_laptop
         // If the extension is launched in debug mode then the debug server options are used
         // Otherwise the run options are used
         const serverOptions: ServerOptions = {

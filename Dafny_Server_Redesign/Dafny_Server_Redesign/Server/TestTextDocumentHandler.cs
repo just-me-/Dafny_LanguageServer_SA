@@ -30,6 +30,7 @@ namespace Dafny_Server_Redesign.Server
         public TextDocumentHandler(OmniSharp.Extensions.LanguageServer.Protocol.Server.ILanguageServer router)
         {
             _router = router;
+            _router.Window.LogInfo("****** TextDocHandler init ********");
         }
 
         public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full;
@@ -39,7 +40,7 @@ namespace Dafny_Server_Redesign.Server
             _router.Window.LogMessage(new LogMessageParams()
             {
                 Type = MessageType.Log,
-                Message = "Hello World!!!! OmniSharp is inna house :P"
+                Message = "Hello World!!!! OmniSharp is inna house :P [Document Handler -> DidChange]"
             });
             return Unit.Task;
         }
