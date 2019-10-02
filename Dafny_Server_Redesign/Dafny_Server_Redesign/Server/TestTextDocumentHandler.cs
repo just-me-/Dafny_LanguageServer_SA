@@ -30,7 +30,7 @@ namespace Dafny_Server_Redesign.Server
         public TextDocumentHandler(OmniSharp.Extensions.LanguageServer.Protocol.Server.ILanguageServer router)
         {
             _router = router;
-            _router.Window.LogInfo("****** TextDocHandler init ********");
+           
         }
 
         public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full;
