@@ -52,38 +52,65 @@ namespace Dafny_Server_Redesign.Server
         public async Task<CompletionList> Handle(CompletionParams request, CancellationToken cancellationToken)
         {
             var documentPath = request.TextDocument.Uri.ToString();
-            var buffer = _bufferManager.GetBuffer(documentPath);
+            var buffer = _bufferManager.GetTextFromBuffer(documentPath);
 
-            
+            var demotext = "i'm the new text";
+            var demotext2 = "You can do this !!!!  ;-) <3 <3 <3 :-) Keep trying!";
 
-            if (buffer == null)
+            return await Task.Run(() =>
             {
-                return new CompletionList();
-            }
 
-            var citem1 = new CompletionItem
-            {
-                Label = "demolabel",
-                Kind = CompletionItemKind.Reference,
-                TextEdit = new TextEdit
+                if (buffer == null)
                 {
-                    NewText = "i'm the new text",
-                    Range = new Range(
-                        new Position
-                        {
-                            Line = request.Position.Line,
-                            Character = request.Position.Character - 1
-                        }, new Position
-                        {
-                            Line = request.Position.Line,
-                            Character = request.Position.Character - -1 + 15
-                        })
+                    return new CompletionList();
                 }
 
-            };
+                var citem1 = new CompletionItem
+                {
+                    Label = "Insert a new Text",
+                    Kind = CompletionItemKind.Reference,
+                    TextEdit = new TextEdit
+                    {
+                        NewText = demotext,
+                        Range = new Range(
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + demotext.Length
+                            })
+                    }
+
+                };
+
+                var citem2 = new CompletionItem
+                {
+                    Label = "Let me cheer you up",
+                    Kind = CompletionItemKind.Reference,
+                    TextEdit = new TextEdit
+                    {
+                        NewText = demotext2,
+                        Range = new Range(
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + demotext2.Length
+                            })
+                    }
+
+                };
 
 
-            return new CompletionList(citem1);
+                return new CompletionList(citem1, citem2);
+
+            });
 
 
 

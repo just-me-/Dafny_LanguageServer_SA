@@ -30,8 +30,6 @@ namespace Dafny_Server_Redesign.Server
         {
             _router = router;
             _bufferManager = bufferManager;
-
-            //_router.Window.LogInfo("SyncHandler Created");
         }
 
         public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full; //TODO: Incremental damit nicht der ganze Karsumpel geschickt wird
@@ -58,14 +56,17 @@ namespace Dafny_Server_Redesign.Server
 
             _bufferManager.UpdateBuffer(documentPath, text);
 
-            _router.Window.LogInfo($"Handled Buffer Zeugs ---- Updated buffer for document: {documentPath}\n{text}");
+            _router.Window.LogInfo($"Handled DidChangeDoc ---- Updated buffer for document: {documentPath}\n{text}");
 
             return Unit.Task;
         }
 
         public Task<Unit> Handle(DidOpenTextDocumentParams request, CancellationToken cancellationToken)
         {
-            _bufferManager.UpdateBuffer(request.TextDocument.Uri.ToString(), request.TextDocument.Text);
+            var text = request.TextDocument.Text;
+            var documentPath = request.TextDocument.Uri.ToString();
+            _bufferManager.UpdateBuffer(documentPath, request.TextDocument.Text);
+            _router.Window.LogInfo($"Server handled DidOpenDocument ---- Updated buffer for document: {documentPath}\n{text}");
             return Unit.Task;
         }
 

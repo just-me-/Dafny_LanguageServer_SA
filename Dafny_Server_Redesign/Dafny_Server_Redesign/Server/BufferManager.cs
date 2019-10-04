@@ -12,7 +12,7 @@ namespace Dafny_Server_Redesign.Server
             _buffers.AddOrUpdate(documentPath, content, (k, v) => content);
         }
 
-        public string GetBuffer(string documentPath)
+        public string GetTextFromBuffer(string documentPath)
         {
             return _buffers.TryGetValue(documentPath, out var buffer) ? buffer : null;
         }
