@@ -13,6 +13,8 @@ using ILanguageServer = OmniSharp.Extensions.LanguageServer.Server.ILanguageServ
 
 namespace Dafny_Server_Redesign.Server
 {
+
+    #region TextDocumentSyncHandler
     // 3 Klassen aus dem omniSharp Beispiel Tut... 
     class TextDocumentHandler : ITextDocumentSyncHandler
     {
@@ -37,11 +39,7 @@ namespace Dafny_Server_Redesign.Server
 
         public Task<Unit> Handle(DidChangeTextDocumentParams notification, CancellationToken token)
         {
-            _router.Window.LogMessage(new LogMessageParams()
-            {
-                Type = MessageType.Log,
-                Message = "Hello World!!!! OmniSharp is inna house :P [Document Handler -> DidChange]"
-            });
+            _router.Window.LogInfo("Oink Oink der Karren rollt, ich wiederhole, der Karren rollt");
             return Unit.Task;
         }
 
@@ -65,7 +63,7 @@ namespace Dafny_Server_Redesign.Server
             _router.Window.LogMessage(new LogMessageParams()
             {
                 Type = MessageType.Log,
-                Message = "Hello World!!!! 2nd"
+                Message = "OPened Document"
             });
             return Unit.Value;
         }
@@ -101,7 +99,9 @@ namespace Dafny_Server_Redesign.Server
             return new TextDocumentAttributes(uri, "dafny");
         }
     }
+    #endregion
 
+    #region FoldingRangeHandler
     class FoldingRangeHandler : IFoldingRangeHandler
     {
         private FoldingRangeCapability _capability;
@@ -133,6 +133,12 @@ namespace Dafny_Server_Redesign.Server
         }
     }
 
+    #endregion
+
+
+
+    #region DidChangeWatchedFilesHandler
+
     class DidChangeWatchedFilesHandler : IDidChangeWatchedFilesHandler
     {
         private DidChangeWatchedFilesCapability _capability;
@@ -152,4 +158,7 @@ namespace Dafny_Server_Redesign.Server
             _capability = capability;
         }
     }
+
+    #endregion
+
 }
