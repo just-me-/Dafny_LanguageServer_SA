@@ -19,12 +19,6 @@ namespace Dafny_Server_Redesign.Server
                     .WithMinimumLogLevel(LogLevel.Trace)
                     .WithServices(ConfigureServices)
 
-                    .WithHandler<TextDocumentHandler>() // 3 Klassen aus dem OmniSharp Tut
-                    .WithHandler<DidChangeWatchedFilesHandler>()
-                    .WithHandler<FoldingRangeHandler>()
-
-                    //.WithHandler<ReciverHandler2>()
-
                     .WithHandler<TextDocumentSyncHandler>()
                     .WithHandler<CompletionHandler>()
             );
@@ -37,8 +31,7 @@ namespace Dafny_Server_Redesign.Server
             services.AddSingleton<BufferManager>();
             services.AddSingleton<NuGetAutoCompleteService>();
 
-            services.AddSingleton<LspReciever>();
-            //services.AddSingleton<ReciverHandler1>();
+            
 
         }
     }

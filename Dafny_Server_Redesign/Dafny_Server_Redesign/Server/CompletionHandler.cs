@@ -52,92 +52,68 @@ namespace Dafny_Server_Redesign.Server
         public async Task<CompletionList> Handle(CompletionParams request, CancellationToken cancellationToken)
         {
             var documentPath = request.TextDocument.Uri.ToString();
-            var buffer = _bufferManager.GetBuffer(documentPath);
+            var buffer = _bufferManager.GetTextFromBuffer(documentPath);
 
-            _router.Window.LogInfo("AAA");
+            var demotext = "i'm the new text";
+            var demotext2 = "You can do this !!!!  ;-) <3 <3 <3 :-) Keep trying!";
 
-            if (buffer == null)
+            return await Task.Run(() =>
             {
-                return new CompletionList();
-            }
 
-            var syntaxTree = Parser.Parse(buffer);
-
-            var position = GetPosition(buffer.GetText(0, buffer.Length),
-                (int)request.Position.Line,
-                (int)request.Position.Character);
-
-            var node = syntaxTree.FindNode(position);
-
-            var attribute = node.AncestorNodes().OfType<XmlAttributeSyntax>().FirstOrDefault();
-
-            _router.Window.LogInfo($"SSSSSSS: Node: {node} attributee: {attribute}");
-
-            if (attribute != null && node.ParentElement.Name.Equals(PackageReferenceElement))
-            {
-                if (attribute.Name.Equals(IncludeAttribute))
+                if (buffer == null)
                 {
-                    var completions = await _nuGetService.GetPackages(attribute.Value);
-
-                    var diff = position - attribute.ValueNode.Start;
-
-                    _router.Window.LogInfo("BABABABABABA");
-                    _router.Window.LogInfo(completions.ToString());
-
-                    return new CompletionList(completions.Select(x => new CompletionItem
-                    {
-                        Label = x,
-                        Kind = CompletionItemKind.Reference,
-                        TextEdit = new TextEdit
-                        {
-                            NewText = x,
-                            Range = new Range(
-                                new Position
-                                {
-                                    Line = request.Position.Line,
-                                    Character = request.Position.Character - diff + 1
-                                }, new Position
-                                {
-                                    Line = request.Position.Line,
-                                    Character = request.Position.Character - diff + attribute.ValueNode.Width - 1
-                                })
-                        }
-                    }), isIncomplete: completions.Count > 1);
+                    return new CompletionList();
                 }
-                else if (attribute.Name.Equals(VersionAttribute))
+
+                var citem1 = new CompletionItem
                 {
-                    var includeNode = node.ParentElement.Attributes.FirstOrDefault(x => x.Name.Equals(IncludeAttribute));
-
-                    if (includeNode != null && !string.IsNullOrEmpty(includeNode.Value))
+                    Label = "Insert a new Text",
+                    Kind = CompletionItemKind.Reference,
+                    TextEdit = new TextEdit
                     {
-                        var versions = await _nuGetService.GetPackageVersions(includeNode.Value, attribute.Value);
-
-                        var diff = position - attribute.ValueNode.Start;
-
-                        return new CompletionList(versions.Select(x => new CompletionItem
-                        {
-                            Label = x,
-                            Kind = CompletionItemKind.Reference,
-                            TextEdit = new TextEdit
+                        NewText = demotext,
+                        Range = new Range(
+                            new Position
                             {
-                                NewText = x,
-                                Range = new Range(
-                                    new Position
-                                    {
-                                        Line = request.Position.Line,
-                                        Character = request.Position.Character - diff + 1
-                                    }, new Position
-                                    {
-                                        Line = request.Position.Line,
-                                        Character = request.Position.Character - diff + attribute.ValueNode.Width - 1
-                                    })
-                            }
-                        }));
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + demotext.Length
+                            })
                     }
-                }
-            }
 
-            return new CompletionList();
+                };
+
+                var citem2 = new CompletionItem
+                {
+                    Label = "Let me cheer you up",
+                    Kind = CompletionItemKind.Reference,
+                    TextEdit = new TextEdit
+                    {
+                        NewText = demotext2,
+                        Range = new Range(
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + demotext2.Length
+                            })
+                    }
+
+                };
+
+
+                return new CompletionList(citem1, citem2);
+
+            });
+
+
+
         }
 
         private static int GetPosition(string buffer, int line, int col)

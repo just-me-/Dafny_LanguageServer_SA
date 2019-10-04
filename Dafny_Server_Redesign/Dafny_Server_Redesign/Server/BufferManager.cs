@@ -5,14 +5,14 @@ namespace Dafny_Server_Redesign.Server
 {
     class BufferManager
     {
-        private ConcurrentDictionary<string, Buffer> _buffers = new ConcurrentDictionary<string, Buffer>();
+        private ConcurrentDictionary<string, string> _buffers = new ConcurrentDictionary<string, string>();
 
-        public void UpdateBuffer(string documentPath, Buffer buffer)
+        public void UpdateBuffer(string documentPath, string content)
         {
-            _buffers.AddOrUpdate(documentPath, buffer, (k, v) => buffer);
+            _buffers.AddOrUpdate(documentPath, content, (k, v) => content);
         }
 
-        public Buffer GetBuffer(string documentPath)
+        public string GetTextFromBuffer(string documentPath)
         {
             return _buffers.TryGetValue(documentPath, out var buffer) ? buffer : null;
         }
