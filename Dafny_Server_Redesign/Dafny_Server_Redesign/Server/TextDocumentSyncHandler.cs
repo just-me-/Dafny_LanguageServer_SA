@@ -54,17 +54,18 @@ namespace Dafny_Server_Redesign.Server
         {
             var documentPath = request.TextDocument.Uri.ToString();
             var text = request.ContentChanges.FirstOrDefault()?.Text;
+            
 
-            _bufferManager.UpdateBuffer(documentPath, new StringBuffer(text));
+            _bufferManager.UpdateBuffer(documentPath, text);
 
-            _router.Window.LogInfo($"Updated buffer for document: {documentPath}\n{text}");
+            _router.Window.LogInfo($"Handled Buffer Zeugs ---- Updated buffer for document: {documentPath}\n{text}");
 
             return Unit.Task;
         }
 
         public Task<Unit> Handle(DidOpenTextDocumentParams request, CancellationToken cancellationToken)
         {
-            _bufferManager.UpdateBuffer(request.TextDocument.Uri.ToString(), new StringBuffer(request.TextDocument.Text));
+            _bufferManager.UpdateBuffer(request.TextDocument.Uri.ToString(), request.TextDocument.Text);
             return Unit.Task;
         }
 

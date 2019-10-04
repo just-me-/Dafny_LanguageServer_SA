@@ -54,90 +54,39 @@ namespace Dafny_Server_Redesign.Server
             var documentPath = request.TextDocument.Uri.ToString();
             var buffer = _bufferManager.GetBuffer(documentPath);
 
-            _router.Window.LogInfo("AAA");
+            
 
             if (buffer == null)
             {
                 return new CompletionList();
             }
 
-            var syntaxTree = Parser.Parse(buffer);
-
-            var position = GetPosition(buffer.GetText(0, buffer.Length),
-                (int)request.Position.Line,
-                (int)request.Position.Character);
-
-            var node = syntaxTree.FindNode(position);
-
-            var attribute = node.AncestorNodes().OfType<XmlAttributeSyntax>().FirstOrDefault();
-
-            _router.Window.LogInfo($"SSSSSSS: Node: {node} attributee: {attribute}");
-
-            if (attribute != null && node.ParentElement.Name.Equals(PackageReferenceElement))
+            var citem1 = new CompletionItem
             {
-                if (attribute.Name.Equals(IncludeAttribute))
+                Label = "demolabel",
+                Kind = CompletionItemKind.Reference,
+                TextEdit = new TextEdit
                 {
-                    var completions = await _nuGetService.GetPackages(attribute.Value);
-
-                    var diff = position - attribute.ValueNode.Start;
-
-                    _router.Window.LogInfo("BABABABABABA");
-                    _router.Window.LogInfo(completions.ToString());
-
-                    return new CompletionList(completions.Select(x => new CompletionItem
-                    {
-                        Label = x,
-                        Kind = CompletionItemKind.Reference,
-                        TextEdit = new TextEdit
+                    NewText = "i'm the new text",
+                    Range = new Range(
+                        new Position
                         {
-                            NewText = x,
-                            Range = new Range(
-                                new Position
-                                {
-                                    Line = request.Position.Line,
-                                    Character = request.Position.Character - diff + 1
-                                }, new Position
-                                {
-                                    Line = request.Position.Line,
-                                    Character = request.Position.Character - diff + attribute.ValueNode.Width - 1
-                                })
-                        }
-                    }), isIncomplete: completions.Count > 1);
-                }
-                else if (attribute.Name.Equals(VersionAttribute))
-                {
-                    var includeNode = node.ParentElement.Attributes.FirstOrDefault(x => x.Name.Equals(IncludeAttribute));
-
-                    if (includeNode != null && !string.IsNullOrEmpty(includeNode.Value))
-                    {
-                        var versions = await _nuGetService.GetPackageVersions(includeNode.Value, attribute.Value);
-
-                        var diff = position - attribute.ValueNode.Start;
-
-                        return new CompletionList(versions.Select(x => new CompletionItem
+                            Line = request.Position.Line,
+                            Character = request.Position.Character - 1
+                        }, new Position
                         {
-                            Label = x,
-                            Kind = CompletionItemKind.Reference,
-                            TextEdit = new TextEdit
-                            {
-                                NewText = x,
-                                Range = new Range(
-                                    new Position
-                                    {
-                                        Line = request.Position.Line,
-                                        Character = request.Position.Character - diff + 1
-                                    }, new Position
-                                    {
-                                        Line = request.Position.Line,
-                                        Character = request.Position.Character - diff + attribute.ValueNode.Width - 1
-                                    })
-                            }
-                        }));
-                    }
+                            Line = request.Position.Line,
+                            Character = request.Position.Character - -1 + 15
+                        })
                 }
-            }
 
-            return new CompletionList();
+            };
+
+
+            return new CompletionList(citem1);
+
+
+
         }
 
         private static int GetPosition(string buffer, int line, int col)
