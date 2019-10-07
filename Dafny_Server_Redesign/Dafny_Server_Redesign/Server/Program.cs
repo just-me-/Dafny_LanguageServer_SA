@@ -19,6 +19,7 @@ namespace Dafny_Server_Redesign.Server
                     .WithMinimumLogLevel(LogLevel.Trace)
                     .WithServices(ConfigureServices)
 
+                    .WithHandler<TestHandler>()
                     .WithHandler<TextDocumentSyncHandler>()
                     .WithHandler<CompletionHandler>()
             );
