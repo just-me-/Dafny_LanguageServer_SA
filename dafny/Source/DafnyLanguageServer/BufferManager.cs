@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
-using Microsoft.Language.Xml;
 
-namespace Dafny_Server_Redesign.Server
+namespace DafnyLanguageServer
 {
     class BufferManager
     {

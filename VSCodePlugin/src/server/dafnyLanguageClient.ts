@@ -11,7 +11,7 @@ export default class DafnyLanguageClient extends LanguageClient {
         // relativer pfad funzt ned. Evt über eine Config var angeben dass es etwas eleganter ist?
         // unbedingt ;-) \t
         const path_marcel = '/Users/marcel/Documents/HSR/5. Semester/SA/_Code/dafny-server-redesign/Dafny_Server_Redesign/Dafny_Server_Redesign/bin/Debug/netcoreapp2.1/Dafny_Server_Redesign.dll';
-        const path_tom_laptop = 'D:\\Eigene Dokumente\\VisualStudio\\SA\\dafny-server-redesign\\Dafny_Server_Redesign\\Dafny_Server_Redesign\\bin\\Debug\\netcoreapp2.1\\Dafny_Server_Redesign.dll'
+        const path_tom_laptop = 'D:\\Eigene Dokumente\\VisualStudio\\SA\\dafny-server-redesign\\dafny\\Source\\DafnyLanguageServer\\bin\\Debug\\netcoreapp2.1\\Dafny_Server_Redesign.dll'
         const path_marcel_win = 'C:\\Users\\Marcel\\Desktop\\SA\\dafny-server-redesign\\Dafny_Server_Redesign\\Dafny_Server_Redesign\\bin\\Debug\\netcoreapp2.1\\Dafny_Server_Redesign.dll'
          const path =env.appRoot.match('marcel') !== null ? path_marcel : (
             env.appRoot.match('Marcel') ? path_marcel_win : path_tom_laptop

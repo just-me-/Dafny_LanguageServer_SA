@@ -2,16 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using OmniSharp.Extensions.Embedded.MediatR;
-using OmniSharp.Extensions.LanguageServer;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server.Capabilities;
-using OmniSharp.Extensions.LanguageServer.Server;
-using ILanguageServer = OmniSharp.Extensions.LanguageServer.Server.ILanguageServer;
 
-namespace Dafny_Server_Redesign.Server
+namespace DafnyLanguageServer
 {
 
     #region TextDocumentSyncHandler

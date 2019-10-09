@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace Dafny_Server_Redesign.Server
+namespace DafnyLanguageServer
 {
     internal class NuGetAutoCompleteService : IDisposable
     {
