@@ -27,7 +27,7 @@ namespace Microsoft.Dafny {
     }
   }
 
-  class DafnyHelper {
+  public class DafnyHelper {
     private string fname;
     private string source;
     private string[] args;
@@ -43,7 +43,15 @@ namespace Microsoft.Dafny {
       this.reporter = new Dafny.ConsoleErrorReporter();
     }
 
-    public bool Verify() {
+    public DafnyHelper(string[] args, string fname, string source, ErrorReporter reporter)
+    {
+        this.args = args;
+        this.fname = fname;
+        this.source = source;
+        this.reporter = reporter;
+    }
+
+        public bool Verify() {
       ServerUtils.ApplyArgs(args, reporter);
       return Parse() && Resolve() && Translate() && Boogie();
     }

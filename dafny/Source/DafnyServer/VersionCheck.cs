@@ -2,9 +2,10 @@
 
 namespace DafnyServer {
   public class VersionCheck {
-    public static void CurrentVersion() {
+    public static string CurrentVersion() {
       var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
       Console.WriteLine("VERSION:" + version);
+      return "VERSION:" + version;
     }
   }
 }
