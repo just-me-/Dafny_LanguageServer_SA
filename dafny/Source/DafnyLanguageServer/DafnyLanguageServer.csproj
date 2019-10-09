@@ -6,6 +6,8 @@
 	<LangVersion>latest</LangVersion>
 	<AssemblyName>DafnyLanguageServer</AssemblyName>
 	<RootNamespace>DafnyLanguageServer</RootNamespace>
+	<OutputPath>..\..\Binaries\</OutputPath>
+	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

@@ -132,7 +132,7 @@ namespace DafnyLanguageServer
 
                 };
 
-                string[] args = null;
+                string[] args = new string[]{};
                 string filename = request.TextDocument.Uri.ToString();
                 string sourcecode = _bufferManager.GetTextFromBuffer(filename);
 
