@@ -569,18 +569,21 @@ namespace DafnyLanguage
         Contract.Requires(prog != null);
         foreach (var a in attrs.AsEnumerable()) {
           var usa = a as UserSuppliedAttributes;
-          if (usa != null && InMainFileAndUserDefined(prog, usa.tok)) {
-            regions.Add(new IdRegion(usa.OpenBrace, usa.CloseBrace, OccurrenceKind.Attribute));
-            if (usa.Recognized) {
-              if (usa.Colon.pos + usa.Colon.val.Length == usa.tok.pos) {
-                // just do one highlight
-                regions.Add(new IdRegion(usa.Colon, OccurrenceKind.RecognizedAttributeId, null, usa.Colon.val.Length + usa.tok.val.Length));
-              } else {
-                regions.Add(new IdRegion(usa.Colon, OccurrenceKind.RecognizedAttributeId, null, usa.Colon.val.Length));
-                regions.Add(new IdRegion(usa.tok, OccurrenceKind.RecognizedAttributeId, null, usa.tok.val.Length));
-              }
-            }
-          }
+
+          /*!*/
+
+          //if (usa != null && InMainFileAndUserDefined(prog, usa.tok)) {
+          //  regions.Add(new IdRegion(usa.OpenBrace, usa.CloseBrace, OccurrenceKind.Attribute));
+          //  if (usa.Recognized) {
+          //    if (usa.Colon.pos + usa.Colon.val.Length == usa.tok.pos) {
+          //      // just do one highlight
+          //      regions.Add(new IdRegion(usa.Colon, OccurrenceKind.RecognizedAttributeId, null, usa.Colon.val.Length + usa.tok.val.Length));
+          //    } else {
+          //      regions.Add(new IdRegion(usa.Colon, OccurrenceKind.RecognizedAttributeId, null, usa.Colon.val.Length));
+          //      regions.Add(new IdRegion(usa.tok, OccurrenceKind.RecognizedAttributeId, null, usa.tok.val.Length));
+          //    }
+          //  }
+          //}
         }
       }
 
