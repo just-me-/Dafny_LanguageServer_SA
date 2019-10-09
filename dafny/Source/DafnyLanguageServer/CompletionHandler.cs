@@ -10,6 +10,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DafnyServer;
+using Microsoft.Dafny;
 
 namespace Dafny_Server_Redesign.Server
 {
@@ -108,7 +110,64 @@ namespace Dafny_Server_Redesign.Server
                 };
 
 
-                return new CompletionList(citem1, citem2);
+                //Microsoft.Dafny.Server server = new Microsoft.Dafny.Server();
+
+                //server.Respond(new string[] {"version"});
+
+                //directly using "VersionCheck" - modified to return the version
+                string version = VersionCheck.CurrentVersion();
+
+                var citem3 = new CompletionItem
+                {
+                    Label = "Insert Server Version here",
+                    Kind = CompletionItemKind.Reference,
+                    TextEdit = new TextEdit
+                    {
+                        NewText = version,
+                        Range = new Range(
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + version.Length
+                            })
+                    }
+
+
+                };
+
+                string[] args = null;
+                string filename = request.TextDocument.Uri.ToString();
+                string sourcecode = _bufferManager.GetTextFromBuffer(filename);
+
+                bool isValid = new DafnyHelper(args, filename, sourcecode, new ErrorReporterSink()).Verify();
+                //bool isValid = false;
+
+                var citem4 = new CompletionItem
+                {
+                    Label = "is this document valid??",
+                    Kind = CompletionItemKind.Reference,
+                    TextEdit = new TextEdit
+                    {
+                        NewText = isValid.ToString(),
+                        Range = new Range(
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + isValid.ToString().Length
+                            })
+                    }
+
+
+                };
+                return new CompletionList(citem1, citem2, citem3, citem4);
 
             });
 

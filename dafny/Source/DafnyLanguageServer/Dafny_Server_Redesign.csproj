@@ -11,4 +11,8 @@
     <PackageReference Include="OmniSharp.Extensions.LanguageServer" Version="0.13.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DafnyServer\DafnyServer.csproj" />
+  </ItemGroup>
+
 </Project>
