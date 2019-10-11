@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using OmniSharp.Extensions.Embedded.MediatR;
 using OmniSharp.Extensions.JsonRpc;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServerCore
 {
     [Serial, Method("sayhello")]
     public interface ITestInterface : IJsonRpcRequestHandler<TestParams, TestResult> { }
