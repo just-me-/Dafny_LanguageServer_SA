@@ -11,7 +11,7 @@ using Bpl = Microsoft.Boogie;
 
 namespace Microsoft.Dafny {
   // FIXME: This should not be duplicated here
-  class DafnyConsolePrinter : ConsolePrinter {
+  public class DafnyConsolePrinter : ConsolePrinter {
     public override void ReportBplError(IToken tok, string message, bool error, TextWriter tw, string category = null) {
       // Dafny has 0-indexed columns, but Boogie counts from 1
       var realigned_tok = new Token(tok.line, tok.col - 1);
@@ -37,6 +37,10 @@ namespace Microsoft.Dafny {
     private Dafny.Program dafnyProgram;
     private IEnumerable<Tuple<string, Bpl.Program>> boogiePrograms;
 
+    public Dafny.ErrorReporter GetReporter => reporter;
+
+
+
     public DafnyHelper(string[] args, string fname, string source) {
       this.args = args;
       this.fname = fname;
@@ -55,7 +59,8 @@ namespace Microsoft.Dafny {
         public bool Verify() {
       ServerUtils.ApplyArgs(args, reporter);
       return Parse() && Resolve() && Translate() && Boogie();
-    }
+
+        }
 
     private bool Parse() {
       Dafny.ModuleDecl module = new Dafny.LiteralModuleDecl(new Dafny.DefaultModuleDecl(), null);
@@ -65,19 +70,22 @@ namespace Microsoft.Dafny {
       if (success) {
         dafnyProgram = new Dafny.Program(fname, module, builtIns, reporter);
       }
+      Console.WriteLine("Parsed");
       return success;
     }
 
     private bool Resolve() {
       var resolver = new Dafny.Resolver(dafnyProgram);
       resolver.ResolveProgram(dafnyProgram);
+      Console.WriteLine("Resolved");
       return reporter.Count(ErrorLevel.Error) == 0;
     }
 
     private bool Translate() {
       boogiePrograms = Translator.Translate(dafnyProgram, reporter,
           new Translator.TranslatorFlags() { InsertChecksums = true, UniqueIdPrefix = fname }); // FIXME how are translation errors reported?
-      return true;
+      Console.WriteLine("Translated");
+        return true;
     }
 
     private bool BoogieOnce(string moduleName, Bpl.Program boogieProgram) {
@@ -92,11 +100,12 @@ namespace Microsoft.Dafny {
             var ps = new PipelineStatistics();
             var stringteil = "ServerProgram_" + moduleName;
             var time = DateTime.UtcNow.Ticks.ToString();
-            var a = ExecutionEngine.InferAndVerify(boogieProgram, ps,stringteil, null, time);
+            var a = ExecutionEngine.InferAndVerify(boogieProgram, ps,stringteil, null, time); //TODO: Errorteil mitgeben wär wohl nicht schlecht.
                 switch (a)
                 {
                     case PipelineOutcome.Done:
                     case PipelineOutcome.VerificationCompleted:
+                        Console.WriteLine("BoogieOnced");
                         return true;
                 }
             }
@@ -107,7 +116,7 @@ namespace Microsoft.Dafny {
     private bool Boogie() {
       var isVerified = true;
       foreach (var boogieProgram in boogiePrograms) {
-        isVerified = isVerified && BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);
+        isVerified = isVerified && BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);  //TODO Can be made schöner.
       }
       return isVerified;
     }
