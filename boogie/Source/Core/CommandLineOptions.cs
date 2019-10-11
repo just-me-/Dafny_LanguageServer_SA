@@ -803,14 +803,14 @@ namespace Microsoft.Boogie {
 
     // Static constructor
     static CommandLineOptions() {
-      if (System.Type.GetType("Mono.Runtime") == null) {  // MONO
+//      if (System.Type.GetType("Mono.Runtime") == null) {  // MONO
 //#if !COREFX_SUBSET
 //        TraceListenerCollection/*!*/ dbl = Debug.Listeners;
 //        Contract.Assert(dbl != null);
 //        Contract.Assume(cce.IsPeerConsistent(dbl));  // hangs off static field
 //        dbl.Add(new DefaultTraceListener());
 //#endif
-      }
+//      }
     }
 
     public IEnumerable<string/*!*/> ProcsToCheck {

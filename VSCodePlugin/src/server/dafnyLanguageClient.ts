@@ -1,6 +1,7 @@
 import { ExtensionContext, workspace, env } from "vscode";
 import { LanguageClient, ServerOptions } from "vscode-languageclient";
-import { TransportKind, LanguageClientOptions } from "vscode-languageclient/lib/client";
+import { TransportKind, LanguageClientOptions, VersionedTextDocumentIdentifier } from "vscode-languageclient/lib/client";
+import { window } from 'vscode';
 
 export default class DafnyLanguageClient extends LanguageClient {
 
@@ -16,6 +17,8 @@ export default class DafnyLanguageClient extends LanguageClient {
          const path =env.appRoot.match('marcel') !== null ? path_marcel : (
             env.appRoot.match('Marcel') ? path_marcel_win : path_tom_laptop
         );
+
+        window.showInformationMessage("Chosen Path: " + path);
         
         // If the extension is launched in debug mode then the debug server options are used
         // Otherwise the run options are used

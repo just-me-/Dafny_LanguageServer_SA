@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
+
 using Microsoft.Boogie;
 using DafnyServer;
 using Bpl = Microsoft.Boogie;
@@ -86,15 +87,21 @@ namespace Microsoft.Dafny {
         ExecutionEngine.CoalesceBlocks(boogieProgram);
         ExecutionEngine.Inline(boogieProgram);
 
-        //NOTE: We could capture errors instead of printing them (pass a delegate instead of null)
-        switch (ExecutionEngine.InferAndVerify(boogieProgram, new PipelineStatistics(), "ServerProgram_" + moduleName, null, DateTime.UtcNow.Ticks.ToString())) {
-          case PipelineOutcome.Done:
-          case PipelineOutcome.VerificationCompleted:
-            return true;
-        }
-      }
+            //NOTE: We could capture errors instead of printing them(pass a delegate instead of null)
 
-      return false;
+            var ps = new PipelineStatistics();
+            var stringteil = "ServerProgram_" + moduleName;
+            var time = DateTime.UtcNow.Ticks.ToString();
+            var a = ExecutionEngine.InferAndVerify(boogieProgram, ps,stringteil, null, time);
+                switch (a)
+                {
+                    case PipelineOutcome.Done:
+                    case PipelineOutcome.VerificationCompleted:
+                        return true;
+                }
+            }
+
+            return false;
     }
 
     private bool Boogie() {
