@@ -77,6 +77,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModelViewer\ModelViewer.csproj">
+      <Project>{A678C6EB-B329-46A9-BBFC-7585F01ACD7C}</Project>
+      <Name>ModelViewer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
