@@ -1,11 +1,11 @@
 {
   "runtimeTarget": {
-    "name": ".NETCoreApp,Version=v2.1",
+    "name": ".NETCoreApp,Version=v2.2",
     "signature": "afa80d4e1e55beffd9b1cb1f4fe1c99eb69d328c"
   },
   "compilationOptions": {},
   "targets": {
-    ".NETCoreApp,Version=v2.1": {
+    ".NETCoreApp,Version=v2.2": {
       "DafnyLanguageServer/1.0.0": {
         "dependencies": {
           "DafnyServer": "1.0.0",
