@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
 using Microsoft.Dafny;
@@ -13,6 +14,8 @@ namespace DafnyLanguageServer
         static async Task Main(string[] args)
         {
             //ExecutionEngine.printer = new DafnyConsolePrinter();
+
+
 
 
             var server = await LanguageServer.From(options =>
