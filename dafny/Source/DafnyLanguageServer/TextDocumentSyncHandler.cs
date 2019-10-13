@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Boogie;
+using Microsoft.Dafny;
 using OmniSharp.Extensions.Embedded.MediatR;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
@@ -56,6 +58,17 @@ namespace DafnyLanguageServer
             _bufferManager.UpdateBuffer(documentPath, text);
 
             _router.Window.LogInfo($"Handled DidChangeDoc ---- Updated buffer for document: {documentPath}\n{text}");
+
+
+            ExecutionEngine.printer = new DafnyConsolePrinter();
+            var filename = documentPath;// "<none>";
+            var args2 = new string[] { };
+            var source = text;// "method selftest() { assert 1==3; }";
+
+            DafnyHelper helper = new DafnyHelper(args2, filename, source);
+
+            bool isValid = helper.Verify();
+            _router.Window.LogInfo($"Checked it this document is valid: ...");
 
             return Unit.Task;
         }

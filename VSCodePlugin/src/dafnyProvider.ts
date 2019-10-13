@@ -98,6 +98,7 @@ export class DafnyClientProvider {
 
     private doVerify(textDocument: vscode.TextDocument): void {
         this.hideCounterModel(textDocument);
+        console.log("Try to verify... ")
         if (this.automaticShowCounterExample) {
             this.sendDocument(textDocument, LanguageServerNotification.CounterExample);
         } else {
