@@ -6,7 +6,7 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServerCore
 {
     internal class CompletionHandler : ICompletionHandler
     {
@@ -52,21 +52,6 @@ namespace DafnyLanguageServer
             var demotext = "i'm the new text";
             var demotext2 = "You can do this !!!!  ;-) <3 <3 <3 :-) Keep trying!";
 
-            string version = VersionCheck.CurrentVersion();
-
-
-            var filename = "<none>";
-            var args2 = new string[] { };
-            var source = _bufferManager.GetTextFromBuffer(documentPath);
-
-            DafnyHelper helper = new DafnyHelper(args2, filename, source);
-
-            _router.Window.LogInfo("*******************111111111***********************************");
-
-            bool isValid = helper.Verify();   ///läuft korrekt durch. aber iwie interessiert das VSCode nicht. egal ob im oder ausserhalb vom task.
-
-            _router.Window.LogInfo("******************222222222222222**************************");
-
             return await Task.Run(() =>
             {
 
@@ -74,7 +59,6 @@ namespace DafnyLanguageServer
                 {
                     return new CompletionList();
                 }
-
 
                 var citem1 = new CompletionItem
                 {
@@ -84,15 +68,15 @@ namespace DafnyLanguageServer
                     {
                         NewText = demotext,
                         Range = new Range(
-                new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character
-                }, new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character + demotext.Length
-                })
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + demotext.Length
+                            })
                     }
 
                 };
@@ -105,18 +89,20 @@ namespace DafnyLanguageServer
                     {
                         NewText = demotext2,
                         Range = new Range(
-                new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character
-                }, new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character + demotext2.Length
-                })
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + demotext2.Length
+                            })
                     }
 
                 };
+
+                string version = VersionCheck.CurrentVersion();
 
                 var citem3 = new CompletionItem
                 {
@@ -126,42 +112,48 @@ namespace DafnyLanguageServer
                     {
                         NewText = version,
                         Range = new Range(
-                new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character
-                }, new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character + version.Length
-                })
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + version.Length
+                            })
                     }
 
 
                 };
 
+                string[] args = new string[]{};
+                string filename = request.TextDocument.Uri.ToString();
+                string sourcecode = _bufferManager.GetTextFromBuffer(filename);
+
+                bool isValid = new DafnyHelper(args, filename, sourcecode, new ErrorReporterSink()).Verify();
+                
+
                 var citem4 = new CompletionItem
                 {
-                    Label = "could i validate this doc",
+                    Label = "is this document valid??",
                     Kind = CompletionItemKind.Reference,
                     TextEdit = new TextEdit
                     {
                         NewText = isValid.ToString(),
                         Range = new Range(
-                  new Position
-                  {
-                      Line = request.Position.Line,
-                      Character = request.Position.Character
-                  }, new Position
-                  {
-                      Line = request.Position.Line,
-                      Character = request.Position.Character + isValid.ToString().Length
-                  })
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + isValid.ToString().Length
+                            })
                     }
 
 
                 };
-
                 return new CompletionList(citem1, citem2, citem3, citem4);
 
             });
