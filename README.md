@@ -1,6 +1,6 @@
 # Dafny Server Redesign
 
-## Overiview 
+## Overview
 The project has two main parts. 
 On the one hand, there is the Visual Studio Code Plugin. 
 It just contains a very basic level of logic and is mainly responsible for displaying information to the user. 
