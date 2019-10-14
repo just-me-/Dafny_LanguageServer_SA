@@ -102,12 +102,6 @@ namespace DafnyLanguageServerCore
 
                 };
 
-
-                //Microsoft.Dafny.Server server = new Microsoft.Dafny.Server();
-
-                //server.Respond(new string[] {"version"});
-
-                //directly using "VersionCheck" - modified to return the version
                 string version = VersionCheck.CurrentVersion();
 
                 var citem3 = new CompletionItem
@@ -137,7 +131,7 @@ namespace DafnyLanguageServerCore
                 string sourcecode = _bufferManager.GetTextFromBuffer(filename);
 
                 bool isValid = new DafnyHelper(args, filename, sourcecode, new ErrorReporterSink()).Verify();
-                //bool isValid = false;
+                
 
                 var citem4 = new CompletionItem
                 {

@@ -13,10 +13,17 @@ export default class DafnyLanguageClient extends LanguageClient {
         // unbedingt ;-) \t
         const path_marcel = '/Users/marcel/Documents/HSR/5. Semester/SA/_Code/dafny-server-redesign/Dafny_Server_Redesign/Dafny_Server_Redesign/bin/Debug/netcoreapp2.1/Dafny_Server_Redesign.dll';
         const path_tom_laptop = 'D:\\Eigene Dokumente\\VisualStudio\\SA\\dafny-server-redesign\\dafny\\Binaries\\DafnyLanguageServer.exe'
+        const path_tom_desktop = 'G:\\Dokumente\\VisualStudio\\SA\\dafny-server-redesign\\dafny\\Binaries\\DafnyLanguageServer.exe'
         const path_marcel_win = 'C:\\Users\\Marcel\\Desktop\\SA\\dafny-server-redesign\\Dafny_Server_Redesign\\Dafny_Server_Redesign\\bin\\Debug\\netcoreapp2.1\\Dafny_Server_Redesign.dll'
-         const path =env.appRoot.match('marcel') !== null ? path_marcel : (
-            env.appRoot.match('Marcel') ? path_marcel_win : path_tom_laptop
+        const path = 
+        env.appRoot.match('marcel') !== null ? path_marcel : (
+        env.appRoot.match('Marcel') ? path_marcel_win : (
+        env.appRoot == 'c:\\ProgramData\\Microsoft VS Code\\resources\\app' ? path_tom_desktop : path_tom_laptop
+        )
         );
+
+        console.log(env.appRoot);
+        
 
         window.showInformationMessage("Chosen Path: " + path);
         

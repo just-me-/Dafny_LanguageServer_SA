@@ -22,14 +22,21 @@ namespace TestFramework
 
             DafnyHelper helper = new DafnyHelper(args2, filename, source);
 
-            bool isValid = helper.Verify();
+            bool isValid = asyncVerify(helper).Result;
             Console.WriteLine("uga uga *********************************************************: " + isValid);
 
             ErrorReporter reporter = helper.GetReporter;
             var errors = reporter.AllMessages;
+
+            Console.WriteLine(isValid);
             Console.ReadKey();
 
             // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+        }
+
+        static async Task<bool> asyncVerify(DafnyHelper h)
+        {
+            return await Task.Run(() => h.Verify());
         }
     }
 }
