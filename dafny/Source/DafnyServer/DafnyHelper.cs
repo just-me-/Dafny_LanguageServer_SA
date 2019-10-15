@@ -65,7 +65,12 @@ namespace Microsoft.Dafny
         public bool Verify()
         {
             ServerUtils.ApplyArgs(args, reporter);
-            return Parse() && Resolve() && Translate() && Boogie();
+            var isFine = Parse();
+            isFine = isFine ? Resolve() : false;
+            isFine = isFine ? Translate() : false;
+            isFine = isFine ? Boogie() : false;
+            return isFine; // tmp für besseres Debugging 
+            // return Parse() && Resolve() && Translate() && Boogie();
 
         }
 

@@ -53,22 +53,33 @@ namespace DafnyLanguageServer
         {
             var documentPath = request.TextDocument.Uri.ToString();
             var text = request.ContentChanges.FirstOrDefault()?.Text;
-            
+
+            _router.Window.LogInfo($"Started trolololol...");
+            ExecutionEngine.printer = new DafnyConsolePrinter();
+            _router.Window.LogInfo($"worked1");
+            var filename = "<none>";
+            var args2 = new string[] { };
+            var source = "method selftest() { assert 1==3; }";
+
+            if(false)
+            {
+                filename = documentPath;// "<none>";
+                args2 = new string[] { };
+                source = text;// "method selftest() { assert 1==3; }";
+            } 
+
+            DafnyHelper helper = new DafnyHelper(args2, filename, source);
+            _router.Window.LogInfo($"worked2");
+
+            bool isValid = helper.Verify();
+            _router.Window.LogInfo($"Checked if this document is valid: ...");
 
             _bufferManager.UpdateBuffer(documentPath, text);
 
             _router.Window.LogInfo($"Handled DidChangeDoc ---- Updated buffer for document: {documentPath}\n{text}");
 
 
-            ExecutionEngine.printer = new DafnyConsolePrinter();
-            var filename = documentPath;// "<none>";
-            var args2 = new string[] { };
-            var source = text;// "method selftest() { assert 1==3; }";
-
-            DafnyHelper helper = new DafnyHelper(args2, filename, source);
-
-            bool isValid = helper.Verify();
-            _router.Window.LogInfo($"Checked it this document is valid: ...");
+           
 
             return Unit.Task;
         }
