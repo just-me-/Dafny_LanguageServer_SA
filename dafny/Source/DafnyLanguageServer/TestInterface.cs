@@ -1,5 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Boogie;
+using Microsoft.Dafny;
 using OmniSharp.Extensions.Embedded.MediatR;
 using OmniSharp.Extensions.JsonRpc;
 
@@ -23,11 +25,24 @@ namespace DafnyLanguageServer
 
         public async Task<TestResult> Handle(TestParams request, CancellationToken cancellationToken)
         {
-            // Do someting to get a return value 
-            return new TestResult
+            return await Task.Run(() =>
             {
-                Text = "SomeResult Amumumuh" 
-            };
+                ExecutionEngine.printer = new DafnyConsolePrinter();
+                var filename = "<none>";
+                var args2 = new string[] { };
+                var source = "method selftest() { assert 1==3; }";
+
+                DafnyHelper helper = new DafnyHelper(args2, filename, source);
+                bool isValid = helper.Verify();
+
+
+                // Do someting to get a return value 
+                return new TestResult
+                {
+                    Text = "SomeResult Amumumuh"
+                };
+
+            });
         }
     }
 }
