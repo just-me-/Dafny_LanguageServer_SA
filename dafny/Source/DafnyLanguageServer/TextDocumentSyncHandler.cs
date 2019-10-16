@@ -106,9 +106,9 @@ namespace DafnyLanguageServer
             p.Diagnostics = new Container<Diagnostic>(diagnostics);
 
             
-            _router.SendNotification("diagnostics", p);   //gibts nicht iwie ganz nen einfachen weg?
+            _router.SendNotification("verificationResult", p);
 
-        
+
 
 
             return Unit.Task;
