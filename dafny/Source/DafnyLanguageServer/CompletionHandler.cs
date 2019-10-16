@@ -46,29 +46,21 @@ namespace DafnyLanguageServer
 
         public async Task<CompletionList> Handle(CompletionParams request, CancellationToken cancellationToken)
         {
-            var documentPath = request.TextDocument.Uri.ToString();
-            var buffer = _bufferManager.GetTextFromBuffer(documentPath);
 
-            var demotext = "i'm the new text";
-            var demotext2 = "You can do this !!!!  ;-) <3 <3 <3 :-) Keep trying!";
-
-            string version = VersionCheck.CurrentVersion();
-
-
-            var filename = "<none>";
-            var args2 = new string[] { };
-            var source = _bufferManager.GetTextFromBuffer(documentPath);
-
-            DafnyHelper helper = new DafnyHelper(args2, filename, source);
-
-            _router.Window.LogInfo("*******************111111111***********************************");
-
-            bool isValid = helper.Verify();   ///läuft korrekt durch. aber iwie interessiert das VSCode nicht. egal ob im oder ausserhalb vom task.
-
-            _router.Window.LogInfo("******************222222222222222**************************");
 
             return await Task.Run(() =>
             {
+
+
+                var documentPath = request.TextDocument.Uri.ToString();
+                var buffer = _bufferManager.GetTextFromBuffer(documentPath);
+
+                var demotext = "i'm the new text";
+                var demotext2 = "You can do this !!!!  ;-) <3 <3 <3 :-) Keep trying!";
+
+                string version = VersionCheck.CurrentVersion();
+
+
 
                 if (buffer == null)
                 {
@@ -118,51 +110,7 @@ namespace DafnyLanguageServer
 
                 };
 
-                var citem3 = new CompletionItem
-                {
-                    Label = "Insert Server Version here",
-                    Kind = CompletionItemKind.Reference,
-                    TextEdit = new TextEdit
-                    {
-                        NewText = version,
-                        Range = new Range(
-                new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character
-                }, new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character + version.Length
-                })
-                    }
-
-
-                };
-
-                var citem4 = new CompletionItem
-                {
-                    Label = "could i validate this doc",
-                    Kind = CompletionItemKind.Reference,
-                    TextEdit = new TextEdit
-                    {
-                        NewText = isValid.ToString(),
-                        Range = new Range(
-                  new Position
-                  {
-                      Line = request.Position.Line,
-                      Character = request.Position.Character
-                  }, new Position
-                  {
-                      Line = request.Position.Line,
-                      Character = request.Position.Character + isValid.ToString().Length
-                  })
-                    }
-
-
-                };
-
-                return new CompletionList(citem1, citem2, citem3, citem4);
+                return new CompletionList(citem1, citem2);
 
             });
 
