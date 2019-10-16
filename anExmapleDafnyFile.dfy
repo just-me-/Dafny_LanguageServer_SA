@@ -1,7 +1,6 @@
 
 method Find(a: array<int>, key: int) returns (index: int)
-ensures 1==2
-   ensures 1 == 2; 
+// ensures 1==2
    ensures 0 <= index ==> index < a.Length && a[index] == key
    ensures index < 0 ==> forall k :: 0 <= k < a.Length ==> a[k] != key
 {

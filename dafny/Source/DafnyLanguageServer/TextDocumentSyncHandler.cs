@@ -61,7 +61,7 @@ namespace DafnyLanguageServer
             var args2 = new string[] { };
             var source = "method selftest() { assert 1==3; }";
 
-            if(false)
+            if(true)
             {
                 filename = documentPath;// "<none>";
                 args2 = new string[] { };
