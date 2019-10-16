@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,6 +50,8 @@ namespace DafnyLanguageServer
             return new TextDocumentAttributes(uri, "xml");
         }
 
+
+
         public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
             var documentPath = request.TextDocument.Uri.ToString();
@@ -69,6 +72,12 @@ namespace DafnyLanguageServer
             bool isValid = helper.Verify();
 
             _router.Window.LogInfo($"Verification ended");
+
+            foreach (ErrorInformation e in helper.Errors)
+            {
+                _router.Window.LogInfo($"Found Error '{e.Msg}' in Line {e.Tok.line} Col {e.Tok.col}. There is a problem with {e.Tok.val}.");
+            }
+
 
             return Unit.Task;
         }

@@ -41,7 +41,7 @@ namespace DafnyLanguageServer
             {
                 string toms_ego_pfad = @"D:\Eigene Dokumente\Desktop\MsgLogger.txt";
                 string normaler_pfad = "./MsgLogger.txt";
-                string path = normaler_pfad;
+                string path = toms_ego_pfad;
                 ostrm = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
                 writer = new StreamWriter(ostrm);
             }
