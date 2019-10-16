@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
 using Microsoft.Dafny;
@@ -31,6 +32,27 @@ namespace DafnyLanguageServer
                     .WithHandler<TextDocumentSyncHandler>()
                     .WithHandler<CompletionHandler>()
             );
+
+            FileStream ostrm;
+            StreamWriter writer;
+            TextWriter oldOut = Console.Out;
+            try
+            {
+                ostrm = new FileStream("./MsgLogger.txt", FileMode.OpenOrCreate, FileAccess.Write);
+                writer = new StreamWriter(ostrm);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Cannot open MsgLogger.txt for writing");
+                Console.WriteLine(e.Message);
+                return;
+            }
+            Console.SetOut(writer);
+            //Console.SetOut(oldOut);
+            // writer.Close();
+            // ostrm.Close();
+
+           // Console.SetOut(Console.Error);
 
             await server.WaitForExit;
         }
