@@ -55,7 +55,7 @@ namespace DafnyLanguageServer
             var text = request.ContentChanges.FirstOrDefault()?.Text;
 
             _router.Window.LogInfo($"Started trolololol...");
-            ExecutionEngine.printer = new DafnyConsolePrinter();
+            //ExecutionEngine.printer = new DafnyConsolePrinter();
             _router.Window.LogInfo($"worked1");
             var filename = "<none>";
             var args2 = new string[] { };
@@ -66,7 +66,9 @@ namespace DafnyLanguageServer
                 filename = documentPath;// "<none>";
                 args2 = new string[] { };
                 source = text;// "method selftest() { assert 1==3; }";
-            } 
+            }
+
+            Console.WriteLine("Hallo"+text);
 
             DafnyHelper helper = new DafnyHelper(args2, filename, source);
             _router.Window.LogInfo($"worked2");

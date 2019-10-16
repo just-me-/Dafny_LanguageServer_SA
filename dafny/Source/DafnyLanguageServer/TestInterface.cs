@@ -27,7 +27,7 @@ namespace DafnyLanguageServer
         {
             return await Task.Run(() =>
             {
-                ExecutionEngine.printer = new DafnyConsolePrinter();
+                // ExecutionEngine.printer = new DafnyConsolePrinter();
                 var filename = "<none>";
                 var args2 = new string[] { };
                 var source = "method selftest() { assert 1==3; }";
