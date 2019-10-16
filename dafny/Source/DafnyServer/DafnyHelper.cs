@@ -127,7 +127,7 @@ namespace Microsoft.Dafny
                 var ps = new PipelineStatistics();
                 var stringteil = "ServerProgram_" + moduleName;
                 var time = DateTime.UtcNow.Ticks.ToString();
-                var a = ExecutionEngine.InferAndVerify(boogieProgram, ps, stringteil, addErrorToList, time); //TODO: Errorteil mitgeben wär wohl nicht schlecht.
+                var a = ExecutionEngine.InferAndVerify(boogieProgram, ps, stringteil, addErrorToList, time);
                 switch (a)
                 {
                     case PipelineOutcome.Done:

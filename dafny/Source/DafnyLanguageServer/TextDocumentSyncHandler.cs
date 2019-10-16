@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -73,10 +74,41 @@ namespace DafnyLanguageServer
 
             _router.Window.LogInfo($"Verification ended");
 
+
+
+            //ab hier gebastel!!!
+
+
+            Collection<Diagnostic> diagnostics = new Collection<Diagnostic>();
+
             foreach (ErrorInformation e in helper.Errors)
             {
-                _router.Window.LogInfo($"Found Error '{e.Msg}' in Line {e.Tok.line} Col {e.Tok.col}. There is a problem with {e.Tok.val}.");
+                _router.Window.LogInfo($"Found Error '{e.Msg}' in Line {e.Tok.line} Col {e.Tok.col}. There is a problem at {e.Tok.val}.");
+                Diagnostic d = new Diagnostic();
+                d.Message = e.Msg;
+                d.Range = new Range(
+                    new Position
+                    {
+                        Line = e.Tok.line,
+                        Character = e.Tok.col
+                    }, new Position
+                    {
+                        Line = e.Tok.line,
+                        Character = e.Tok.col + 1
+                    });
+                d.Severity = DiagnosticSeverity.Error;
+                d.Source = documentPath;
+                diagnostics.Add(d);
             }
+
+            PublishDiagnosticsParams p = new PublishDiagnosticsParams();
+            p.Uri = request.TextDocument.Uri;
+            p.Diagnostics = new Container<Diagnostic>(diagnostics);
+
+            
+            _router.SendNotification("diagnostics", p);   //gibts nicht iwie ganz nen einfachen weg?
+
+        
 
 
             return Unit.Task;
