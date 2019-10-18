@@ -33,6 +33,7 @@ namespace DafnyLanguageServer
         {
             _router = router;
             _bufferManager = bufferManager;
+            
         }
 
         public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full; //TODO: Incremental damit nicht der ganze Karsumpel geschickt wird
@@ -59,44 +60,9 @@ namespace DafnyLanguageServer
             _bufferManager.UpdateBuffer(documentPath, text);
 
             _router.Window.LogInfo($"Handled DidChangeDoc ---- Updated buffer for document: {documentPath}\n{text}");
-            
-            string filename = documentPath;
-            string[] args2 = new string[] { };
-            string source = text;
 
-            DafnyHelper helper = new DafnyHelper(args2, filename, source);
-            bool isValid = helper.Verify();
+            new VerificationService(_router, request.TextDocument.Uri, text).Verify();  //TODO uh grusig
 
-            Collection<Diagnostic> diagnostics = new Collection<Diagnostic>();
-
-            foreach (ErrorInformation e in helper.Errors)
-            {
-                _router.Window.LogInfo($"Found Error '{e.Msg}' in Line {e.Tok.line} Col {e.Tok.col}. There is a problem at {e.Tok.val}.");
-                Diagnostic d = new Diagnostic();
-                d.Message = e.Msg;
-                d.Range = new Range(
-                    new Position
-                    {
-                        Line = e.Tok.line-1,
-                        Character = e.Tok.col-1
-                    }, new Position
-                    {
-                        Line = e.Tok.line-1,
-                        Character = e.Tok.col + 1 -1
-                    });
-                d.Severity = DiagnosticSeverity.Error;
-                d.Source = documentPath;
-                diagnostics.Add(d);
-            }
-
-            PublishDiagnosticsParams p = new PublishDiagnosticsParams();
-            p.Uri = request.TextDocument.Uri;
-            p.Diagnostics = new Container<Diagnostic>(diagnostics);
-
-            
-            //_router.SendNotification("verificationResult", p);
-            _router.Document.PublishDiagnostics(p);
-            
             return Unit.Task;
         }
 
@@ -106,6 +72,9 @@ namespace DafnyLanguageServer
             var documentPath = request.TextDocument.Uri.ToString();
             _bufferManager.UpdateBuffer(documentPath, request.TextDocument.Text);
             _router.Window.LogInfo($"Server handled DidOpenDocument ---- Updated buffer for document: {documentPath}\n{text}");
+
+            new VerificationService(_router, request.TextDocument.Uri, text).Verify();  //TODO uh grusig auchB
+
             return Unit.Task;
         }
 
