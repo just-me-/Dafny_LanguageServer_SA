@@ -110,6 +110,7 @@ namespace DafnyLanguageServer
             };
 
             Router.Document.PublishDiagnostics(p);
+            Router.SendNotification("updateStatusbar", diagnostics.Count);
         }
     }
 }

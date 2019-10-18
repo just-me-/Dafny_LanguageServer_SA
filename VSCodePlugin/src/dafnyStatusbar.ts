@@ -75,6 +75,7 @@ export class Statusbar {
         this.serverStatusBar.hide();
         this.currentDocumentStatucBar.hide();
     }
+  *****************Das teil heir nutzen:
 
     public update(): void {
         const editor = vscode.window.activeTextEditor;
