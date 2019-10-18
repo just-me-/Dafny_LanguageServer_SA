@@ -77,12 +77,12 @@ namespace DafnyLanguageServer
                 d.Range = new Range(
                     new Position
                     {
-                        Line = e.Tok.line,
-                        Character = e.Tok.col
+                        Line = e.Tok.line-1,
+                        Character = e.Tok.col-1
                     }, new Position
                     {
-                        Line = e.Tok.line,
-                        Character = e.Tok.col + 1
+                        Line = e.Tok.line-1,
+                        Character = e.Tok.col + 1 -1
                     });
                 d.Severity = DiagnosticSeverity.Error;
                 d.Source = documentPath;
@@ -93,7 +93,9 @@ namespace DafnyLanguageServer
             p.Uri = request.TextDocument.Uri;
             p.Diagnostics = new Container<Diagnostic>(diagnostics);
 
-            _router.SendNotification("verificationResult", p);
+            
+            //_router.SendNotification("verificationResult", p);
+            _router.Document.PublishDiagnostics(p);
             
             return Unit.Task;
         }
