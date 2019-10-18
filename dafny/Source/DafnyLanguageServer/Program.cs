@@ -14,10 +14,7 @@ namespace DafnyLanguageServer
     {
         static async Task Main(string[] args)
         {
-
-
             ExecutionEngine.printer = new DafnyConsolePrinter();
-
 
             var server = await LanguageServer.From(options =>
                 options
@@ -41,7 +38,7 @@ namespace DafnyLanguageServer
             {
                 string toms_ego_pfad = @"D:\Eigene Dokumente\Desktop\MsgLogger.txt";
                 string normaler_pfad = "./MsgLogger.txt";
-                string path = toms_ego_pfad;
+                string path = normaler_pfad;
                 ostrm = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
                 writer = new StreamWriter(ostrm);
             }

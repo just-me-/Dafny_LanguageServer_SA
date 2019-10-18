@@ -27,15 +27,6 @@ namespace DafnyLanguageServer
         {
             return await Task.Run(() =>
             {
-                // ExecutionEngine.printer = new DafnyConsolePrinter();
-                var filename = "<none>";
-                var args2 = new string[] { };
-                var source = "method selftest() { assert 1==3; }";
-
-                DafnyHelper helper = new DafnyHelper(args2, filename, source);
-                bool isValid = helper.Verify();
-
-
                 // Do someting to get a return value 
                 return new TestResult
                 {

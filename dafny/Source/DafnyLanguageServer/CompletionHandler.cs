@@ -46,12 +46,8 @@ namespace DafnyLanguageServer
 
         public async Task<CompletionList> Handle(CompletionParams request, CancellationToken cancellationToken)
         {
-
-
             return await Task.Run(() =>
             {
-
-
                 var documentPath = request.TextDocument.Uri.ToString();
                 var buffer = _bufferManager.GetTextFromBuffer(documentPath);
 
@@ -59,14 +55,11 @@ namespace DafnyLanguageServer
                 var demotext2 = "You can do this !!!!  ;-) <3 <3 <3 :-) Keep trying!";
 
                 string version = VersionCheck.CurrentVersion();
-
-
-
+                
                 if (buffer == null)
                 {
                     return new CompletionList();
                 }
-
 
                 var citem1 = new CompletionItem
                 {
@@ -76,15 +69,15 @@ namespace DafnyLanguageServer
                     {
                         NewText = demotext,
                         Range = new Range(
-                new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character
-                }, new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character + demotext.Length
-                })
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + demotext.Length
+                            })
                     }
 
                 };
@@ -97,25 +90,20 @@ namespace DafnyLanguageServer
                     {
                         NewText = demotext2,
                         Range = new Range(
-                new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character
-                }, new Position
-                {
-                    Line = request.Position.Line,
-                    Character = request.Position.Character + demotext2.Length
-                })
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + demotext2.Length
+                            })
                     }
 
                 };
-
                 return new CompletionList(citem1, citem2);
-
             });
-
-
-
         }
 
         private static int GetPosition(string buffer, int line, int col)
