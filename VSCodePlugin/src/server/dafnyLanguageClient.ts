@@ -16,14 +16,13 @@ export default class DafnyLanguageClient extends LanguageClient {
         const path_tom_desktop = 'G:\\Dokumente\\VisualStudio\\SA\\dafny-server-redesign\\dafny\\Binaries\\DafnyLanguageServer.exe'
         const path_marcel_win = 'C:\\Users\\Marcel\\Desktop\\SA\\dafny-server-redesign\\dafny\\Binaries\\DafnyLanguageServer.exe'
         const path = 
-        env.appRoot.match('marcel') !== null ? path_marcel : (
-        env.appRoot.match('Marcel') ? path_marcel_win : (
-        env.appRoot == 'c:\\ProgramData\\Microsoft VS Code\\resources\\app' ? path_tom_desktop : path_tom_laptop
-        )
+            env.appRoot.match('marcel') !== null ? path_marcel : (
+                env.appRoot.match('Marcel') ? path_marcel_win : (
+                    env.appRoot == 'c:\\ProgramData\\Microsoft VS Code\\resources\\app' ? path_tom_desktop : 
+                        path_tom_laptop
+            )
         );
-
         console.log(env.appRoot);
-        
 
         window.showInformationMessage("Chosen Path: " + path);
         

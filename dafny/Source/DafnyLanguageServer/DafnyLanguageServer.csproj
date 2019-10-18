@@ -165,7 +165,6 @@
   <ItemGroup>
     <Compile Include="BufferManager.cs" />
     <Compile Include="CompletionHandler.cs" />
-    <Compile Include="MarcelsTestStuff.cs" />
     <Compile Include="NuGetAutoCompleteService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
