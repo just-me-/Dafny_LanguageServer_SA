@@ -43,13 +43,64 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BoogieAbsInt, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieAbsInt.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogieBasetypes, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieBasetypes.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogieCodeContractsExtender, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieCodeContractsExtender.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogieConcurrency, Version=1.0.0.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieConcurrency.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogieCore, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieCore.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogieDoomed, Version=0.0.0.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieDoomed.dll</HintPath>
+    </Reference>
     <Reference Include="BoogieExecutionEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\boogie\Binaries\BoogieExecutionEngine.dll</HintPath>
     </Reference>
+    <Reference Include="BoogieGraph, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogieHoudini, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieHoudini.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogieModel, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieModel.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogieModelViewer, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieModelViewer.dll</HintPath>
+    </Reference>
     <Reference Include="BoogieParserHelper, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\boogie\Binaries\BoogieParserHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogiePredication">
+      <HintPath>..\..\..\boogie\Binaries\BoogiePredication.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogieVCExpr, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieVCExpr.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogieVCGeneration, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\BoogieVCGeneration.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.dll</HintPath>
@@ -80,6 +131,10 @@
     </Reference>
     <Reference Include="OmniSharp.Extensions.LanguageServer, Version=0.13.0.0, Culture=neutral, PublicKeyToken=6d868dff454e6022, processorArchitecture=MSIL">
       <HintPath>..\packages\OmniSharp.Extensions.LanguageServer.0.13.1\lib\netstandard2.0\OmniSharp.Extensions.LanguageServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Provers.SMTLib, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\boogie\Binaries\Provers.SMTLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
