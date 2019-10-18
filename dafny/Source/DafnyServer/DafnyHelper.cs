@@ -42,19 +42,13 @@ namespace Microsoft.Dafny
         private Dafny.Program dafnyProgram;
         private IEnumerable<Tuple<string, Bpl.Program>> boogiePrograms;
 
-
         public List<ErrorInformation> Errors { get; } = new List<ErrorInformation>();
 
         private void addErrorToList(ErrorInformation e)
         {
             Errors.Add(e);
         }
-
-
-
-
-
-
+        
         public DafnyHelper(string[] args, string fname, string source)
         {
             this.args = args;
@@ -74,13 +68,7 @@ namespace Microsoft.Dafny
         public bool Verify()
         {
             ServerUtils.ApplyArgs(args, reporter);
-            var isFine = Parse();
-            isFine = isFine ? Resolve() : false;
-            isFine = isFine ? Translate() : false;
-            isFine = isFine ? Boogie() : false;
-            return isFine; // tmp für besseres Debugging 
-            // return Parse() && Resolve() && Translate() && Boogie();
-
+            return Parse() && Resolve() && Translate() && Boogie();
         }
 
         private bool Parse()

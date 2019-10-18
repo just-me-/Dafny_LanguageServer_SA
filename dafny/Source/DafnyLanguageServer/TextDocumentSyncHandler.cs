@@ -51,8 +51,6 @@ namespace DafnyLanguageServer
             return new TextDocumentAttributes(uri, "xml");
         }
 
-
-
         public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
             var documentPath = request.TextDocument.Uri.ToString();
@@ -61,23 +59,13 @@ namespace DafnyLanguageServer
             _bufferManager.UpdateBuffer(documentPath, text);
 
             _router.Window.LogInfo($"Handled DidChangeDoc ---- Updated buffer for document: {documentPath}\n{text}");
-
-            _router.Window.LogInfo($"Starting verification");
-
+            
             string filename = documentPath;
             string[] args2 = new string[] { };
             string source = text;
 
             DafnyHelper helper = new DafnyHelper(args2, filename, source);
-
             bool isValid = helper.Verify();
-
-            _router.Window.LogInfo($"Verification ended");
-
-
-
-            //ab hier gebastel!!!
-
 
             Collection<Diagnostic> diagnostics = new Collection<Diagnostic>();
 
@@ -105,12 +93,8 @@ namespace DafnyLanguageServer
             p.Uri = request.TextDocument.Uri;
             p.Diagnostics = new Container<Diagnostic>(diagnostics);
 
-            
             _router.SendNotification("verificationResult", p);
-
-
-
-
+            
             return Unit.Task;
         }
 
