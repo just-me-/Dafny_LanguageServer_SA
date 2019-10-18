@@ -33,12 +33,16 @@ namespace DafnyLanguageServer
                     .WithHandler<CompletionHandler>()
             );
 
+
             FileStream ostrm;
             StreamWriter writer;
             TextWriter oldOut = Console.Out;
             try
             {
-                ostrm = new FileStream("./MsgLogger.txt", FileMode.OpenOrCreate, FileAccess.Write);
+                string toms_ego_pfad = @"D:\Eigene Dokumente\Desktop\MsgLogger.txt";
+                string normaler_pfad = "./MsgLogger.txt";
+                string path = toms_ego_pfad;
+                ostrm = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
                 writer = new StreamWriter(ostrm);
             }
             catch (Exception e)

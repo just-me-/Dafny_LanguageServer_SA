@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,39 +51,65 @@ namespace DafnyLanguageServer
             return new TextDocumentAttributes(uri, "xml");
         }
 
+
+
         public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
             var documentPath = request.TextDocument.Uri.ToString();
             var text = request.ContentChanges.FirstOrDefault()?.Text;
 
-            _router.Window.LogInfo($"Started trolololol...");
-            //ExecutionEngine.printer = new DafnyConsolePrinter();
-            _router.Window.LogInfo($"worked1");
-            var filename = "<none>";
-            var args2 = new string[] { };
-            var source = "method selftest() { assert 1==3; }";
-
-            if(true)
-            {
-                filename = documentPath;// "<none>";
-                args2 = new string[] { };
-                source = text;// "method selftest() { assert 1==3; }";
-            }
-
-            Console.WriteLine("Hallo"+text);
-
-            DafnyHelper helper = new DafnyHelper(args2, filename, source);
-            _router.Window.LogInfo($"worked2");
-
-            bool isValid = helper.Verify();
-            _router.Window.LogInfo($"Checked if this document is valid: ...");
-
             _bufferManager.UpdateBuffer(documentPath, text);
 
             _router.Window.LogInfo($"Handled DidChangeDoc ---- Updated buffer for document: {documentPath}\n{text}");
 
+            _router.Window.LogInfo($"Starting verification");
 
-           
+            string filename = documentPath;
+            string[] args2 = new string[] { };
+            string source = text;
+
+            DafnyHelper helper = new DafnyHelper(args2, filename, source);
+
+            bool isValid = helper.Verify();
+
+            _router.Window.LogInfo($"Verification ended");
+
+
+
+            //ab hier gebastel!!!
+
+
+            Collection<Diagnostic> diagnostics = new Collection<Diagnostic>();
+
+            foreach (ErrorInformation e in helper.Errors)
+            {
+                _router.Window.LogInfo($"Found Error '{e.Msg}' in Line {e.Tok.line} Col {e.Tok.col}. There is a problem at {e.Tok.val}.");
+                Diagnostic d = new Diagnostic();
+                d.Message = e.Msg;
+                d.Range = new Range(
+                    new Position
+                    {
+                        Line = e.Tok.line,
+                        Character = e.Tok.col
+                    }, new Position
+                    {
+                        Line = e.Tok.line,
+                        Character = e.Tok.col + 1
+                    });
+                d.Severity = DiagnosticSeverity.Error;
+                d.Source = documentPath;
+                diagnostics.Add(d);
+            }
+
+            PublishDiagnosticsParams p = new PublishDiagnosticsParams();
+            p.Uri = request.TextDocument.Uri;
+            p.Diagnostics = new Container<Diagnostic>(diagnostics);
+
+            
+            _router.SendNotification("verificationResult", p);
+
+
+
 
             return Unit.Task;
         }

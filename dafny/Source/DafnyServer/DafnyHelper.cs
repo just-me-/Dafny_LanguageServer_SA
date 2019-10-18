@@ -42,7 +42,16 @@ namespace Microsoft.Dafny
         private Dafny.Program dafnyProgram;
         private IEnumerable<Tuple<string, Bpl.Program>> boogiePrograms;
 
-        public Dafny.ErrorReporter GetReporter => reporter;
+
+        public List<ErrorInformation> Errors { get; } = new List<ErrorInformation>();
+
+        private void addErrorToList(ErrorInformation e)
+        {
+            Errors.Add(e);
+        }
+
+
+
 
 
 
@@ -118,7 +127,7 @@ namespace Microsoft.Dafny
                 var ps = new PipelineStatistics();
                 var stringteil = "ServerProgram_" + moduleName;
                 var time = DateTime.UtcNow.Ticks.ToString();
-                var a = ExecutionEngine.InferAndVerify(boogieProgram, ps, stringteil, null, time); //TODO: Errorteil mitgeben wär wohl nicht schlecht.
+                var a = ExecutionEngine.InferAndVerify(boogieProgram, ps, stringteil, addErrorToList, time);
                 switch (a)
                 {
                     case PipelineOutcome.Done:
