@@ -5,10 +5,10 @@ stages:
   - test
 
 variables:
-  project: "Dafny_Server_Redesign"
+  project: "dafny"
   repo: "dafny-server-redesign"
   build_path: "$project/"
-  project_path: "Dafny_Server_Redesign/"
+  project_path: "dafny/"
 
 before_script:
   - apt-get update -qq && apt-get install -y -qq sshpass
