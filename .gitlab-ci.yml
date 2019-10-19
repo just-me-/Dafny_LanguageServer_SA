@@ -16,7 +16,7 @@ before_script:
   - "ls -al"
   - "cd $build_path"
   - "ls -al"
-  - "dotnet restore"
+  - "dotnet restore Dafny.sln"
 
 build:
   stage: build
@@ -25,9 +25,9 @@ build:
     - "echo \"building stage...\""
     - "cd $build_path"
     - "ls -al"
-    - "dotnet build"
+    - "dotnet build Dafny.sln"
 
 test:
   stage: test
   script:
-    - dotnet test
+    - dotnet test Dafny.sln
