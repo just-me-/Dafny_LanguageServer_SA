@@ -23,7 +23,6 @@ build:
   script:
     - "ls -al"
     - "echo \"building stage...\""
-    - "cd $build_path"
     - "ls -al"
     - "dotnet build Dafny.sln"
 
