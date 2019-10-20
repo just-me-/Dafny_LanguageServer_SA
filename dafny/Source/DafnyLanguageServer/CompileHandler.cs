@@ -11,7 +11,7 @@ namespace DafnyLanguageServer
     
     public class CompilerParams : IRequest<CompilerResults>
     {
-        public ILanguageServerDocument Document { get; set; }   //noch nciht sicher was ich hier brauch. die anderen haben die "URI" mitgegeben.
+        public string DafnyFilePath { get; set; }   //noch nciht sicher was ich hier brauch. die anderen haben die "URI" mitgegeben.
     } 
 
     public class CompilerResults
@@ -33,19 +33,62 @@ namespace DafnyLanguageServer
         {
             return await Task.Run(() =>
             {
-                // Do someting to get a return value 
-                return new CompilerResults
+
+                string dafnyExe = @"G:\Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries\Dafny.exe";
+                //string dafnyFile = request.DafnyFilePath;
+                string dafnyFile = @"G:\Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries\_dfy.dfy";
+                var process = System.Diagnostics.Process.Start(dafnyExe, "/compile:1 /nologo " + dafnyFile);
+
+                string processOut = "";
+                process.OutputDataReceived += (sender, args) => processOut += args.Data;
+                process.WaitForExit();
+
+                if (processOut.Contains("Compiled assembly into"))
                 {
-                    Error = false,
-                    Message = "Geiles Teil",
-                    Executable = true
-                };
+                    return new CompilerResults
+                    {
+                        Error = false,
+                        Message = "Hat geklappt",
+                        Executable = true
+                    };
+                } else
+                {
+                    return new CompilerResults
+                    {
+                        Error = true,
+                        Message = "Das Programm hat noch Fehler",
+                        Executable = false
+                    };
+                }
+
 
             });
         }
     }
 }
 
+/*
+ * Konsolenout
+ * 
+ * 
+ * 
+
+    
+    Dafny program verifier finished with 1 verified, 0 errors
+Compiled assembly into _dfy.dll
+
+********************************************************
+_dfy_error.dfy(1,24): Error: assertion violation
+Execution trace:
+    (0,0): anon0
+
+Dafny program verifier finished with 0 verified, 1 error
+
+G:\Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries>
+
+
+
+    */
 
 /* Commands.ts, Zeile 143:
  *     public compile(document: vscode.TextDocument | undefined, run: boolean = false): void {

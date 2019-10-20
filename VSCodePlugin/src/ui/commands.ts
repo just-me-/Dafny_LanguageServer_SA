@@ -146,7 +146,7 @@ export default class Commands {
         document.save();
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
-        this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, document.uri)
+        this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, document.uri.toString())
         .then((result) => {
             vscode.window.showInformationMessage(InfoMsg.CompilationFinished);
             if (run && result.executable) {
