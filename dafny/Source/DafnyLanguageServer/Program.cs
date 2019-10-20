@@ -25,9 +25,10 @@ namespace DafnyLanguageServer
                     .WithMinimumLogLevel(LogLevel.Trace)
                     .WithServices(ConfigureServices)
 
-                    .WithHandler<TestHandler>()
+
                     .WithHandler<TextDocumentSyncHandler>()
                     .WithHandler<CompletionHandler>()
+                    .WithHandler<CompileHandler>()
             );
 
 

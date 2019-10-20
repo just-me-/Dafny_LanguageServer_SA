@@ -168,7 +168,7 @@
     <Compile Include="NuGetAutoCompleteService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestInterface.cs" />
+    <Compile Include="CompileHandler.cs" />
     <Compile Include="TextDocumentSyncHandler.cs" />
     <Compile Include="VerificationService.cs" />
   </ItemGroup>
