@@ -27,9 +27,10 @@ export class DafnyClientProvider {
         this.counterModelProvider = new CounterModelProvider(this.context);
 
         languageServer.onNotification(LanguageServerNotification.UpdateStatusbar,
-            (counter: string) => {
+            (counter: Number) => {
                 
                this.dafnyStatusbar.update();
+               this.dafnyStatusbar.forceText(counter);
 
                 //LEGACY
 /*

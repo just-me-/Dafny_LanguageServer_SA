@@ -76,6 +76,10 @@ export class Statusbar {
         this.currentDocumentStatucBar.hide();
     }
 
+    public forceText(errors: Number) {
+        this.currentDocumentStatucBar.text = (errors > 0) ? "Errors: "+errors : "Valid. Tiptop :-)";
+    }
+
     public update(): void {
         const editor = vscode.window.activeTextEditor;
         const editorsOpen: number = vscode.window.visibleTextEditors.length;

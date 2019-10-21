@@ -113,9 +113,7 @@ namespace DafnyLanguageServer
 
             Router.Document.PublishDiagnostics(p);
 
-            Router.Window.SendNotification("updateStatusbar", 3);
-            
-            // Router.SendNotification("updateStatusbar", diagnostics.Count);
+            Router.Window.SendNotification("updateStatusbar", diagnostics.Count);
         }
     }
 }
