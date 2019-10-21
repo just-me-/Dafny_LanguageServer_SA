@@ -33,7 +33,7 @@ namespace DafnyLanguageServer
         {
             _router = router;
             _bufferManager = bufferManager;
-            
+
         }
 
         public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full; //TODO: Incremental damit nicht der ganze Karsumpel geschickt wird
@@ -74,6 +74,11 @@ namespace DafnyLanguageServer
             _router.Window.LogInfo($"Server handled DidOpenDocument ---- Updated buffer for document: {documentPath}\n{text}");
 
             new VerificationService(_router, request.TextDocument.Uri, text).Verify();  //TODO uh grusig auchB
+
+
+            // da gibts bestimmt noch ne bessere stelle 
+            _router.Window.SendNotification("serverStarted", new { serverpid = 1, serverversion = "0.0.1"});
+
 
             return Unit.Task;
         }

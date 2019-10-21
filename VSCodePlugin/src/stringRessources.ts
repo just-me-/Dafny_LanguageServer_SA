@@ -118,4 +118,7 @@ export class LanguageServerNotification {
     public static Ready: string = "ready";
     public static Progress: string = "progress";
     public static CounterExample: string = "counterExample";
+
+    public static UpdateStatusbar: string = "updateStatusbar";
+    
 }

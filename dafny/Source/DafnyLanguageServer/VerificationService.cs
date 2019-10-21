@@ -32,6 +32,8 @@ namespace DafnyLanguageServer
 
         public void Verify()
         {
+            // im plugin das aktuelle dokument setzen
+            Router.Window.SendNotification("activeVerifiyingDocument", Filename);
 
             DafnyHelper helper = new DafnyHelper(args, Filename, Sourcecode);
 
@@ -110,7 +112,10 @@ namespace DafnyLanguageServer
             };
 
             Router.Document.PublishDiagnostics(p);
-            //Router.SendNotification("updateStatusbar", diagnostics.Count);
+
+            Router.Window.SendNotification("updateStatusbar", 3);
+            
+            // Router.SendNotification("updateStatusbar", diagnostics.Count);
         }
     }
 }
