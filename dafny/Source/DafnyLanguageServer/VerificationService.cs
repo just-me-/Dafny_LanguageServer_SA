@@ -11,12 +11,9 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 
 namespace DafnyLanguageServer
 {
-
     class VerificationService
     {
-
         private static readonly int MAGICLINEENDING = 100;
-
         private Uri FileUri { get; }
         private string Sourcecode { get; set; }
         private ILanguageServer Router { get; }
@@ -90,18 +87,10 @@ namespace DafnyLanguageServer
                             Line = e.Aux[i].Tok.line - 1,
                             Character = e.Aux[i].Tok.col + MAGICLINEENDING
                         });
-
-                    
-
                     relatedDiagnostic.Severity = DiagnosticSeverity.Warning;
                     relatedDiagnostic.Source = "The error: " + d.Message + " is the source of this warning!";
                     diagnostics.Add(relatedDiagnostic);
                 }
-
-
-
-
-
                 diagnostics.Add(d);
             }
 
@@ -112,7 +101,6 @@ namespace DafnyLanguageServer
             };
 
             Router.Document.PublishDiagnostics(p);
-
             Router.Window.SendNotification("updateStatusbar", diagnostics.Count);
         }
     }
