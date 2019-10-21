@@ -26,10 +26,11 @@ export class DafnyClientProvider {
         this.dafnyStatusbar = new Statusbar(this.languageServer, this.context);
         this.counterModelProvider = new CounterModelProvider(this.context);
 
-        languageServer.onNotification("uzpdateteil"".VerificationResult,
-            (zahl: int ..    ---: string, json: string) => {
+        languageServer.onNotification(LanguageServerNotification.VerificationResult,
+            (docPathName: string, json: string) => {
 
-                this.dafnyStatusbar.update();
+
+               // this.dafnyStatusbar.update();
 
                 //LEGACY
 /*
