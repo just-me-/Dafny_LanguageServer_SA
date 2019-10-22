@@ -76,7 +76,7 @@ export default class Commands {
                 return this.compile(vscode.window.activeTextEditor.document, true);
             },
         },
-        {
+        { 
             name: CommandStrings.EditText,
             // tslint:disable-next-line:object-literal-sort-keys
             callback: (uri: string, version: number, edits: vscode.TextEdit[]) => this.applyTextEdits(uri, version, edits),
@@ -146,7 +146,9 @@ export default class Commands {
         document.save();
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
-        this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, document.uri.toString())
+        const arg = {DafnyFilePath: document.fileName}
+
+        this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, arg)
         .then((result) => {
             vscode.window.showInformationMessage(InfoMsg.CompilationFinished);
             if (run && result.executable) {

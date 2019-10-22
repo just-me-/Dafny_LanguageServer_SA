@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
 using Microsoft.Dafny;
@@ -8,11 +10,11 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 
 namespace DafnyLanguageServer
 {
-    
+
     public class CompilerParams : IRequest<CompilerResults>
     {
-        public string DafnyFilePath { get; set; }   //noch nciht sicher was ich hier brauch. die anderen haben die "URI" mitgegeben.
-    } 
+        public string DafnyFilePath { get; set; }
+    }
 
     public class CompilerResults
     {
@@ -34,14 +36,44 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
 
-                string dafnyExe = @"G:\Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries\Dafny.exe";
-                //string dafnyFile = request.DafnyFilePath;
-                string dafnyFile = @"G:\Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries\_dfy.dfy";
-                var process = System.Diagnostics.Process.Start(dafnyExe, "/compile:1 /nologo " + dafnyFile);
+                string dafnyExe = @"D:\Eigene Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries\Dafny.exe";
+                string dafnyFile = request.DafnyFilePath;
+
+                //To support spaces in path:
+                dafnyFile = '\"' + request.DafnyFilePath + '\"';
+
+                //string dafnyFile = "\"D:\\Eigene Dokumente\\VisualStudio\\SA\\dafny-server-redesign\\anExmapleDafnyFile.dfy\"";
+
+                System.Diagnostics.Process process = new Process();
+                process.StartInfo.FileName = dafnyExe;
+                process.StartInfo.Arguments = "/compile:1 /nologo " + dafnyFile;
+                process.EnableRaisingEvents = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.RedirectStandardOutput = true;
 
                 string processOut = "";
                 process.OutputDataReceived += (sender, args) => processOut += args.Data;
-                process.WaitForExit();
+
+                try
+                {
+                    process.Start();
+                    process.BeginErrorReadLine();
+                    process.BeginOutputReadLine();
+                    process.WaitForExit();
+                }
+                catch (Exception e)
+                {
+                    return new CompilerResults
+                    {
+                        Error = true,
+                        Message = "Internal Server Error: " + e.Message,
+                        Executable = false
+                    };
+                }
+
+
+                
 
                 if (processOut.Contains("Compiled assembly into"))
                 {
@@ -51,7 +83,8 @@ namespace DafnyLanguageServer
                         Message = "Hat geklappt",
                         Executable = true
                     };
-                } else
+                }
+                else
                 {
                     return new CompilerResults
                     {

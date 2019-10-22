@@ -16,6 +16,14 @@ namespace DafnyLanguageServer
         {
             ExecutionEngine.printer = new DafnyConsolePrinter();
 
+            
+            //Console.SetOut(oldOut);
+            // writer.Close();
+            // ostrm.Close();
+
+            // Console.SetOut(Console.Error);
+
+
             var server = await LanguageServer.From(options =>
                 options
                     .WithInput(Console.OpenStandardInput())
@@ -39,7 +47,7 @@ namespace DafnyLanguageServer
             {
                 string toms_ego_pfad = @"D:\Eigene Dokumente\Desktop\MsgLogger.txt";
                 string normaler_pfad = "./MsgLogger.txt";
-                string path = normaler_pfad;
+                string path = toms_ego_pfad;
                 ostrm = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
                 writer = new StreamWriter(ostrm);
             }
@@ -50,11 +58,6 @@ namespace DafnyLanguageServer
                 return;
             }
             Console.SetOut(writer);
-            //Console.SetOut(oldOut);
-            // writer.Close();
-            // ostrm.Close();
-
-           // Console.SetOut(Console.Error);
 
             await server.WaitForExit;
         }
