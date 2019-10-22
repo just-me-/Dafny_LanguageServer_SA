@@ -30,32 +30,23 @@ namespace DafnyLanguageServer
                     .WithHandler<CompletionHandler>()
             );
 
-
-            FileStream ostrm;
-            StreamWriter writer;
-            TextWriter oldOut = Console.Out;
             try
             {
                 string toms_ego_pfad = @"D:\Eigene Dokumente\Desktop\MsgLogger.txt";
                 string normaler_pfad = "./MsgLogger.txt";
                 string path = normaler_pfad;
-                ostrm = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
-                writer = new StreamWriter(ostrm);
+                using (StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write)))
+                {
+                    Console.SetOut(writer);
+                    await server.WaitForExit;
+                }
+
             }
             catch (Exception e)
             {
                 Console.WriteLine("Cannot open MsgLogger.txt for writing");
                 Console.WriteLine(e.Message);
-                return;
             }
-            Console.SetOut(writer);
-            //Console.SetOut(oldOut);
-            // writer.Close();
-            // ostrm.Close();
-
-           // Console.SetOut(Console.Error);
-
-            await server.WaitForExit;
         }
 
         static void ConfigureServices(IServiceCollection services)
