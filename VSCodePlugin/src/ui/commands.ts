@@ -147,8 +147,11 @@ export default class Commands {
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
         // Das ist die compile anfrage bzw was compile als Resultat erwartet.
+        console.log("Sending request...");
         this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, document.uri)
         .then((result) => {
+            console.log("Result: ");
+            console.log(result); 
             vscode.window.showInformationMessage(InfoMsg.CompilationFinished);
             if (run && result.executable) {
                 this.runner.run(document.fileName);

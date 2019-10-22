@@ -12,12 +12,14 @@ namespace DafnyLanguageServer
 
     public class TestParams : IRequest<TestResult>
     {
-        public string Text { get; set; }
+        public string DocumentURI { get; set; }
     }
 
     public class TestResult
     {
-        public string Text { get; set; }
+        public string Message { get; set; }
+        public bool Error { get; set; }
+        public bool Executable { get; set; }
     }
 
     public class TestHandler : ITestInterface
@@ -28,9 +30,12 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
                 // Do someting to get a return value 
+
                 return new TestResult
                 {
-                    Text = "SomeResult Amumumuh"
+                    Message = "SomeResult Amumumuh",
+                    Error = false,
+                    Executable = true 
                 };
 
             });
