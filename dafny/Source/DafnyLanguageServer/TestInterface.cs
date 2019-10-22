@@ -7,7 +7,7 @@ using OmniSharp.Extensions.JsonRpc;
 
 namespace DafnyLanguageServer
 {
-    [Serial, Method("sayhello")]
+    [Serial, Method("compile")]
     public interface ITestInterface : IJsonRpcRequestHandler<TestParams, TestResult> { }
 
     public class TestParams : IRequest<TestResult>

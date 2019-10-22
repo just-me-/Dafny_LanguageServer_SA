@@ -45,7 +45,7 @@ export default class Commands {
         {name: CommandStrings.RestartServer,  callback: () => this.restartServer()},
         {name: CommandStrings.InstallDafny,   callback: () => this.installDafny()},
         {name: CommandStrings.UninstallDafny, callback: () => this.uninstallDafny()},
-        {
+        /*{
             name: CommandStrings.RequestTest, 
             callback: () => {
                 vscode.window.showInformationMessage('Aloha');
@@ -57,7 +57,7 @@ export default class Commands {
                     vscode.window.showErrorMessage("Request Test Error: " + e);
                 });
             }
-        },
+        },*/
         {
             name: CommandStrings.Compile,
             callback: () => {
@@ -146,6 +146,7 @@ export default class Commands {
         document.save();
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
+        // Das ist die compile anfrage bzw was compile als Resultat erwartet.
         this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, document.uri)
         .then((result) => {
             vscode.window.showInformationMessage(InfoMsg.CompilationFinished);

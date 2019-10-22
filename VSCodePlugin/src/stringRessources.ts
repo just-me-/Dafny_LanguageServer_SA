@@ -52,7 +52,7 @@ export class CommandStrings {
     public static CompileAndRun: string = "dafny.compileAndRun";
     public static ShowCounterExample: string = "dafny.showCounterExample";
     public static HideCounterExample: string = "dafny.hideCounterExample";
-    public static RequestTest: string = "dafny.requestTest";
+    //public static RequestTest: string = "dafny.requestTest";
 }
 
 export class InfoMsg {
@@ -101,7 +101,7 @@ export class LanguageServerRequest {
     public static Compile: string = "compile";
     public static Install: string = "install";
     public static Uninstall: string = "uninstall";
-    public static SayHello: string = "sayhello";
+    //public static SayHello: string = "sayhello";
 }
 
 export class LanguageServerNotification {
