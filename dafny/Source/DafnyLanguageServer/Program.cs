@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
@@ -52,10 +51,6 @@ namespace DafnyLanguageServer
         static void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<BufferManager>();
-            services.AddSingleton<NuGetAutoCompleteService>();
-
-            
-
         }
     }
 }

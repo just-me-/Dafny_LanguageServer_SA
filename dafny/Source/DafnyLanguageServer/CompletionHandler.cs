@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using DafnyServer;
-using Microsoft.Dafny;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
@@ -12,7 +11,6 @@ namespace DafnyLanguageServer
     {
         private readonly ILanguageServer _router;
         private readonly BufferManager _bufferManager;
-        private readonly NuGetAutoCompleteService _nuGetService;
         private CompletionCapability _capability;
 
         private readonly DocumentSelector _documentSelector = new DocumentSelector(
@@ -22,11 +20,10 @@ namespace DafnyLanguageServer
             }
         );
 
-        public CompletionHandler(ILanguageServer router, BufferManager bufferManager, NuGetAutoCompleteService nuGetService)
+        public CompletionHandler(ILanguageServer router, BufferManager bufferManager)
         {
             _router = router;
             _bufferManager = bufferManager;
-            _nuGetService = nuGetService;
         }
 
         public CompletionRegistrationOptions GetRegistrationOptions()

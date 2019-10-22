@@ -24,7 +24,6 @@ namespace DafnyLanguageServer
 
     public class TestHandler : ITestInterface
     {
-
         public async Task<TestResult> Handle(TestParams request, CancellationToken cancellationToken)
         {
             return await Task.Run(() =>
@@ -37,7 +36,6 @@ namespace DafnyLanguageServer
                     Error = false,
                     Executable = true 
                 };
-
             });
         }
     }
