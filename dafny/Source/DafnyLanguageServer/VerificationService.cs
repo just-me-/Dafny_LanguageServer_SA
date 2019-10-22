@@ -13,7 +13,7 @@ namespace DafnyLanguageServer
 {
     class VerificationService
     {
-        private static readonly int MAGICLINEENDING = 100;
+        private static readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
         private Uri FileUri { get; }
         private string Sourcecode { get; set; }
         private ILanguageServer Router { get; }

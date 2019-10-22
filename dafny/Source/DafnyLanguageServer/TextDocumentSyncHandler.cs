@@ -19,24 +19,20 @@ namespace DafnyLanguageServer
     {
         private readonly ILanguageServer _router;
         private readonly BufferManager _bufferManager;
-
+        private SynchronizationCapability _capability;
         private readonly DocumentSelector _documentSelector = new DocumentSelector(
             new DocumentFilter()
             {
                 Pattern = "**/*.dfy"
             }
         );
-
-        private SynchronizationCapability _capability;
+        public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full; //TODO: Incremental damit nicht immer alles geschickt wird
 
         public TextDocumentSyncHandler(ILanguageServer router, BufferManager bufferManager)
         {
             _router = router;
             _bufferManager = bufferManager;
-
         }
-
-        public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full; //TODO: Incremental damit nicht der ganze Karsumpel geschickt wird
 
         public TextDocumentChangeRegistrationOptions GetRegistrationOptions()
         {
@@ -49,35 +45,32 @@ namespace DafnyLanguageServer
 
         public TextDocumentAttributes GetTextDocumentAttributes(Uri uri)
         {
-            return new TextDocumentAttributes(uri, "xml");
+            return new TextDocumentAttributes(uri, "xml"); // hmm... aber fürs Interface brauchts die Methode 
         }
 
+        private void updateBuffer(Uri uri, string text)
+        {
+            // da rein oder manager callen 
+            var documentPath = uri.ToString();
+            _bufferManager.UpdateBuffer(documentPath, text);
+            _router.Window.LogInfo($"Updated buffer for document: {documentPath}\n{text}");
+
+            new VerificationService(_router, uri, text).Verify();  //TODO uh grusig
+        }
         public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
-            var documentPath = request.TextDocument.Uri.ToString();
-            var text = request.ContentChanges.FirstOrDefault()?.Text;
-
-            _bufferManager.UpdateBuffer(documentPath, text);
-
-            _router.Window.LogInfo($"Handled DidChangeDoc ---- Updated buffer for document: {documentPath}\n{text}");
-
-            new VerificationService(_router, request.TextDocument.Uri, text).Verify();  //TODO uh grusig
+            updateBuffer(request.TextDocument.Uri, request.ContentChanges.FirstOrDefault()?.Text);
 
             return Unit.Task;
         }
 
         public Task<Unit> Handle(DidOpenTextDocumentParams request, CancellationToken cancellationToken)
         {
-            var text = request.TextDocument.Text;
-            var documentPath = request.TextDocument.Uri.ToString();
-            _bufferManager.UpdateBuffer(documentPath, request.TextDocument.Text);
-            _router.Window.LogInfo($"Server handled DidOpenDocument ---- Updated buffer for document: {documentPath}\n{text}");
-
-            new VerificationService(_router, request.TextDocument.Uri, text).Verify();  //TODO uh grusig auchB
+            updateBuffer(request.TextDocument.Uri, request.TextDocument.Uri.ToString());
 
             // da gibts bestimmt noch ne bessere stelle 
             _router.Window.SendNotification("serverStarted", new { serverpid = 1, serverversion = "0.0.1"});
-
+            
             return Unit.Task;
         }
 
