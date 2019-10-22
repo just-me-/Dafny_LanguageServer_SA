@@ -38,8 +38,8 @@ namespace DafnyLanguageServer
             try
             {
                 string toms_ego_pfad = @"D:\Eigene Dokumente\Desktop\MsgLogger.txt";
-                string normaler_pfad = "/MsgLogger.txt";
-                string path = toms_ego_pfad;
+                string normaler_pfad = "./MsgLogger.txt";
+                string path = normaler_pfad;
                 ostrm = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
                 writer = new StreamWriter(ostrm);
             }

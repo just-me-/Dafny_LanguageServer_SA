@@ -27,9 +27,9 @@ export class Statusbar {
             this.update();
         });
 
-        languageServer.onNotification(LanguageServerNotification.ServerStarted, (serverpid: number, serverversion: string) => {
-            this.serverpid = serverpid;
-            this.serverversion = serverversion;
+        languageServer.onNotification(LanguageServerNotification.ServerStarted, ( params: {serverpid: number, serverversion: string}) => {
+            this.serverpid = params.serverpid;
+            this.serverversion = params.serverversion;
             this.update();
         });
 
@@ -75,7 +75,10 @@ export class Statusbar {
         this.serverStatusBar.hide();
         this.currentDocumentStatucBar.hide();
     }
-  *****************Das teil heir nutzen:
+
+    public forceText(errors: Number) {
+        this.currentDocumentStatucBar.text = (errors > 0) ? "Errors: "+errors : "Valid. Tiptop :-)";
+    }
 
     public update(): void {
         const editor = vscode.window.activeTextEditor;
@@ -93,15 +96,19 @@ export class Statusbar {
             this.serverStatusBar.text = StatusString.ServerDown;
         }
 
+        const documentURI = editor.document.uri.toString().replace('\%3A', ':'); // notfall regex... xD
         if (!this.serverpid) {
             this.currentDocumentStatucBar.text = StatusString.Pending;
-        } else if (this.activeDocument && editor.document.uri.toString() === this.activeDocument.toString()) {
-            this.currentDocumentStatucBar.text = StatusString.Verifying;
-        } else if (this.queueContains(editor.document.uri.toString())) {
+        } else if (this.activeDocument && documentURI === this.activeDocument.toString()) {
+            this.currentDocumentStatucBar.text = StatusString.Verifying; // bis hier mal gekommen
+        } else if (this.queueContains(documentURI)) {
             this.currentDocumentStatucBar.text = StatusString.Queued;
         } else {
-            const res: undefined | IVerificationResult = this.context.verificationResults[editor.document.uri.toString()];
+            const res: undefined | IVerificationResult = this.context.verificationResults[documentURI];
             if (res !== undefined) {
+                // hier müssten wir rein ... aber das verwenden wir mit dem neuen LSP gar ned mehr :/
+                // sollen wir das neu verwenden oder sollen wir den client umbauen? 
+                // 2DO  ... 
                 const displayText: string = this.verificationResultToString(res);
                 this.currentDocumentStatucBar.text = displayText;
             } else {
