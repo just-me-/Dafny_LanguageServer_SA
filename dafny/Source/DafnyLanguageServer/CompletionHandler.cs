@@ -10,14 +10,10 @@ namespace DafnyLanguageServer
 {
     internal class CompletionHandler : ICompletionHandler
     {
-        private const string PackageReferenceElement = "PackageReference";
-        private const string IncludeAttribute = "Include";
-        private const string VersionAttribute = "Version";
-        private static readonly char[] EndElement = new[] { '>' };
-
         private readonly ILanguageServer _router;
         private readonly BufferManager _bufferManager;
         private readonly NuGetAutoCompleteService _nuGetService;
+        private CompletionCapability _capability;
 
         private readonly DocumentSelector _documentSelector = new DocumentSelector(
             new DocumentFilter()
@@ -25,8 +21,6 @@ namespace DafnyLanguageServer
                 Pattern = "**/*.dfy"
             }
         );
-
-        private CompletionCapability _capability;
 
         public CompletionHandler(ILanguageServer router, BufferManager bufferManager, NuGetAutoCompleteService nuGetService)
         {
@@ -50,12 +44,11 @@ namespace DafnyLanguageServer
             {
                 var documentPath = request.TextDocument.Uri.ToString();
                 var buffer = _bufferManager.GetTextFromBuffer(documentPath);
+                var version = VersionCheck.CurrentVersion();
 
                 var demotext = "i'm the new text";
                 var demotext2 = "You can do this !!!!  ;-) <3 <3 <3 :-) Keep trying!";
 
-                string version = VersionCheck.CurrentVersion();
-                
                 if (buffer == null)
                 {
                     return new CompletionList();
@@ -79,9 +72,7 @@ namespace DafnyLanguageServer
                                 Character = request.Position.Character + demotext.Length
                             })
                     }
-
                 };
-
                 var citem2 = new CompletionItem
                 {
                     Label = "Let me cheer you up",
@@ -100,7 +91,6 @@ namespace DafnyLanguageServer
                                 Character = request.Position.Character + demotext2.Length
                             })
                     }
-
                 };
                 return new CompletionList(citem1, citem2);
             });
