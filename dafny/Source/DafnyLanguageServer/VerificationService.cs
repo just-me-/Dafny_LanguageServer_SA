@@ -11,23 +11,14 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 
 namespace DafnyLanguageServer
 {
-    class VerificationService //  müsste der Service designtechnisch nicht sogar static sein? 
+    static class VerificationService
     {
         private static readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
-        
-        private DafnyFile File { get; set; }
-        private ILanguageServer Router { get; }
 
-        public VerificationService(ILanguageServer router, DafnyFile file)
-        {
-            Router = router;
-            File = file;
-        }
-
-        private DafnyHelper DafnyVerify()
+        static private DafnyHelper DafnyVerify(DafnyFile file)
         {
             string[] args = new string[] { };
-            DafnyHelper helper = new DafnyHelper(args, File.Filepath, File.Sourcecode);
+            DafnyHelper helper = new DafnyHelper(args, file.Filepath, file.Sourcecode);
             if (!helper.Verify())
             {
                 throw new ArgumentException("Während des Verifizierens ist ein Fehler aufgetreten, der nicht hätte passieren dürfen.");
@@ -35,7 +26,7 @@ namespace DafnyLanguageServer
             return helper; 
         }
 
-        private Collection<Diagnostic> CreateDafnyDiagnostics(DafnyHelper helper)
+        static private Collection<Diagnostic> CreateDafnyDiagnostics(DafnyHelper helper, DafnyFile file)
         {
             Collection<Diagnostic> diagnostics = new Collection<Diagnostic>();
 
@@ -55,7 +46,7 @@ namespace DafnyLanguageServer
                     });
 
                 d.Severity = DiagnosticSeverity.Error;
-                d.Source = File.Filepath;
+                d.Source = file.Filepath;
 
                 for (int i = 0; i < e.Aux.Count - 1; i++) //ignore last element (trace)
                 {
@@ -80,22 +71,22 @@ namespace DafnyLanguageServer
 
             return diagnostics; 
         }
-        
-        public void Verify()
-        {
-            // im plugin das aktuelle Dokument setzen
-            Router.Window.SendNotification("activeVerifiyingDocument", File.Filepath);
 
-            var helper = DafnyVerify();
-            var diagnostics = CreateDafnyDiagnostics(helper);
+        static public void Verify(ILanguageServer router, DafnyFile file)
+        {
+            // im Plugin das aktuelle Dokument setzen für die Statusbar
+            router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
+
+            var helper = DafnyVerify(file);
+            var diagnostics = CreateDafnyDiagnostics(helper, file);
             
             PublishDiagnosticsParams p = new PublishDiagnosticsParams
             {
-                Uri = File.Uri,
+                Uri = file.Uri,
                 Diagnostics = new Container<Diagnostic>(diagnostics)
             };
-            Router.Document.PublishDiagnostics(p);
-            Router.Window.SendNotification("updateStatusbar", diagnostics.Count);
+            router.Document.PublishDiagnostics(p);
+            router.Window.SendNotification("updateStatusbar", diagnostics.Count);
         }
     }
 }
