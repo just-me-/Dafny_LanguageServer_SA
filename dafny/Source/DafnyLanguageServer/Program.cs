@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
@@ -16,7 +15,7 @@ namespace DafnyLanguageServer
         {
             ExecutionEngine.printer = new DafnyConsolePrinter();
 
-            
+
             //Console.SetOut(oldOut);
             // writer.Close();
             // ostrm.Close();
@@ -39,36 +38,28 @@ namespace DafnyLanguageServer
                     .WithHandler<CompileHandler>()
             );
 
-
-            FileStream ostrm;
-            StreamWriter writer;
-            TextWriter oldOut = Console.Out;
             try
             {
                 string toms_ego_pfad = @"D:\Eigene Dokumente\Desktop\MsgLogger.txt";
                 string normaler_pfad = "./MsgLogger.txt";
                 string path = toms_ego_pfad;
-                ostrm = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
-                writer = new StreamWriter(ostrm);
+                using (StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write)))
+                {
+                    Console.SetOut(writer);
+                    await server.WaitForExit;
+                }
+
             }
             catch (Exception e)
             {
                 Console.WriteLine("Cannot open MsgLogger.txt for writing");
                 Console.WriteLine(e.Message);
-                return;
             }
-            Console.SetOut(writer);
-
-            await server.WaitForExit;
         }
 
         static void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<BufferManager>();
-            services.AddSingleton<NuGetAutoCompleteService>();
-
-            
-
         }
     }
 }

@@ -41,12 +41,12 @@ export default class Commands {
 
     // tslint:disable: object-literal-sort-keys
     public commands = [
-        {name: CommandStrings.ShowReferences, callback: Commands.showReferences, doNotDispose: true},
-        {name: CommandStrings.RestartServer,  callback: () => this.restartServer()},
-        {name: CommandStrings.InstallDafny,   callback: () => this.installDafny()},
-        {name: CommandStrings.UninstallDafny, callback: () => this.uninstallDafny()},
-        {
-            name: CommandStrings.RequestTest, 
+        { name: CommandStrings.ShowReferences, callback: Commands.showReferences, doNotDispose: true },
+        { name: CommandStrings.RestartServer, callback: () => this.restartServer() },
+        { name: CommandStrings.InstallDafny, callback: () => this.installDafny() },
+        { name: CommandStrings.UninstallDafny, callback: () => this.uninstallDafny() },
+        /*{
+            name: CommandStrings.RequestTest,
             callback: () => {
                 vscode.window.showInformationMessage('Aloha');
                 console.log("Lets try...");
@@ -57,7 +57,7 @@ export default class Commands {
                     vscode.window.showErrorMessage("Request Test Error: " + e);
                 });
             }
-        },
+        },*/
         {
             name: CommandStrings.Compile,
             callback: () => {
@@ -76,7 +76,7 @@ export default class Commands {
                 return this.compile(vscode.window.activeTextEditor.document, true);
             },
         },
-        { 
+        {
             name: CommandStrings.EditText,
             // tslint:disable-next-line:object-literal-sort-keys
             callback: (uri: string, version: number, edits: vscode.TextEdit[]) => this.applyTextEdits(uri, version, edits),
@@ -106,9 +106,9 @@ export default class Commands {
 
     public restartServer() {
         this.languageServer.sendRequest(LanguageServerRequest.Reset)
-        .then(() => true, () => {
-            vscode.window.showErrorMessage("Can't restart dafny");
-        });
+            .then(() => true, () => {
+                vscode.window.showErrorMessage("Can't restart dafny");
+            });
     }
 
     public installDafny() {
@@ -169,7 +169,7 @@ export default class Commands {
             if (textEditor.document.version !== documentVersion) {
                 console.log("Versions of doc are different");
             }
-            textEditor.edit((mutator: vscode.TextEditorEdit)  => {
+            textEditor.edit((mutator: vscode.TextEditorEdit) => {
                 for (const edit of edits) {
                     mutator.replace(this.languageServer.protocol2CodeConverter.asRange(edit.range), edit.newText);
                 }

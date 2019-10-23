@@ -195,10 +195,10 @@
                 "command": "dafny.hideCounterExample",
                 "title": "Dafny: Hide CounterExample"
             },
-            {
+            /*{
                 "command": "dafny.requestTest",
                 "title": "Dafny: RequestTest"
-            }
+            }*/
         ]
     },
     "activationEvents": [
