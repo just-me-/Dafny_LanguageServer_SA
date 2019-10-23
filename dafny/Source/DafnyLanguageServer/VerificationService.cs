@@ -11,30 +11,27 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 
 namespace DafnyLanguageServer
 {
-    class VerificationService
+    class VerificationService //  müsste der Service designtechnisch nicht sogar static sein? 
     {
         private static readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
-
-        private Uri FileUri { get; }
-        private string Sourcecode { get; set; }
-        private string Filename => FileUri.ToString();
+        
+        private DafnyFile File { get; set; }
 
         private ILanguageServer Router { get; }
-        private readonly string[] args = new string[] { };
+        private readonly string[] args = new string[] { }; // hmm inlinen? 
 
-        public VerificationService(ILanguageServer router, Uri uri, string sourcecode)
+        public VerificationService(ILanguageServer router, DafnyFile file)
         {
             Router = router;
-            Sourcecode = sourcecode;
-            FileUri = uri;
+            File = file;
         }
 
         public void Verify()
         {
-            // im plugin das aktuelle dokument setzen
-            Router.Window.SendNotification("activeVerifiyingDocument", Filename);
+            // im plugin das aktuelle Dokument setzen
+            Router.Window.SendNotification("activeVerifiyingDocument", File.Filepath);
 
-            DafnyHelper helper = new DafnyHelper(args, Filename, Sourcecode);
+            DafnyHelper helper = new DafnyHelper(args, File.Filepath, File.Sourcecode);
 
             if (!helper.Verify())
             {
@@ -59,7 +56,7 @@ namespace DafnyLanguageServer
                     });
 
                 d.Severity = DiagnosticSeverity.Error;
-                d.Source = Filename;
+                d.Source = File.Filepath;
 
                 for (int i = 0; i < e.Aux.Count - 1; i++) //ignore last element (trace)
                 {
@@ -84,7 +81,7 @@ namespace DafnyLanguageServer
 
             PublishDiagnosticsParams p = new PublishDiagnosticsParams
             {
-                Uri = FileUri,
+                Uri = File.Uri,
                 Diagnostics = new Container<Diagnostic>(diagnostics)
             };
 
