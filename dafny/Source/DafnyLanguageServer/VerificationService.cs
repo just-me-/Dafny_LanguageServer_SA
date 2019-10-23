@@ -16,9 +16,7 @@ namespace DafnyLanguageServer
         private static readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
         
         private DafnyFile File { get; set; }
-
         private ILanguageServer Router { get; }
-        private readonly string[] args = new string[] { }; // hmm inlinen? 
 
         public VerificationService(ILanguageServer router, DafnyFile file)
         {
@@ -26,18 +24,19 @@ namespace DafnyLanguageServer
             File = file;
         }
 
-        public void Verify()
+        private DafnyHelper DafnyVerify()
         {
-            // im plugin das aktuelle Dokument setzen
-            Router.Window.SendNotification("activeVerifiyingDocument", File.Filepath);
-
+            string[] args = new string[] { };
             DafnyHelper helper = new DafnyHelper(args, File.Filepath, File.Sourcecode);
-
             if (!helper.Verify())
             {
                 throw new ArgumentException("Während des Verifizierens ist ein Fehler aufgetreten, der nicht hätte passieren dürfen.");
             }
+            return helper; 
+        }
 
+        private Collection<Diagnostic> CreateDafnyDiagnostics(DafnyHelper helper)
+        {
             Collection<Diagnostic> diagnostics = new Collection<Diagnostic>();
 
             foreach (ErrorInformation e in helper.Errors)
@@ -79,12 +78,22 @@ namespace DafnyLanguageServer
                 diagnostics.Add(d);
             }
 
+            return diagnostics; 
+        }
+        
+        public void Verify()
+        {
+            // im plugin das aktuelle Dokument setzen
+            Router.Window.SendNotification("activeVerifiyingDocument", File.Filepath);
+
+            var helper = DafnyVerify();
+            var diagnostics = CreateDafnyDiagnostics(helper);
+            
             PublishDiagnosticsParams p = new PublishDiagnosticsParams
             {
                 Uri = File.Uri,
                 Diagnostics = new Container<Diagnostic>(diagnostics)
             };
-
             Router.Document.PublishDiagnostics(p);
             Router.Window.SendNotification("updateStatusbar", diagnostics.Count);
         }
