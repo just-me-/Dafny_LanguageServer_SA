@@ -1,17 +1,8 @@
-
-method Find(a: array<int>, key: int) returns (index: int)
-   ensures 0 <= index ==> index < a.Length && a[index] == key
-   ensures index < 0 ==> forall k :: 0 <= k < a.Length ==> a[k] != key
+method MultipleReturns(x: int, y: int) returns (more: int, less: int)
+   requires 0 < y            //einkommentieren -> fehler postcondition geht weg
+   ensures less < x < more
 {
-   index := 0;
-   while index < a.Length
-      invariant 0 <= index <= a.Length
-      invariant forall k :: 0 <= k < index ==> a[k] != key
-          //für alle k zwischen 0 bis index gilt...
-      decreases a.Length - index
-   {
-      if a[index] == key { return; }
-      index := index + 1;
-   }
-   index := -1;
+   more := x + y;
+   less := x - y;
+   //assert x == 1;              //auskommentieren -> assertion violation geht weg
 }

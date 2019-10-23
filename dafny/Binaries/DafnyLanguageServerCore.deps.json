@@ -1,0 +1,528 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.2",
+    "signature": "afa80d4e1e55beffd9b1cb1f4fe1c99eb69d328c"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.2": {
+      "DafnyLanguageServerCore/1.0.0": {
+        "dependencies": {
+          "DafnyServer": "1.0.0",
+          "GuiLabs.Language.Xml": "1.2.38",
+          "OmniSharp.Extensions.LanguageServer": "0.13.1"
+        },
+        "runtime": {
+          "DafnyLanguageServerCore.dll": {}
+        }
+      },
+      "GuiLabs.Language.Xml/1.2.38": {
+        "dependencies": {
+          "System.Collections.Immutable": "1.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Language.Xml.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.2.38.25252"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection/2.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/2.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
+        }
+      },
+      "Microsoft.Extensions.Logging/2.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "2.0.0",
+          "Microsoft.Extensions.Options": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
+        }
+      },
+      "Microsoft.Extensions.Logging.Abstractions/2.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
+        }
+      },
+      "Microsoft.Extensions.Options/2.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0",
+          "Microsoft.Extensions.Primitives": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Options.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
+        }
+      },
+      "Microsoft.Extensions.Primitives/2.0.0": {
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "4.4.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Primitives.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
+        }
+      },
+      "Newtonsoft.Json/11.0.2": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.2.21924"
+          }
+        }
+      },
+      "OmniSharp.Extensions.JsonRpc/0.13.1": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "2.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0",
+          "Microsoft.Extensions.Logging": "2.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "2.0.0",
+          "Newtonsoft.Json": "11.0.2",
+          "System.Reactive": "4.1.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/OmniSharp.Extensions.JsonRpc.dll": {
+            "assemblyVersion": "0.13.0.0",
+            "fileVersion": "0.13.1.0"
+          }
+        }
+      },
+      "OmniSharp.Extensions.LanguageProtocol/0.13.1": {
+        "dependencies": {
+          "OmniSharp.Extensions.JsonRpc": "0.13.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/OmniSharp.Extensions.LanguageProtocol.dll": {
+            "assemblyVersion": "0.13.0.0",
+            "fileVersion": "0.13.1.0"
+          }
+        }
+      },
+      "OmniSharp.Extensions.LanguageServer/0.13.1": {
+        "dependencies": {
+          "OmniSharp.Extensions.JsonRpc": "0.13.1",
+          "OmniSharp.Extensions.LanguageProtocol": "0.13.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/OmniSharp.Extensions.LanguageServer.dll": {
+            "assemblyVersion": "0.13.0.0",
+            "fileVersion": "0.13.1.0"
+          }
+        }
+      },
+      "System.Collections.Immutable/1.5.0": {},
+      "System.Reactive/4.1.2": {
+        "dependencies": {
+          "System.Runtime.InteropServices.WindowsRuntime": "4.3.0",
+          "System.Threading.Tasks.Extensions": "4.5.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Reactive.dll": {
+            "assemblyVersion": "4.1.0.0",
+            "fileVersion": "4.1.2.343"
+          }
+        }
+      },
+      "System.Runtime/4.3.0": {},
+      "System.Runtime.CompilerServices.Unsafe/4.4.0": {
+        "runtime": {
+          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "assemblyVersion": "4.0.3.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "System.Runtime.InteropServices.WindowsRuntime/4.3.0": {
+        "dependencies": {
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.Threading.Tasks.Extensions/4.5.1": {},
+      "DafnyPipeline/1.0.0": {
+        "dependencies": {
+          "DafnyRuntime": "1.0.0",
+          "BoogieBasetypes": "2.4.1.10503"
+        },
+        "runtime": {
+          "DafnyPipeline.dll": {}
+        }
+      },
+      "DafnyRuntime/1.0.0": {
+        "runtime": {
+          "DafnyRuntime.dll": {}
+        }
+      },
+      "DafnyServer/1.0.0": {
+        "dependencies": {
+          "DafnyPipeline": "1.0.0",
+          "BoogieExecutionEngine": "1.0.0.0",
+          "BoogieParserHelper": "2.4.1.10503",
+          "BoogieCore": "2.4.1.10503",
+          "BoogieModelViewer": "2.4.1.10503",
+          "BoogieModel": "2.4.1.10503",
+          "BoogieGraph": "2.4.1.10503",
+          "BoogieVCGeneration": "2.4.1.10503",
+          "BoogieConcurrency": "1.0.0.0",
+          "BoogieHoudini": "2.4.1.10503",
+          "BoogieCodeContractsExtender": "2.4.1.10503",
+          "BoogieAbsInt": "2.4.1.10503",
+          "BoogieDoomed": "0.0.0.0",
+          "BoogieVCExpr": "2.4.1.10503"
+        },
+        "runtime": {
+          "DafnyServer.exe": {}
+        }
+      },
+      "BoogieExecutionEngine.Reference/1.0.0.0": {
+        "runtime": {
+          "BoogieExecutionEngine.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "BoogieParserHelper.Reference/2.4.1.10503": {
+        "runtime": {
+          "BoogieParserHelper.dll": {
+            "assemblyVersion": "2.4.1.10503",
+            "fileVersion": "2.4.1.10503"
+          }
+        }
+      },
+      "BoogieCore.Reference/2.4.1.10503": {
+        "runtime": {
+          "BoogieCore.dll": {
+            "assemblyVersion": "2.4.1.10503",
+            "fileVersion": "2.4.1.10503"
+          }
+        }
+      },
+      "BoogieModelViewer.Reference/2.4.1.10503": {
+        "runtime": {
+          "BoogieModelViewer.dll": {
+            "assemblyVersion": "2.4.1.10503",
+            "fileVersion": "2.4.1.10503"
+          }
+        }
+      },
+      "BoogieModel.Reference/2.4.1.10503": {
+        "runtime": {
+          "BoogieModel.dll": {
+            "assemblyVersion": "2.4.1.10503",
+            "fileVersion": "2.4.1.10503"
+          }
+        }
+      },
+      "BoogieGraph.Reference/2.4.1.10503": {
+        "runtime": {
+          "BoogieGraph.dll": {
+            "assemblyVersion": "2.4.1.10503",
+            "fileVersion": "2.4.1.10503"
+          }
+        }
+      },
+      "BoogieBasetypes.Reference/2.4.1.10503": {
+        "runtime": {
+          "BoogieBasetypes.dll": {
+            "assemblyVersion": "2.4.1.10503",
+            "fileVersion": "2.4.1.10503"
+          }
+        }
+      },
+      "BoogieVCGeneration.Reference/2.4.1.10503": {
+        "runtime": {
+          "BoogieVCGeneration.dll": {
+            "assemblyVersion": "2.4.1.10503",
+            "fileVersion": "2.4.1.10503"
+          }
+        }
+      },
+      "BoogieConcurrency.Reference/1.0.0.0": {
+        "runtime": {
+          "BoogieConcurrency.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "BoogieHoudini.Reference/2.4.1.10503": {
+        "runtime": {
+          "BoogieHoudini.dll": {
+            "assemblyVersion": "2.4.1.10503",
+            "fileVersion": "2.4.1.10503"
+          }
+        }
+      },
+      "BoogieCodeContractsExtender.Reference/2.4.1.10503": {
+        "runtime": {
+          "BoogieCodeContractsExtender.dll": {
+            "assemblyVersion": "2.4.1.10503",
+            "fileVersion": "2.4.1.10503"
+          }
+        }
+      },
+      "BoogieAbsInt.Reference/2.4.1.10503": {
+        "runtime": {
+          "BoogieAbsInt.dll": {
+            "assemblyVersion": "2.4.1.10503",
+            "fileVersion": "2.4.1.10503"
+          }
+        }
+      },
+      "BoogieDoomed.Reference/0.0.0.0": {
+        "runtime": {
+          "BoogieDoomed.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "BoogieVCExpr.Reference/2.4.1.10503": {
+        "runtime": {
+          "BoogieVCExpr.dll": {
+            "assemblyVersion": "2.4.1.10503",
+            "fileVersion": "2.4.1.10503"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DafnyLanguageServerCore/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GuiLabs.Language.Xml/1.2.38": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oNzjKIa5nekmQBwPD/DWVrwpF2UQYxAkCw+bD8lyW7rOFY+ynFoSBg8yMNBpcKLqEFjcCCic+52oGex/afIZAQ==",
+      "path": "guilabs.language.xml/1.2.38",
+      "hashPath": "guilabs.language.xml.1.2.38.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aimtR3Dh78z3NuaLXvsvOFz77bIgF/NAQ/03Dvgk9Grl6VqFq7rorVSyXoBmjpVK+G64iIf54JXVFOQB93FzlA==",
+      "path": "microsoft.extensions.dependencyinjection/2.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.2.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VN6zV4xkMKIxIP48kQzXieZPWXUeGL3M1nQvgXCm44EAvi2eC0gYj/ldrfPde4JF3TOypAENZvuJX1qkTFAgew==",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/2.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.2.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tScnYyAa79A/yE/7/Vrlw5ehhgl2XarJe3RF09Ay9IgbWBQ0Fhddx9LeaAMMCRj9S3LNKgqirgEKZK4YO2H+AA==",
+      "path": "microsoft.extensions.logging/2.0.0",
+      "hashPath": "microsoft.extensions.logging.2.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging.Abstractions/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uhZnIkbwREXhfXmZz5V3U+1PBuKMkniymUYWKLGOfMQDYZKzdev0N3pNGl3eqL3j4uy3s2BKUg3O/YBPapRZgQ==",
+      "path": "microsoft.extensions.logging.abstractions/2.0.0",
+      "hashPath": "microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Options/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-r8jvgDr+HYMuuG8CO7vV3BS3ZYPOGRM437L3/wMK3Oxx01qsGU1O/PDQjlr1cuIgXoSPwTf4gS+MqFvecuEeMw==",
+      "path": "microsoft.extensions.options/2.0.0",
+      "hashPath": "microsoft.extensions.options.2.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Primitives/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RyhLFJoMszfbu1rz/gzoqvOrdgsnXxk0B/M4fKjsJdb6/I3t2MdVq4s1dWs8hOXKjcq26ovsLL1UPLowTsaTcQ==",
+      "path": "microsoft.extensions.primitives/2.0.0",
+      "hashPath": "microsoft.extensions.primitives.2.0.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/11.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
+      "path": "newtonsoft.json/11.0.2",
+      "hashPath": "newtonsoft.json.11.0.2.nupkg.sha512"
+    },
+    "OmniSharp.Extensions.JsonRpc/0.13.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9XrGke2lZKVYxOEHeH88cYVTS84SR/he2UqxAC6KvFKzhKPnYOPBHZk29rt9U5lz6plyYUThQHXiZzUZtBupNg==",
+      "path": "omnisharp.extensions.jsonrpc/0.13.1",
+      "hashPath": "omnisharp.extensions.jsonrpc.0.13.1.nupkg.sha512"
+    },
+    "OmniSharp.Extensions.LanguageProtocol/0.13.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NnU4bHLg7DjVyvWZs4yWEr8eAhhQKu8S1caahGeuW+tyopWHXnLcth40WL1DeDEwS6EMY9Z06k5dRyLuS9RSGQ==",
+      "path": "omnisharp.extensions.languageprotocol/0.13.1",
+      "hashPath": "omnisharp.extensions.languageprotocol.0.13.1.nupkg.sha512"
+    },
+    "OmniSharp.Extensions.LanguageServer/0.13.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bBW/pGJmO9d7Sgrg+9GdRTDVQQa+uqYgdUScYvGaBurgHAusDHeRNyPLlfdKGBwtgYRR4uQzW90uVHMJe4QJpg==",
+      "path": "omnisharp.extensions.languageserver/0.13.1",
+      "hashPath": "omnisharp.extensions.languageserver.0.13.1.nupkg.sha512"
+    },
+    "System.Collections.Immutable/1.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EXKiDFsChZW0RjrZ4FYHu9aW6+P4MCgEDCklsVseRfhoO0F+dXeMSsMRAlVXIo06kGJ/zv+2w1a2uc2+kxxSaQ==",
+      "path": "system.collections.immutable/1.5.0",
+      "hashPath": "system.collections.immutable.1.5.0.nupkg.sha512"
+    },
+    "System.Reactive/4.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bfxbc131ik5n7LeP9pc+zMrh8uCKIHHVFlHPZ0NQgt5jbT4lNUKiMKXqG465bX/RtO2PHoZxizyKq6qcpIdC2A==",
+      "path": "system.reactive/4.1.2",
+      "hashPath": "system.reactive.4.1.2.nupkg.sha512"
+    },
+    "System.Runtime/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JufQi0vPQ0xGnAczR13AUFglDyVYt4Kqnz1AZaiKZ5+GICq0/1MH/mO/eAJHt/mHW1zjKBJd7kV26SrxddAhiw==",
+      "path": "system.runtime/4.3.0",
+      "hashPath": "system.runtime.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0D85ti9IcUxWql213d4WE+f2JjNzRzHmEaG34qiA3hD7G8O4i0Mgr+Rutkn4pmrbrW+ABY4vzpECgHmdw+vTjQ==",
+      "path": "system.runtime.compilerservices.unsafe/4.4.0",
+      "hashPath": "system.runtime.compilerservices.unsafe.4.4.0.nupkg.sha512"
+    },
+    "System.Runtime.InteropServices.WindowsRuntime/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BB4Y4G5QH6jPlnI4l8gpD0QxbaUFUUz5478TB2fxLB4pgZbJSKDLQfDaReCbopPPJB5LkwskLo86mXBq2KzpHg==",
+      "path": "system.runtime.interopservices.windowsruntime/4.3.0",
+      "hashPath": "system.runtime.interopservices.windowsruntime.4.3.0.nupkg.sha512"
+    },
+    "System.Threading.Tasks.Extensions/4.5.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WSKUTtLhPR8gllzIWO2x6l4lmAIfbyMAiTlyXAis4QBDonXK4b4S6F8zGARX4/P8wH3DH+sLdhamCiHn+fTU1A==",
+      "path": "system.threading.tasks.extensions/4.5.1",
+      "hashPath": "system.threading.tasks.extensions.4.5.1.nupkg.sha512"
+    },
+    "DafnyPipeline/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DafnyRuntime/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DafnyServer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieExecutionEngine.Reference/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieParserHelper.Reference/2.4.1.10503": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieCore.Reference/2.4.1.10503": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieModelViewer.Reference/2.4.1.10503": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieModel.Reference/2.4.1.10503": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieGraph.Reference/2.4.1.10503": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieBasetypes.Reference/2.4.1.10503": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieVCGeneration.Reference/2.4.1.10503": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieConcurrency.Reference/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieHoudini.Reference/2.4.1.10503": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieCodeContractsExtender.Reference/2.4.1.10503": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieAbsInt.Reference/2.4.1.10503": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieDoomed.Reference/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BoogieVCExpr.Reference/2.4.1.10503": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

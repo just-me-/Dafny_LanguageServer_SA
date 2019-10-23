@@ -41,11 +41,11 @@ export default class Commands {
 
     // tslint:disable: object-literal-sort-keys
     public commands = [
-        {name: CommandStrings.ShowReferences, callback: Commands.showReferences, doNotDispose: true},
-        {name: CommandStrings.RestartServer,  callback: () => this.restartServer()},
-        {name: CommandStrings.InstallDafny,   callback: () => this.installDafny()},
-        {name: CommandStrings.UninstallDafny, callback: () => this.uninstallDafny()},
-        {
+        { name: CommandStrings.ShowReferences, callback: Commands.showReferences, doNotDispose: true },
+        { name: CommandStrings.RestartServer, callback: () => this.restartServer() },
+        { name: CommandStrings.InstallDafny, callback: () => this.installDafny() },
+        { name: CommandStrings.UninstallDafny, callback: () => this.uninstallDafny() },
+        /*{
             name: CommandStrings.RequestTest, 
             callback: () => {
                 vscode.window.showInformationMessage('Aloha');
@@ -57,7 +57,7 @@ export default class Commands {
                     vscode.window.showErrorMessage("Request Test Error: " + e);
                 });
             }
-        },
+        },*/
         {
             name: CommandStrings.Compile,
             callback: () => {
@@ -106,9 +106,9 @@ export default class Commands {
 
     public restartServer() {
         this.languageServer.sendRequest(LanguageServerRequest.Reset)
-        .then(() => true, () => {
-            vscode.window.showErrorMessage("Can't restart dafny");
-        });
+            .then(() => true, () => {
+                vscode.window.showErrorMessage("Can't restart dafny");
+            });
     }
 
     public installDafny() {
@@ -146,18 +146,22 @@ export default class Commands {
         document.save();
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
+        // Das ist die compile anfrage bzw was compile als Resultat erwartet.
+        console.log("Sending request...");
         this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, document.uri)
-        .then((result) => {
-            vscode.window.showInformationMessage(InfoMsg.CompilationFinished);
-            if (run && result.executable) {
-                this.runner.run(document.fileName);
-            } else if (run) {
-                vscode.window.showErrorMessage(ErrorMsg.NoMainMethod);
-            }
-            return true;
-        }, (error: any) => {
-            vscode.window.showErrorMessage("Can't compile: " + error.message);
-        });
+            .then((result) => {
+                console.log("Result: ");
+                console.log(result);
+                vscode.window.showInformationMessage(InfoMsg.CompilationFinished);
+                if (run && result.executable) {
+                    this.runner.run(document.fileName);
+                } else if (run) {
+                    vscode.window.showErrorMessage(ErrorMsg.NoMainMethod);
+                }
+                return true;
+            }, (error: any) => {
+                vscode.window.showErrorMessage("Can't compile: " + error.message);
+            });
     }
 
     public applyTextEdits(uri: string, documentVersion: number, edits: vscode.TextEdit[]) {
@@ -167,7 +171,7 @@ export default class Commands {
             if (textEditor.document.version !== documentVersion) {
                 console.log("Versions of doc are different");
             }
-            textEditor.edit((mutator: vscode.TextEditorEdit)  => {
+            textEditor.edit((mutator: vscode.TextEditorEdit) => {
                 for (const edit of edits) {
                     mutator.replace(this.languageServer.protocol2CodeConverter.asRange(edit.range), edit.newText);
                 }

@@ -1,5 +1,6 @@
 "use strict";
 import * as vscode from "vscode";
+import * as path from 'path';
 import { LanguageClient } from "vscode-languageclient";
 import { TextDocumentItem } from "vscode-languageserver-types";
 import { Context } from "./context";
@@ -25,15 +26,38 @@ export class DafnyClientProvider {
         this.dafnyStatusbar = new Statusbar(this.languageServer, this.context);
         this.counterModelProvider = new CounterModelProvider(this.context);
 
-        languageServer.onNotification(LanguageServerNotification.VerificationResult,
-            (docPathName: string, json: string) => {
-                this.context.localQueue.remove(docPathName);
-                const verificationResult: IVerificationResult = JSON.parse(json);
-                this.context.verificationResults[docPathName] = verificationResult;
-                this.dafnyStatusbar.update();
-                this.counterModelProvider.update();
-                if (Context.unitTest) { Context.unitTest.verificationComplete(verificationResult); }
+        languageServer.onNotification(LanguageServerNotification.UpdateStatusbar,
+            (counter: Number) => {
+                
+               this.dafnyStatusbar.update();
+               this.dafnyStatusbar.forceText(counter);
+
+                //LEGACY
+/*
+                const collection =  vscode.languages.createDiagnosticCollection('test');
+                const myuri = vscode.Uri.file("D:/anExmapleDafnyFile.dfy")
+                collection.set(myuri, [{
+                    code: '',
+                    message: 'cannot assign twice to immutable variable `x`',
+                    range: new vscode.Range(new vscode.Position(3, 4), new vscode.Position(3, 10)),
+                    severity: vscode.DiagnosticSeverity.Error,
+                    source: '',
+                    relatedInformation: [
+                        new vscode.DiagnosticRelatedInformation(new vscode.Location(myuri, new vscode.Range(new vscode.Position(1, 8), new vscode.Position(1, 9))), 'first assignment to `x`')
+                    ]
+                }]);
+
+                
+*/
+
+                //this.context.localQueue.remove(docPathName);
+                //const verificationResult: IVerificationResult = JSON.parse(json);
+                //this.context.verificationResults[docPathName] = verificationResult;
+                //this.dafnyStatusbar.update();
+                //this.counterModelProvider.update();
+                //if (Context.unitTest) { Context.unitTest.verificationComplete(verificationResult); }
             });
+            
     }
 
     public activate(subs: vscode.Disposable[]): void {
@@ -98,6 +122,7 @@ export class DafnyClientProvider {
 
     private doVerify(textDocument: vscode.TextDocument): void {
         this.hideCounterModel(textDocument);
+        console.log("Try to verify... ")
         if (this.automaticShowCounterExample) {
             this.sendDocument(textDocument, LanguageServerNotification.CounterExample);
         } else {
