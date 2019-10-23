@@ -29,8 +29,8 @@ build:
         then ln -s /opt/boogie;
       fi;
       popd
-    - nuget restore Source/Dafny.sln
-    - msbuild Source/Dafny.sln
+    - nuget restore dafny/Source/Dafny.sln
+    - msbuild dafny/Source/Dafny.sln
   artifacts:
     paths:
       - Binaries/
