@@ -45,15 +45,13 @@ namespace DafnyLanguageServer
 
         public TextDocumentAttributes GetTextDocumentAttributes(Uri uri)
         {
-            return new TextDocumentAttributes(uri, "xml"); // hmm... aber fürs Interface brauchts die Methode 
+            return new TextDocumentAttributes(uri, "");
         }
 
         private void updateBuffer(Uri uri, string text)
         {
-            // da rein oder manager callen 
-            var documentPath = uri.ToString();
-            _bufferManager.UpdateBuffer(documentPath, text);
-            _router.Window.LogInfo($"Updated buffer for document: {documentPath}\n{text}");
+            _bufferManager.UpdateBuffer(uri, text);
+            //_router.Window.LogInfo($"Updated buffer for document: {uri.TOString()}\n{text}");
 
             new VerificationService(_router, uri, text).Verify();  //TODO uh grusig
         }
@@ -66,11 +64,8 @@ namespace DafnyLanguageServer
 
         public Task<Unit> Handle(DidOpenTextDocumentParams request, CancellationToken cancellationToken)
         {
+            _router.Window.SendNotification("serverStarted", new { serverpid = 1, serverversion = "0.0.1" });
             updateBuffer(request.TextDocument.Uri, request.TextDocument.Uri.ToString());
-
-            // da gibts bestimmt noch ne bessere stelle 
-            _router.Window.SendNotification("serverStarted", new { serverpid = 1, serverversion = "0.0.1"});
-            
             return Unit.Task;
         }
 

@@ -40,7 +40,7 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
                 var documentPath = request.TextDocument.Uri.ToString();
-                var buffer = _bufferManager.GetTextFromBuffer(documentPath);
+                var buffer = _bufferManager.GetTextFromBuffer(request.TextDocument.Uri);
                 var version = VersionCheck.CurrentVersion();
 
                 var demotext = "i'm the new text";

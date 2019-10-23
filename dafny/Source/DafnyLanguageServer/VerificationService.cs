@@ -14,10 +14,12 @@ namespace DafnyLanguageServer
     class VerificationService
     {
         private static readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
+
         private Uri FileUri { get; }
         private string Sourcecode { get; set; }
-        private ILanguageServer Router { get; }
         private string Filename => FileUri.ToString();
+
+        private ILanguageServer Router { get; }
         private readonly string[] args = new string[] { };
 
         public VerificationService(ILanguageServer router, Uri uri, string sourcecode)
@@ -59,21 +61,7 @@ namespace DafnyLanguageServer
                 d.Severity = DiagnosticSeverity.Error;
                 d.Source = Filename;
 
-                /*
-                Collection<DiagnosticRelatedInformation> auxWarnings = new Collection<DiagnosticRelatedInformation>();
-                for (int i = 0; i < e.Aux.Count - 1; i++)  //ignore last element (trace iwas)
-                {
-                    DiagnosticRelatedInformation info = new DiagnosticRelatedInformation();
-                    info.Message = e.Aux[i].Msg;
-                    info.Location = "1";            //https://github.com/OmniSharp/csharp-language-server-protocol/issues/175
-                    auxWarnings.Add(info);
-                }
-
-                d.RelatedInformation = auxWarnings;
-
-              */
-
-                for (int i = 0; i < e.Aux.Count - 1; i++) //ignore last element (trace iwas)
+                for (int i = 0; i < e.Aux.Count - 1; i++) //ignore last element (trace)
                 {
                     Diagnostic relatedDiagnostic = new Diagnostic();
                     relatedDiagnostic.Message = e.Aux[i].Msg;
