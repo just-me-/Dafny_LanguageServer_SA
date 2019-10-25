@@ -25,8 +25,9 @@ build:
   image: $BUILD_IMAGE:latest
   script:
     - pushd ..;
+      rm ./boogie;
       if [ ! -e boogie ];
-        then ln -s /opt/boogie/;
+        then ln -s /opt/boogie/Binaries;
       fi;
       ls -alh ./boogie;
       ls -alh /opt/boogie/; 
