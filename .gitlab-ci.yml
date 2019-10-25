@@ -41,7 +41,7 @@ test_mstest:
   script:
     - locate mstest
     - pwd
-    - MSTest.exe dafny/Source/Dafny.sln
+    - mono mstest.exe dafny/Source/Dafny.sln
     
 test_dafny:
   stage: test
