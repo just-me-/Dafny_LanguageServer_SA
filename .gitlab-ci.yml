@@ -24,18 +24,9 @@ build:
   stage: build
   image: $BUILD_IMAGE:latest
   script:
-    - pwd; 
-      ls -alh; 
-      ls -alh /opt/boogie/; 
-      ls -alh /opt/boogie/Binaries/; 
-      if [ -e boogie ];
-        then rm ./boogie;
-      fi;
-      pwd; 
-      if [ ! -e boogie ];
+    - if [ ! -e boogie ];
         then ln -s /opt/boogie;
       fi;
-      ls -alh ./boogie;
     - cd dafny/Source
     - nuget restore Dafny.sln
     - msbuild -t:restore Dafny.sln
