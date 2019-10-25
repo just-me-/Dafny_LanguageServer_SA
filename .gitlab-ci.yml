@@ -39,7 +39,7 @@ test_mstest:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
-    - dotnet test dafny/Source/Dafny.sln
+    - "dotnet test dafny/Source/Dafny.sln"
     
 test_dafny:
   stage: test
