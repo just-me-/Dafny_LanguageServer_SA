@@ -24,7 +24,9 @@ build:
   stage: build
   image: $BUILD_IMAGE:latest
   script:
-    - pushd ..;
+    - pwd; 
+      pushd ..;
+      pwd; 
       ls -alh /opt/boogie/; 
       ls -alh /opt/boogie/Binaries/; 
       if [ -e boogie ];
