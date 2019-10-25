@@ -46,7 +46,7 @@ export default class Commands {
         { name: CommandStrings.InstallDafny, callback: () => this.installDafny() },
         { name: CommandStrings.UninstallDafny, callback: () => this.uninstallDafny() },
         /*{
-            name: CommandStrings.RequestTest, 
+            name: CommandStrings.RequestTest,
             callback: () => {
                 vscode.window.showInformationMessage('Aloha');
                 console.log("Lets try...");
@@ -146,22 +146,20 @@ export default class Commands {
         document.save();
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
-        // Das ist die compile anfrage bzw was compile als Resultat erwartet.
-        console.log("Sending request...");
-        this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, document.uri)
-            .then((result) => {
-                console.log("Result: ");
-                console.log(result);
-                vscode.window.showInformationMessage(InfoMsg.CompilationFinished);
-                if (run && result.executable) {
-                    this.runner.run(document.fileName);
-                } else if (run) {
-                    vscode.window.showErrorMessage(ErrorMsg.NoMainMethod);
-                }
-                return true;
-            }, (error: any) => {
-                vscode.window.showErrorMessage("Can't compile: " + error.message);
-            });
+        const arg = {DafnyFilePath: document.fileName}
+
+        this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, arg)
+        .then((result) => {
+            vscode.window.showInformationMessage(InfoMsg.CompilationFinished);
+            if (run && result.executable) {
+                this.runner.run(document.fileName);
+            } else if (run) {
+                vscode.window.showErrorMessage(ErrorMsg.NoMainMethod);
+            }
+            return true;
+        }, (error: any) => {
+            vscode.window.showErrorMessage("Can't compile: " + error.message);
+        });
     }
 
     public applyTextEdits(uri: string, documentVersion: number, edits: vscode.TextEdit[]) {

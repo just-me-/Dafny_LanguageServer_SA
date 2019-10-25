@@ -57,6 +57,7 @@ namespace Microsoft.Dafny
             this.reporter = new Dafny.ConsoleErrorReporter();
         }
 
+        //Note: Diesen CTOR hat Tom hinzugefügt, brauchen wir wahrscheinlich gar net mehr.
         public DafnyHelper(string[] args, string fname, string source, ErrorReporter reporter)
         {
             this.args = args;

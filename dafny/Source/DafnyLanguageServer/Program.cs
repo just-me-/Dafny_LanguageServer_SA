@@ -15,6 +15,14 @@ namespace DafnyLanguageServer
         {
             ExecutionEngine.printer = new DafnyConsolePrinter();
 
+
+            //Console.SetOut(oldOut);
+            // writer.Close();
+            // ostrm.Close();
+
+            // Console.SetOut(Console.Error);
+
+
             var server = await LanguageServer.From(options =>
                 options
                     .WithInput(Console.OpenStandardInput())
@@ -24,16 +32,17 @@ namespace DafnyLanguageServer
                     .WithMinimumLogLevel(LogLevel.Trace)
                     .WithServices(ConfigureServices)
 
-                    .WithHandler<TestHandler>()
+
                     .WithHandler<TextDocumentSyncHandler>()
                     .WithHandler<CompletionHandler>()
+                    .WithHandler<CompileHandler>()
             );
 
             try
             {
                 string toms_ego_pfad = @"D:\Eigene Dokumente\Desktop\MsgLogger.txt";
                 string normaler_pfad = "./MsgLogger.txt";
-                string path = normaler_pfad;
+                string path = toms_ego_pfad;
                 using (StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write)))
                 {
                     Console.SetOut(writer);
