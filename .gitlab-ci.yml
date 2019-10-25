@@ -41,7 +41,7 @@ build:
     - msbuild Source/Dafny.sln
   artifacts:
     paths:
-      - Binaries/
+      - dafny/Binaries/
 
 test:
   stage: test
