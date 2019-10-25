@@ -26,10 +26,11 @@ build:
   script:
     - pushd ..;
       if [ ! -e boogie ];
-        then ln -s /opt/boogie;
+        then ln -s /opt/boogie/;
       fi;
       ls -alh ./boogie;
-      ls -alh /opt/boogie; 
+      ls -alh /opt/boogie/; 
+      ls -alh /opt/boogie/Binaries/; 
       popd
     - nuget restore dafny/Source/Dafny.sln
     - msbuild dafny/Source/Dafny.sln
