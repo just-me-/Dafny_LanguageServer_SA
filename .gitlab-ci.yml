@@ -40,4 +40,14 @@ test_mstest:
   image: $BUILD_IMAGE:latest
   script:
     - pwd
-    - mstest Dafny.sln
+    - mstest.exe dafny/Source/Dafny.sln
+    
+test_dafny:
+  stage: test
+  image: $BUILD_IMAGE:latest
+  script:
+    - pushd Binaries; ln -s /opt/z3; popd
+    - npm install bignumber.js #TODO: Should this be global or in build dependency? Else package.json with fixed versions!
+    - cd Test
+    - "find . -name '*.dfy' -exec sed -i 's!/optimize !!g' {} +"
+    - lit --time-tests -v .
