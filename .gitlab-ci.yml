@@ -39,7 +39,7 @@ build:
     - cd dafny/Source
     - nuget restore Dafny.sln
     - nuget install
-    - msbuild Dafny.sln
+    - msbuild -t:restore Dafny.sln
   artifacts:
     paths:
       - dafny/Binaries/
