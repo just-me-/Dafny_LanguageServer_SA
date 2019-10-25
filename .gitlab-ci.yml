@@ -30,7 +30,7 @@ build:
       fi;
       popd
     - nuget restore dafny/Source/Dafny.sln
-    - msbuild dafny/Source/Dafny.sln
+    - dotnet build dafny/Source/Dafny.sln
   artifacts:
     paths:
       - Binaries/
