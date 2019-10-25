@@ -29,6 +29,7 @@ build:
         then ln -s /opt/boogie;
       fi;
       ls -alh ./boogie;
+      ls -alh /opt/boogie; 
       popd
     - nuget restore dafny/Source/Dafny.sln
     - msbuild dafny/Source/Dafny.sln
