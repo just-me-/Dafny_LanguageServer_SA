@@ -28,7 +28,7 @@ build:
       ls -alh; 
       pushd ..;
       pwd; 
-      sl -alh; 
+      ls -alh; 
       ls -alh /opt/boogie/; 
       ls -alh /opt/boogie/Binaries/; 
       if [ -e boogie ];
