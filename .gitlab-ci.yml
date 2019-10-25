@@ -28,6 +28,7 @@ build:
       ls -alh /opt/boogie/; 
       ls -alh /opt/boogie/Binaries/; 
       rm ./boogie;
+      pwd; 
       if [ ! -e boogie ];
         then ln -s /opt/boogie;
       fi;
