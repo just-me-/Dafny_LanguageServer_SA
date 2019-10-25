@@ -40,7 +40,7 @@ test_mstest:
   image: $BUILD_IMAGE:latest
   script:
     - pwd
-    - mstest.exe dafny/Source/Dafny.sln
+    - MSTest.exe dafny/Source/Dafny.sln
     
 test_dafny:
   stage: test
