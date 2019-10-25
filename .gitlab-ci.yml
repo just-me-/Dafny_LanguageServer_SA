@@ -25,12 +25,12 @@ build:
   image: $BUILD_IMAGE:latest
   script:
     - pushd ..;
+      ls -alh /opt/boogie/; 
+      ls -alh /opt/boogie/Binaries/; 
       if [ ! -e boogie ];
         then ln -s /opt/boogie/Binaries;
       fi;
       ls -alh ./boogie;
-      ls -alh /opt/boogie/; 
-      ls -alh /opt/boogie/Binaries/; 
       popd
     - nuget restore dafny/Source/Dafny.sln
     - msbuild dafny/Source/Dafny.sln
