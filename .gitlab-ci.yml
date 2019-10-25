@@ -39,7 +39,7 @@ test_mstest:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
-    - apt-get install dotnet-sdk-3.0
+    - apt-get install nunit-console
     - "dotnet test dafny/Source/Dafny.sln"
     
 test_dafny:
