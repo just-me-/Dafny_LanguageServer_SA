@@ -38,7 +38,6 @@ build:
       ls -alh ./boogie;
     - cd dafny/Source
     - nuget restore Dafny.sln
-    - nuget install
     - msbuild -t:restore Dafny.sln
   artifacts:
     paths:
