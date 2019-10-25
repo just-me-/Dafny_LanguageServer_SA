@@ -26,9 +26,6 @@ build:
   script:
     - pwd; 
       ls -alh; 
-      pushd ..;
-      pwd; 
-      ls -alh; 
       ls -alh /opt/boogie/; 
       ls -alh /opt/boogie/Binaries/; 
       if [ -e boogie ];
@@ -39,9 +36,9 @@ build:
         then ln -s /opt/boogie;
       fi;
       ls -alh ./boogie;
-      popd
-    - nuget restore dafny/Source/Dafny.sln
-    - msbuild dafny/Source/Dafny.sln
+    - cd dafny
+    - nuget restore Source/Dafny.sln
+    - msbuild Source/Dafny.sln
   artifacts:
     paths:
       - Binaries/
