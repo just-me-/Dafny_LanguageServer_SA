@@ -24,7 +24,6 @@ build:
   stage: build
   image: $BUILD_IMAGE:latest
   script:
-    - cd dafny
     - pushd ..;
       ls -alh /opt/boogie/; 
       ls -alh /opt/boogie/Binaries/; 
