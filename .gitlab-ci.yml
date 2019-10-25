@@ -36,10 +36,10 @@ build:
         then ln -s /opt/boogie;
       fi;
       ls -alh ./boogie;
-    - cd dafny
-    - nuget restore Source/Dafny.sln
+    - cd dafny/Source
+    - nuget restore Dafny.sln
     - nuget install
-    - msbuild Source/Dafny.sln
+    - msbuild Dafny.sln
   artifacts:
     paths:
       - dafny/Binaries/
