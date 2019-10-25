@@ -38,6 +38,7 @@ build:
       ls -alh ./boogie;
     - cd dafny
     - nuget restore Source/Dafny.sln
+    - nuget install OmniSharp
     - msbuild Source/Dafny.sln
   artifacts:
     paths:
