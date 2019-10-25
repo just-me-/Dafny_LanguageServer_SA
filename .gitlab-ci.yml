@@ -39,8 +39,6 @@ test_mstest:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
-    - locate mstest
-    - pwd
     - mono mstest.exe dafny/Source/Dafny.sln
     
 test_dafny:
