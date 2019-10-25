@@ -35,14 +35,14 @@ build:
       - dafny/Binaries/
 
       
-test:
+test_mstest:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
     - pwd
     - mstest Dafny.sln
     
-test:
+test_dafny:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
