@@ -30,9 +30,10 @@ build:
       fi;
       popd
     - nuget restore dafny/Source/Dafny.sln
-    - cd dafny/Source/
-    - "dotnet build Dafny.sln"
-    - cd -
+    - msbuild dafny/Source/Dafny.sln
+  artifacts:
+    paths:
+      - Binaries/
 
 test:
   stage: test
