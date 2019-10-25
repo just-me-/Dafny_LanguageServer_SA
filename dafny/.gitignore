@@ -1,4 +1,6 @@
-*.config
+packages.config
+*.exe.config
+*.dll.config
 *.manifest
 *.pkgdef
 *.suo
