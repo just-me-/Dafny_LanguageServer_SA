@@ -42,6 +42,14 @@ test_mstest:
     - apt-get install nunit
     - "dotnet test dafny/Source/Dafny.sln"
     
+
+test_vscode:
+  stage: test
+  image: $BUILD_IMAGE:latest
+  script:
+    - cd 
+    - npm run test
+    
 test_dafny:
   stage: test
   image: $BUILD_IMAGE:latest
