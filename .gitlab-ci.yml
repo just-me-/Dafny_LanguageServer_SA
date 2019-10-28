@@ -24,18 +24,38 @@ build:
   stage: build
   image: $BUILD_IMAGE:latest
   script:
-    - pushd ..;
-      if [ ! -e boogie ];
+    - if [ ! -e boogie ];
         then ln -s /opt/boogie;
       fi;
-      popd
-    - nuget restore Source/Dafny.sln
-    - msbuild Source/Dafny.sln
+    - cd dafny/Source
+    - nuget restore Dafny.sln
+    - msbuild -t:restore Dafny.sln
   artifacts:
     paths:
-      - Binaries/
+      - dafny/Binaries/
 
-test:
+      
+test_mstest:
+  stage: test
+  image: $BUILD_IMAGE:latest
+  script:
+    - apt-get install nunit
+    - "dotnet test dafny/Source/Dafny.sln"
+    
+
+test_vscode:
+  stage: test
+  image: $BUILD_IMAGE:latest
+  script:
+    - apt-get update -y
+    - apt-get install -y libgtk-3-0
+    - apt-get install -y libxss1
+    - apt-get install -y libasound2
+    - cd VSCodePlugin
+    - npm install
+    - npm run test
+    
+test_dafny:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
