@@ -55,7 +55,7 @@ namespace DafnyLanguageServer
                 process.StartInfo.RedirectStandardOutput = true;
 
                 string processOut = "";
-                process.OutputDataReceived += (sender, args) => processOut += args.Data;
+                process.OutputDataReceived += (sender, args) => processOut += args.Data + "\n";
 
                 try
                 {
@@ -91,12 +91,11 @@ namespace DafnyLanguageServer
                         Message = "Compilation successful",
                         Executable = false
                     };
-                } else
+                }
+                else
                 {
-                    string pattern = "Error: .*";
+                    string pattern = "Error:? .*\n";
                     Match m = Regex.Match(processOut, pattern);
-                    
-
 
                     return new CompilerResults
                     {

@@ -158,17 +158,22 @@ export default class Commands {
         .then((result) => {
             if (result.error) {
                 vscode.window.showErrorMessage(result.message || InfoMsg.CompilationFailed);
-            } else {
-                vscode.window.showInformationMessage(result.message || InfoMsg.CompilationFinished)
+                return true;
             }
-            
-            if (run && result.executable) {
-                vscode.window.showInformationMessage(InfoMsg.CompilationStartRunner);
-                this.runner.run(document.fileName);
-            } else if (run && !result.executable && !result.error) {
-                vscode.window.showInformationMessage(ErrorMsg.NoMainMethod);
+
+            vscode.window.showInformationMessage(result.message || InfoMsg.CompilationFinished)
+    
+            if (run) {
+                if (result.executable) {
+                    vscode.window.showInformationMessage(InfoMsg.CompilationStartRunner);
+                    this.runner.run(document.fileName);
+                } else {
+                    vscode.window.showInformationMessage(ErrorMsg.NoMainMethod);
+                }
             }
+
             return true;
+            
         }, (error: any) => {
             vscode.window.showErrorMessage("Can't compile: " + error.message);
         });
