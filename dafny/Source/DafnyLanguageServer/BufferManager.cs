@@ -12,6 +12,7 @@ namespace DafnyLanguageServer
         {
             _buffers.AddOrUpdate(documentPath, content, (k, v) => content);
         }
+
         public void UpdateBuffer(DafnyFile file)
         {
             UpdateBuffer(file.Uri, file.Sourcecode);

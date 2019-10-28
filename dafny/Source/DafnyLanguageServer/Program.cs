@@ -32,9 +32,11 @@ namespace DafnyLanguageServer
 
             try
             {
-                string toms_ego_pfad = @"D:\Eigene Dokumente\Desktop\MsgLogger.txt";
-                string normaler_pfad = "./MsgLogger.txt";
-                string path = normaler_pfad;
+
+                string assemblyPath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+                string path = Path.Combine(assemblyPath, "../../MsgLogger.txt");
+
+
                 using (StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write)))
                 {
                     Console.SetOut(writer);

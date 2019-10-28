@@ -68,8 +68,7 @@ namespace DafnyLanguageServer
 
         public Task<Unit> Handle(DidOpenTextDocumentParams request, CancellationToken cancellationToken)
         {
-            _router.Window.SendNotification("serverStarted", new { serverpid = 1, serverversion = "0.0.1" });
-            updateBuffer(request.TextDocument.Uri, request.TextDocument.Uri.ToString());
+            updateBuffer(request.TextDocument.Uri, request.TextDocument.Text);
             return Unit.Task;
         }
 

@@ -15,13 +15,31 @@ namespace DafnyLanguageServer
     {
         private static readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
 
+
+        static public void Verify(ILanguageServer router, DafnyFile file)
+        {
+            // im Plugin das aktuelle Dokument setzen für die Statusbar
+            router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
+
+            var helper = DafnyVerify(file);
+            var diagnostics = CreateDafnyDiagnostics(helper, file);
+
+            PublishDiagnosticsParams p = new PublishDiagnosticsParams
+            {
+                Uri = file.Uri,
+                Diagnostics = new Container<Diagnostic>(diagnostics)
+            };
+            router.Document.PublishDiagnostics(p);
+            router.Window.SendNotification("updateStatusbar", diagnostics.Count);
+        }
+
         static private DafnyHelper DafnyVerify(DafnyFile file)
         {
             string[] args = new string[] { };
             DafnyHelper helper = new DafnyHelper(args, file.Filepath, file.Sourcecode);
             if (!helper.Verify())
             {
-                throw new ArgumentException("Während des Verifizierens ist ein Fehler aufgetreten, der nicht hätte passieren dürfen.");
+                throw new ArgumentException("Failed to verify document."); //TODO: Während des schreibens ist das doc immer wieder invalid... exception ist etwas zu krass imho
             }
             return helper; 
         }
@@ -70,23 +88,6 @@ namespace DafnyLanguageServer
             }
 
             return diagnostics; 
-        }
-
-        static public void Verify(ILanguageServer router, DafnyFile file)
-        {
-            // im Plugin das aktuelle Dokument setzen für die Statusbar
-            router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
-
-            var helper = DafnyVerify(file);
-            var diagnostics = CreateDafnyDiagnostics(helper, file);
-            
-            PublishDiagnosticsParams p = new PublishDiagnosticsParams
-            {
-                Uri = file.Uri,
-                Diagnostics = new Container<Diagnostic>(diagnostics)
-            };
-            router.Document.PublishDiagnostics(p);
-            router.Window.SendNotification("updateStatusbar", diagnostics.Count);
         }
     }
 }

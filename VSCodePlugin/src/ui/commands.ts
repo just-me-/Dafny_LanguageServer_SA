@@ -4,6 +4,7 @@ import { DafnyClientProvider } from "../dafnyProvider";
 import { DafnyRunner } from "../dafnyRunner";
 import { ICompilerResult } from "../serverHelper/ICompilerResult";
 import { CommandStrings, Config, EnvironmentConfig, ErrorMsg, InfoMsg, LanguageServerRequest } from "../stringRessources";
+import * as path from 'path';
 
 /**
  * VSCode UI Commands
@@ -146,17 +147,32 @@ export default class Commands {
         document.save();
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
-        const arg = {DafnyFilePath: document.fileName}
+        const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")   //TODO: Production Folder Structure may be different. Sollte man auch auslagern.
+        const arg = {
+            DafnyFilePath: document.fileName,
+            DafnyExePath: dafnyExe
+        }
 
         this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, arg)
         .then((result) => {
-            vscode.window.showInformationMessage(InfoMsg.CompilationFinished);
-            if (run && result.executable) {
-                this.runner.run(document.fileName);
-            } else if (run) {
-                vscode.window.showErrorMessage(ErrorMsg.NoMainMethod);
+            if (result.error) {
+                vscode.window.showErrorMessage(result.message || InfoMsg.CompilationFailed);
+                return true;
             }
+
+            vscode.window.showInformationMessage(result.message || InfoMsg.CompilationFinished)
+    
+            if (run) {
+                if (result.executable) {
+                    vscode.window.showInformationMessage(InfoMsg.CompilationStartRunner);
+                    this.runner.run(document.fileName);
+                } else {
+                    vscode.window.showInformationMessage(ErrorMsg.NoMainMethod);
+                }
+            }
+
             return true;
+            
         }, (error: any) => {
             vscode.window.showErrorMessage("Can't compile: " + error.message);
         });

@@ -63,6 +63,8 @@ export class InfoMsg {
     public static AskInstallDafny: string = "Would you like to install Dafny?";
     public static CompilationStarted: string = "Compilation started";
     public static CompilationFinished: string = "Compilation finished";
+    public static CompilationStartRunner: string = "Running program...";
+    public static CompilationFailed: string = "Compilation failed";
 }
 export class ServerStatus {
     public static Starting: string = "Starting";
