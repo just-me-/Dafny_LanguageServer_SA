@@ -146,6 +146,10 @@ export default class Commands {
         document.save();
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
+
+        var path = require('path');
+        const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")
+        console.log(dafnyExe);
         const arg = {DafnyFilePath: document.fileName}
 
         this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, arg)
