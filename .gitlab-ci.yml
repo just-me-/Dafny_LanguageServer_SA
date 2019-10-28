@@ -50,6 +50,7 @@ test_vscode:
     - apt-get update -y
     - apt-get install -y libgtk-3-0
     - apt-get install -y libxss1
+    - apt-get install libasound2
     - cd VSCodePlugin
     - npm install
     - npm run test
