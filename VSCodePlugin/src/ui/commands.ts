@@ -157,15 +157,17 @@ export default class Commands {
         this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, arg)
         .then((result) => {
             if (result.error) {
-                vscode.window.showErrorMessage(InfoMsg.CompilationFailed);
+                vscode.window.showErrorMessage(result.message || InfoMsg.CompilationFailed);
             } else {
-                vscode.window.showInformationMessage(InfoMsg.CompilationFinished)
+                vscode.window.showInformationMessage(result.message || InfoMsg.CompilationFinished)
             }
             
-            if (run && result.executable && !result.error) {
+            if (run && result.executable) {
                 vscode.window.showInformationMessage(InfoMsg.CompilationStartRunner);
                 this.runner.run(document.fileName);
-            } 
+            } else if (run && !result.executable && !result.error) {
+                vscode.window.showInformationMessage(ErrorMsg.NoMainMethod);
+            }
             return true;
         }, (error: any) => {
             vscode.window.showErrorMessage("Can't compile: " + error.message);

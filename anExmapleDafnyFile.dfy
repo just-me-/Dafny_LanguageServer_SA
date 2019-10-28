@@ -3,6 +3,7 @@ method MultipleReturns(x: int, y: int) returns (more: int, less: int)
    ensures less < x < more
 {
    more := x + y;
+   sohn := 1;
    less := x - y;
-   assert x == 1;              //auskommentieren -> assertion violation geht weg
+   //assert x == 1;              //auskommentieren -> assertion violation geht weg
 }

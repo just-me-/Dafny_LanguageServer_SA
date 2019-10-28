@@ -6,6 +6,7 @@ using Microsoft.Boogie;
 using Microsoft.Dafny;
 using OmniSharp.Extensions.Embedded.MediatR;
 using OmniSharp.Extensions.JsonRpc;
+using System.Text.RegularExpressions;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 
 namespace DafnyLanguageServer
@@ -73,28 +74,37 @@ namespace DafnyLanguageServer
                     };
                 }
 
-
-                
-
-                if (processOut.Contains("Compiled assembly into"))
+                if (processOut.Contains("Compiled assembly into") && processOut.Contains(".exe"))
                 {
                     return new CompilerResults
                     {
                         Error = false,
-                        Message = "Compilation successful:\n" + processOut,
+                        Message = "Compilation successful",
                         Executable = true
                     };
                 }
-                else
+                else if (processOut.Contains("Compiled assembly into"))
                 {
                     return new CompilerResults
                     {
+                        Error = false,
+                        Message = "Compilation successful",
+                        Executable = false
+                    };
+                } else
+                {
+                    string pattern = "Error: .*";
+                    Match m = Regex.Match(processOut, pattern);
+                    
+
+
+                    return new CompilerResults
+                    {
                         Error = true,
-                        Message = "Compilation Failed:\n" + processOut,
+                        Message = "Compilation failed: " + m.Value,
                         Executable = false
                     };
                 }
-
 
             });
         }
