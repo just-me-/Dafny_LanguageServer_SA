@@ -49,6 +49,7 @@ test_vscode:
   script:
     - apt-get update -y
     - apt-get install -y libgtk-3-0
+    - apt-get install -y libxss1
     - cd VSCodePlugin
     - npm install
     - npm run test
