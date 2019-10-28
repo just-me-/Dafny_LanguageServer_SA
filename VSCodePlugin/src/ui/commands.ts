@@ -4,6 +4,7 @@ import { DafnyClientProvider } from "../dafnyProvider";
 import { DafnyRunner } from "../dafnyRunner";
 import { ICompilerResult } from "../serverHelper/ICompilerResult";
 import { CommandStrings, Config, EnvironmentConfig, ErrorMsg, InfoMsg, LanguageServerRequest } from "../stringRessources";
+import * as path from 'path';
 
 /**
  * VSCode UI Commands
@@ -147,7 +148,7 @@ export default class Commands {
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
 
-        var path = require('path');
+        //var path = require('path');
         const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")   //TODO: Production Folder Structure may be different. Sollte man auch auslagern.
         const arg = {
             DafnyFilePath: document.fileName,

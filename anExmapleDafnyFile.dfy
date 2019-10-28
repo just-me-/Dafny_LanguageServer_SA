@@ -11,4 +11,6 @@ method MultipleReturns(x: int, y: int) returns (more: int, less: int)
 
 method Main() {
    var a := 1+2;
+   print "a is ";
+   print a;
 }
