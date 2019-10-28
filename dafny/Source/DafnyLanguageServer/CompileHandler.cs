@@ -81,7 +81,7 @@ namespace DafnyLanguageServer
                     return new CompilerResults
                     {
                         Error = false,
-                        Message = "Hat geklappt",
+                        Message = "Compilation successful:\n" + processOut,
                         Executable = true
                     };
                 }
@@ -90,7 +90,7 @@ namespace DafnyLanguageServer
                     return new CompilerResults
                     {
                         Error = true,
-                        Message = "Das Programm hat noch Fehler",
+                        Message = "Compilation Failed:\n" + processOut,
                         Executable = false
                     };
                 }
