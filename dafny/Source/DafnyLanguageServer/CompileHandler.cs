@@ -14,6 +14,7 @@ namespace DafnyLanguageServer
     public class CompilerParams : IRequest<CompilerResults>
     {
         public string DafnyFilePath { get; set; }
+        public string DafnyExePath { get; set; }
     }
 
     public class CompilerResults
@@ -36,7 +37,7 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
 
-                string dafnyExe = @"G:\Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries\Dafny.exe";
+                string dafnyExe = request.DafnyExePath;
                 string dafnyFile = request.DafnyFilePath;
 
                 //To support spaces in path:

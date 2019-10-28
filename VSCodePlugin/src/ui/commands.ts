@@ -148,9 +148,11 @@ export default class Commands {
 
 
         var path = require('path');
-        const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")
-        console.log(dafnyExe);
-        const arg = {DafnyFilePath: document.fileName}
+        const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")   //TODO: Production Folder Structure may be different. Sollte man auch auslagern.
+        const arg = {
+            DafnyFilePath: document.fileName,
+            DafnyExePath: dafnyExe
+        }
 
         this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, arg)
         .then((result) => {
