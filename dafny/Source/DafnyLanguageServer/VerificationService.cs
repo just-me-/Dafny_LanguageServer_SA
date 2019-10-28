@@ -15,7 +15,6 @@ namespace DafnyLanguageServer
     {
         private static readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
 
-
         static public void Verify(ILanguageServer router, DafnyFile file)
         {
             // im Plugin das aktuelle Dokument setzen für die Statusbar

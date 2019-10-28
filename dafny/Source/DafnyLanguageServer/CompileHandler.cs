@@ -11,7 +11,6 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 
 namespace DafnyLanguageServer
 {
-
     public class CompilerParams : IRequest<CompilerResults>
     {
         public string DafnyFilePath { get; set; }
@@ -28,16 +27,12 @@ namespace DafnyLanguageServer
     [Serial, Method("compile")]
     public interface ICompile : IJsonRpcRequestHandler<CompilerParams, CompilerResults> { }
 
-
-
     public class CompileHandler : ICompile
     {
-
         public async Task<CompilerResults> Handle(CompilerParams request, CancellationToken cancellationToken)
         {
             return await Task.Run(() =>
             {
-
                 string dafnyExe = request.DafnyExePath;
                 string dafnyFile = request.DafnyFilePath;
 
@@ -104,7 +99,6 @@ namespace DafnyLanguageServer
                         Executable = false
                     };
                 }
-
             });
         }
     }
@@ -113,10 +107,6 @@ namespace DafnyLanguageServer
 /*
  * Example Konsolenout
  * 
- * 
- * 
-
-    
     Dafny program verifier finished with 1 verified, 0 errors
 Compiled assembly into _dfy.dll
 
@@ -128,8 +118,5 @@ Execution trace:
 Dafny program verifier finished with 0 verified, 1 error
 
 G:\Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries>
-
-
-
     */
     

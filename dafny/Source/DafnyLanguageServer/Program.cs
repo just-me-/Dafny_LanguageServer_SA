@@ -24,7 +24,6 @@ namespace DafnyLanguageServer
                     .WithMinimumLogLevel(LogLevel.Trace)
                     .WithServices(ConfigureServices)
 
-
                     .WithHandler<TextDocumentSyncHandler>()
                     .WithHandler<CompletionHandler>()
                     .WithHandler<CompileHandler>()
@@ -32,17 +31,14 @@ namespace DafnyLanguageServer
 
             try
             {
-
                 string assemblyPath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
                 string path = Path.Combine(assemblyPath, "../../MsgLogger.txt");
-
 
                 using (StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write)))
                 {
                     Console.SetOut(writer);
                     await server.WaitForExit;
                 }
-
             }
             catch (Exception e)
             {
