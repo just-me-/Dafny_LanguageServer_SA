@@ -25,6 +25,14 @@ namespace VerificationServiceTest
         [TestMethod]
         public void TestDafnyVerify()
         {
+            /*
+            DafnyHelper helper = new DafnyHelper(new string[] { }, "none", dafnyCode);
+            if (!helper.Verify())
+            {
+                throw new ArgumentException("Failed to verify document."); //TODO: Während des schreibens ist das doc immer wieder invalid... exception ist etwas zu krass imho
+            }
+            */
+
             var helper = VerificationService.DafnyVerify(file);
             Assert.IsTrue(helper.Errors.Count == 0);
         }
