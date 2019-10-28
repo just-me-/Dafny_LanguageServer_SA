@@ -36,7 +36,7 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
 
-                string dafnyExe = @"D:\Eigene Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries\Dafny.exe";
+                string dafnyExe = @"G:\Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries\Dafny.exe";
                 string dafnyFile = request.DafnyFilePath;
 
                 //To support spaces in path:
