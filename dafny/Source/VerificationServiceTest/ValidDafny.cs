@@ -26,7 +26,7 @@ namespace VerificationServiceTest
         public void TestDafnyVerify()
         {
             var helper = VerificationService.DafnyVerify(file);
-            Assert.IsTrue(true);
+            Assert.IsTrue(helper.Errors.Count == 0);
         }
     }
 }
