@@ -8,7 +8,7 @@ namespace VerificationServiceTest
     {
         [TestMethod]
         public void TestMethod1()
-        {
+        { // TMP rly basic test that should pass - just for CI setup.... 
             Assert.IsTrue(true); 
         }
     }
