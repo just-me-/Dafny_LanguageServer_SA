@@ -39,8 +39,6 @@ namespace DafnyLanguageServer
                 //To support spaces in path:
                 dafnyFile = '\"' + request.DafnyFilePath + '\"';
 
-                //string dafnyFile = "\"D:\\Eigene Dokumente\\VisualStudio\\SA\\dafny-server-redesign\\anExmapleDafnyFile.dfy\"";
-
                 System.Diagnostics.Process process = new Process();
                 process.StartInfo.FileName = dafnyExe;
                 process.StartInfo.Arguments = "/compile:1 /nologo " + dafnyFile;

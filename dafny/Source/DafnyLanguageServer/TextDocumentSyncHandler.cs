@@ -68,6 +68,8 @@ namespace DafnyLanguageServer
 
         public Task<Unit> Handle(DidOpenTextDocumentParams request, CancellationToken cancellationToken)
         {
+            // Falls wir doch die alte Pluginstruktur nuten wollen, brauchts folgende Zeile: 
+            // _router.Window.SendNotification("serverStarted", new { serverpid = 1, serverversion = "0.01" });
             updateBuffer(request.TextDocument.Uri, request.TextDocument.Text);
             return Unit.Task;
         }

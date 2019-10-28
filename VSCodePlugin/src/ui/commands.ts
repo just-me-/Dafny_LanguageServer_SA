@@ -159,9 +159,7 @@ export default class Commands {
                 vscode.window.showErrorMessage(result.message || InfoMsg.CompilationFailed);
                 return true;
             }
-
             vscode.window.showInformationMessage(result.message || InfoMsg.CompilationFinished)
-    
             if (run) {
                 if (result.executable) {
                     vscode.window.showInformationMessage(InfoMsg.CompilationStartRunner);
@@ -170,9 +168,7 @@ export default class Commands {
                     vscode.window.showInformationMessage(ErrorMsg.NoMainMethod);
                 }
             }
-
             return true;
-            
         }, (error: any) => {
             vscode.window.showErrorMessage("Can't compile: " + error.message);
         });
