@@ -47,6 +47,7 @@ test_vscode:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
+    - apt-get update
     - apt-get install libgtk-3-0
     - cd VSCodePlugin
     - npm install
