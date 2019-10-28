@@ -11,7 +11,7 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 
 namespace DafnyLanguageServer
 {
-    static class VerificationService
+    public static class VerificationService
     {
         private static readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
 
@@ -32,7 +32,7 @@ namespace DafnyLanguageServer
             router.Window.SendNotification("updateStatusbar", diagnostics.Count);
         }
 
-        static private DafnyHelper DafnyVerify(DafnyFile file)
+        static public DafnyHelper DafnyVerify(DafnyFile file)
         {
             string[] args = new string[] { };
             DafnyHelper helper = new DafnyHelper(args, file.Filepath, file.Sourcecode);
@@ -43,7 +43,7 @@ namespace DafnyLanguageServer
             return helper; 
         }
 
-        static private Collection<Diagnostic> CreateDafnyDiagnostics(DafnyHelper helper, DafnyFile file)
+        static public Collection<Diagnostic> CreateDafnyDiagnostics(DafnyHelper helper, DafnyFile file)
         {
             Collection<Diagnostic> diagnostics = new Collection<Diagnostic>();
 

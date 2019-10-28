@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DafnyLanguageServer
 {
-    class DafnyFile
+    public class DafnyFile
     {
         public Uri Uri { get; set; }
         public string Filepath => Uri.ToString();
