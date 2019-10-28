@@ -147,8 +147,6 @@ export default class Commands {
         document.save();
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
-
-        //var path = require('path');
         const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")   //TODO: Production Folder Structure may be different. Sollte man auch auslagern.
         const arg = {
             DafnyFilePath: document.fileName,
