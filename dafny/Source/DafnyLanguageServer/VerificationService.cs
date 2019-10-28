@@ -21,7 +21,7 @@ namespace DafnyLanguageServer
             DafnyHelper helper = new DafnyHelper(args, file.Filepath, file.Sourcecode);
             if (!helper.Verify())
             {
-                throw new ArgumentException("Während des Verifizierens ist ein Fehler aufgetreten, der nicht hätte passieren dürfen.");
+                throw new ArgumentException("Failed to verify document.");
             }
             return helper; 
         }
