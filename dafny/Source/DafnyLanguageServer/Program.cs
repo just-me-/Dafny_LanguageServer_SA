@@ -33,13 +33,8 @@ namespace DafnyLanguageServer
             try
             {
 
-
-                string pwd = Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory());
-
-                string path = Path.Combine(pwd, "MsgLogger.txt");
-
-                StreamWriter t = new StreamWriter(new FileStream("D:\\a.txt", FileMode.OpenOrCreate, FileAccess.Write));
-                System.IO.File.WriteAllText(@"D:\b.txt", path);
+                string assemblyPath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+                string path = Path.Combine(assemblyPath, "../../MsgLogger.txt");
 
 
                 using (StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write)))
