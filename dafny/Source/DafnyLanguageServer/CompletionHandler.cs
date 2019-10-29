@@ -1,6 +1,8 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using DafnyServer;
+using Microsoft.Dafny;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
@@ -80,6 +82,21 @@ namespace DafnyLanguageServer
              * 
              */
 
+            
+
+            // als DanfyFile Objekt ändern um dann den DanfyHelper elegant aufzurufen. 
+            /*
+            static public DafnyHelper DafnyGetSymbols(DafnyFile file, ILanguageServer routertmp)
+                {
+                    string[] args = new string[] { };
+                    DafnyHelper helper = new DafnyHelper(args, file.Filepath, file.Sourcecode);
+
+
+                    String s = helper.Symbols(); 
+
+                    routertmp.Window.SendNotification("Symbols ============", s);
+                }
+            */
 
             return await Task.Run(() =>
             {
@@ -94,6 +111,13 @@ namespace DafnyLanguageServer
                 {
                     return new CompletionList();
                 }
+
+
+                // ahmumumu :-)
+                string[] args = new string[] { };
+                DafnyHelper helper = new DafnyHelper(args, documentPath, buffer);
+                String s = helper.Symbols();
+                demotext2 = s; 
 
                 var citem1 = new CompletionItem
                 {
