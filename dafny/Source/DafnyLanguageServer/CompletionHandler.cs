@@ -1,6 +1,9 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using DafnyServer;
+using Microsoft.Dafny;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
@@ -37,60 +40,93 @@ namespace DafnyLanguageServer
 
         public async Task<CompletionList> Handle(CompletionParams request, CancellationToken cancellationToken)
         {
+            /*
+             * 
+             * 2Do: von hier noch abgucken wie sie "die inteligente" vervollständigung gemacht haben
+             * 
+             * completionProvider.ts (auch server) 
+             *   const word = this.parseWordForCompletion(document, handler.position);
+                 const allSymbols = await this.server.symbolService.getAllSymbols(document);
+                 const definition = allSymbols.find((e) => e.isDefinitionFor(word));
+             * 
+             *  falls "definition" ? liefereExakte Completion : liefere closest completion
+             *  ... und baut dann die commands so zusammen wie wir das hier unten fakemässig gemacht haben. 
+             *  
+             *  
+             *  private provideExactCompletions(symbols: DafnySymbol[], definition: DafnySymbol): CompletionItem[] {
+                    const possibleSymbolForCompletion: DafnySymbol[] = symbols.filter(
+                                (symbol: DafnySymbol) => symbol.canProvideCodeCompletionForDefinition(definition));
+                    return possibleSymbolForCompletion.map((e: DafnySymbol) => this.buildCompletion(e));
+                }
+
+                private provideBestEffortCompletion(symbols: DafnySymbol[], word: string): CompletionItem[] {
+                    const fields: DafnySymbol[] = symbols.filter((e: DafnySymbol) => e.isField(word));
+                    const definingClass = this.findDefiningClassForField(symbols, fields);
+                    if (definingClass) {
+                        const possibleSymbolForCompletion: DafnySymbol[] = symbols.filter(
+                            (symbol: DafnySymbol) => symbol.canProvideCodeCompletionForClass(definingClass));
+                        return possibleSymbolForCompletion.map((e: DafnySymbol) => this.buildCompletion(e));
+                    }
+                    return [];
+                }
+                public canProvideCodeCompletionForClass(symbol: DafnySymbol) {
+                    return this.hasParentClass(symbol.name) &&
+                        this.hasModule(symbol.module) &&
+                        this.isOfType([SymbolType.Field, SymbolType.Method]) &&
+                        this.name !== DafnyKeyWords.ConstructorMethod;
+                }
+             */
+
             return await Task.Run(() =>
             {
                 var documentPath = request.TextDocument.Uri.ToString();
                 var buffer = _bufferManager.GetTextFromBuffer(request.TextDocument.Uri);
-                var version = VersionCheck.CurrentVersion();
-
-                var demotext = "i'm the new text";
-                var demotext2 = "You can do this !!!!  ;-) <3 <3 <3 :-) Keep trying!";
+                var version = VersionCheck.CurrentVersion(); // wozu? löschbar? ins startup verschieben unnd info an plugin senden? 
 
                 if (buffer == null)
                 {
                     return new CompletionList();
                 }
 
-                var citem1 = new CompletionItem
-                {
-                    Label = "Insert a new Text",
-                    Kind = CompletionItemKind.Reference,
-                    TextEdit = new TextEdit
-                    {
-                        NewText = demotext,
-                        Range = new Range(
-                            new Position
-                            {
-                                Line = request.Position.Line,
-                                Character = request.Position.Character
-                            }, new Position
-                            {
-                                Line = request.Position.Line,
-                                Character = request.Position.Character + demotext.Length
-                            })
-                    }
-                };
-                var citem2 = new CompletionItem
-                {
-                    Label = "Let me cheer you up",
-                    Kind = CompletionItemKind.Reference,
-                    TextEdit = new TextEdit
-                    {
-                        NewText = demotext2,
-                        Range = new Range(
-                            new Position
-                            {
-                                Line = request.Position.Line,
-                                Character = request.Position.Character
-                            }, new Position
-                            {
-                                Line = request.Position.Line,
-                                Character = request.Position.Character + demotext2.Length
-                            })
-                    }
-                };
-                return new CompletionList(citem1, citem2);
+                var symbols = getSymbolList(documentPath, buffer);// invalid; schmiert ab. saubere zwischenresultate buffern 2Do
+                return convertListToCompletionresponse(symbols, request); 
             });
+        }
+
+        private CompletionList convertListToCompletionresponse(List<SymbolTable.SymbolInformation> symbols, CompletionParams request)
+        {
+            var complitionItems = new List<CompletionItem>(); 
+            foreach(var symbol in symbols)
+            {
+                complitionItems.Add(
+                    new CompletionItem
+                    {
+                        Label = symbol.Name+" --- Type: "+symbol.SymbolType,
+                        Kind = CompletionItemKind.Reference,
+                        TextEdit = new TextEdit
+                        {
+                            NewText = symbol.Name,
+                            Range = new Range( // hmm ned das von der tabelle nehmen (weil das die vorkommen sind) sondern aktuelle position oder? 
+                            new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character
+                            }, new Position
+                            {
+                                Line = request.Position.Line,
+                                Character = request.Position.Character + symbol.Name.Length
+                            })
+                        }
+                    }); 
+            }
+            return new CompletionList(complitionItems); 
+        }
+
+        private List<SymbolTable.SymbolInformation> getSymbolList(String documentPath, String code)
+        {
+            string[] args = new string[] { };
+            DafnyHelper helper = new DafnyHelper(args, documentPath, code);
+            return helper.Symbols();
         }
 
         private static int GetPosition(string buffer, int line, int col)

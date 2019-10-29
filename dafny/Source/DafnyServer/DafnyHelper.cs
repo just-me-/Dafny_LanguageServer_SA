@@ -139,18 +139,17 @@ namespace Microsoft.Dafny
             return isVerified;
         }
 
-        public void Symbols()
-        {
+        public List<SymbolTable.SymbolInformation> Symbols()
+        { 
             ServerUtils.ApplyArgs(args, reporter);
             if (Parse() && Resolve())
             {
                 var symbolTable = new SymbolTable(dafnyProgram);
-                var symbols = symbolTable.CalculateSymbols();
-                Console.WriteLine("SYMBOLS_START " + ConvertToJson(symbols) + " SYMBOLS_END");
+                return symbolTable.CalculateSymbols(); 
             }
             else
             {
-                Console.WriteLine("SYMBOLS_START [] SYMBOLS_END");
+                return new List<SymbolTable.SymbolInformation>(); 
             }
         }
 
