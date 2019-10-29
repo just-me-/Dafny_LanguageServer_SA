@@ -139,20 +139,17 @@ namespace Microsoft.Dafny
             return isVerified;
         }
 
-        public String Symbols()
-        { // das schaut ja schonmal vielversprechend aus - wure via DafnyVerbs angesteuert (glaubs) 
+        public List<SymbolTable.SymbolInformation> Symbols()
+        { 
             ServerUtils.ApplyArgs(args, reporter);
             if (Parse() && Resolve())
             {
                 var symbolTable = new SymbolTable(dafnyProgram);
-                var symbols = symbolTable.CalculateSymbols();
-                //Console.WriteLine("SYMBOLS_START " + ConvertToJson(symbols) + " SYMBOLS_END");
-                return ConvertToJson(symbols); // tmp zu testen. liste direkt zurückgebn später
+                return symbolTable.CalculateSymbols(); // ConvertToJson(symbols)
             }
             else
             {
-                return "Upps"; 
-                Console.WriteLine("SYMBOLS_START [] SYMBOLS_END");
+                return new List<SymbolTable.SymbolInformation>(); 
             }
         }
 
