@@ -34,6 +34,18 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
                 // als DanfyFile Objekt ändern um dann den DanfyHelper elegant aufzurufen. 
+                /*
+                static public DafnyHelper DafnyGetSymbols(DafnyFile file, ILanguageServer routertmp)
+                    {
+                        string[] args = new string[] { };
+                        DafnyHelper helper = new DafnyHelper(args, file.Filepath, file.Sourcecode);
+
+
+                        String s = helper.Symbols(); 
+            
+                        routertmp.Window.SendNotification("Symbols ============", s);
+                    }
+                */
 
                 string dafnyExe = request.DafnyExePath;
                 string dafnyFile = request.DafnyFilePath;

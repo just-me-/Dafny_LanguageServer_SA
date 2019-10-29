@@ -20,7 +20,7 @@ namespace DafnyLanguageServer
             // im Plugin das aktuelle Dokument setzen für die Statusbar
             router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
 
-            var helper = DafnyVerify(file, router);
+            var helper = DafnyVerify(file);
             var diagnostics = CreateDafnyDiagnostics(helper, file);
 
             PublishDiagnosticsParams p = new PublishDiagnosticsParams
@@ -32,22 +32,6 @@ namespace DafnyLanguageServer
             router.Window.SendNotification("updateStatusbar", diagnostics.Count);
         }
 
-        static public DafnyHelper DafnyVerify(DafnyFile file, ILanguageServer routertmp)
-        {
-            string[] args = new string[] { };
-            DafnyHelper helper = new DafnyHelper(args, file.Filepath, file.Sourcecode);
-            if (!helper.Verify())
-            {
-                throw new ArgumentException("Failed to verify document."); //TODO: Während des schreibens ist das doc immer wieder invalid... exception ist etwas zu krass imho
-            }
-
-            // naja mal um fix zu testen xD
-            String s = helper.Symbols(); 
-            
-            routertmp.Window.SendNotification("Symbols ============", s);
-
-            return helper; 
-        }
         static public DafnyHelper DafnyVerify(DafnyFile file)
         {
             string[] args = new string[] { };
@@ -56,7 +40,7 @@ namespace DafnyLanguageServer
             {
                 throw new ArgumentException("Failed to verify document."); //TODO: Während des schreibens ist das doc immer wieder invalid... exception ist etwas zu krass imho
             }
-            return helper;
+            return helper; 
         }
 
         static public Collection<Diagnostic> CreateDafnyDiagnostics(DafnyHelper helper, DafnyFile file)
