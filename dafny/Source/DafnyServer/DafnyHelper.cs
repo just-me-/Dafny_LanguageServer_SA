@@ -145,7 +145,7 @@ namespace Microsoft.Dafny
             if (Parse() && Resolve())
             {
                 var symbolTable = new SymbolTable(dafnyProgram);
-                return symbolTable.CalculateSymbols(); // ConvertToJson(symbols)
+                return symbolTable.CalculateSymbols(); 
             }
             else
             {

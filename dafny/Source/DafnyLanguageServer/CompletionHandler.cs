@@ -42,10 +42,7 @@ namespace DafnyLanguageServer
         {
             /*
              * 
-             * symbolService: instanziiert diese SymbolTable
-             * hat getSymbolsFromDafny, askDafnyForSymbols(gibt TextDocument mit), parseSymbols füllt Tabelle ab
-             * 
-             * ---
+             * 2Do: von hier noch abgucken wie sie "die inteligente" vervollständigung gemacht haben
              * 
              * completionProvider.ts (auch server) 
              *   const word = this.parseWordForCompletion(document, handler.position);
@@ -54,7 +51,6 @@ namespace DafnyLanguageServer
              * 
              *  falls "definition" ? liefereExakte Completion : liefere closest completion
              *  ... und baut dann die commands so zusammen wie wir das hier unten fakemässig gemacht haben. 
-             * 
              */
 
             return await Task.Run(() =>
@@ -68,9 +64,8 @@ namespace DafnyLanguageServer
                     return new CompletionList();
                 }
 
-                var symbols = getSymbolList(documentPath, buffer);
+                var symbols = getSymbolList(documentPath, buffer);// invalid; schmiert ab. saubere zwischenresultate buffern 2Do
                 return convertListToCompletionresponse(symbols, request); 
-                // return tmpGetFakeCompletion(request); 
             });
         }
 
@@ -82,7 +77,7 @@ namespace DafnyLanguageServer
                 complitionItems.Add(
                     new CompletionItem
                     {
-                        Label = symbol.Name+" Type: "+symbol.SymbolType,
+                        Label = symbol.Name+" --- Type: "+symbol.SymbolType,
                         Kind = CompletionItemKind.Reference,
                         TextEdit = new TextEdit
                         {
@@ -101,51 +96,6 @@ namespace DafnyLanguageServer
                     }); 
             }
             return new CompletionList(complitionItems); 
-        }
-
-        private CompletionList tmpGetFakeCompletion(CompletionParams request)
-        {
-            var demotext = "i'm the new text";
-            var demotext2 = "You can do this !!!!  ;-) <3 <3 <3 :-) Keep trying!";
-            var citem1 = new CompletionItem
-            {
-                Label = "Insert a new Text",
-                Kind = CompletionItemKind.Reference,
-                TextEdit = new TextEdit
-                {
-                    NewText = demotext,
-                    Range = new Range(
-                        new Position
-                        {
-                            Line = request.Position.Line,
-                            Character = request.Position.Character
-                        }, new Position
-                        {
-                            Line = request.Position.Line,
-                            Character = request.Position.Character + demotext.Length
-                        })
-                }
-            };
-            var citem2 = new CompletionItem
-            {
-                Label = "Let me cheer you up",
-                Kind = CompletionItemKind.Reference,
-                TextEdit = new TextEdit
-                {
-                    NewText = demotext2,
-                    Range = new Range(
-                        new Position
-                        {
-                            Line = request.Position.Line,
-                            Character = request.Position.Character
-                        }, new Position
-                        {
-                            Line = request.Position.Line,
-                            Character = request.Position.Character + demotext2.Length
-                        })
-                }
-            };
-            return new CompletionList(citem1, citem2);
         }
 
         private List<SymbolTable.SymbolInformation> getSymbolList(String documentPath, String code)
