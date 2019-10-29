@@ -33,6 +33,8 @@ namespace DafnyLanguageServer
         {
             return await Task.Run(() =>
             {
+                // als DanfyFile Objekt ändern um dann den DanfyHelper elegant aufzurufen. 
+
                 string dafnyExe = request.DafnyExePath;
                 string dafnyFile = request.DafnyFilePath;
 
