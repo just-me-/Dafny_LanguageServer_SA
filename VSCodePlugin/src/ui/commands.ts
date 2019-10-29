@@ -149,6 +149,8 @@ export default class Commands {
 
         const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")   //TODO: Production Folder Structure may be different. Sollte man auch auslagern.
         const arg = {
+            // hmm hier noch das Dokument (Inhalt) mitgeben oder beim Server
+            // via Pdad im Cache/Buffer auslesen gehen? 
             DafnyFilePath: document.fileName,
             DafnyExePath: dafnyExe
         }
