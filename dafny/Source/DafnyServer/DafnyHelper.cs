@@ -140,7 +140,7 @@ namespace Microsoft.Dafny
         }
 
         public void Symbols()
-        {
+        { // das schaut ja schonmal vielversprechend aus - wure via DafnyVerbs angesteuert (glaubs) 
             ServerUtils.ApplyArgs(args, reporter);
             if (Parse() && Resolve())
             {
