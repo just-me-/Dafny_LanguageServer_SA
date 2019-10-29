@@ -37,6 +37,50 @@ namespace DafnyLanguageServer
 
         public async Task<CompletionList> Handle(CompletionParams request, CancellationToken cancellationToken)
         {
+            /*
+             * Altes Plugin, Server Teil: 
+             * 
+             * class SymbolTable {
+                    public symbols: DafnySymbol[];  => sehr intressante Klasse. jedes "Keyword" sozusagen
+                                                       Unknown, Class, Method, Function, Field, Call, Definition, Predicate,
+                                                       vgl file symbol.ts
+                    public hash: number | undefined;
+                    public fileName: string;
+                    constructor(fileName: string) {
+                        this.symbols = [];
+                        this.fileName = fileName;
+                    }
+                }
+             * 
+             * symbolService: instanziiert diese SymbolTable
+             * hat getSymbolsFromDafny, askDafnyForSymbols(gibt TextDocument mit), parseSymbols füllt Tabelle ab
+             * 
+             * private askDafnyForSymbols(document: TextDocument): Promise<any> {
+                    return new Promise((resolve, reject) => {
+                        this.server.addDocument(
+                            document,
+                            DafnyVerbs.Symbols,
+                            (response: string) => this.handleProcessData(response, resolve),
+                            () => reject(`Error while requesting symbols from dafny for document "${document.uri}"`),
+                        );
+                    });
+                }
+             * => löst verification process aus. ==> 2do evt erhalten wir via verification bereits die infos über das file? 
+             * 
+             * 
+             * ---
+             * 
+             * completionProvider.ts (auch server) 
+             *   const word = this.parseWordForCompletion(document, handler.position);
+                 const allSymbols = await this.server.symbolService.getAllSymbols(document);
+                 const definition = allSymbols.find((e) => e.isDefinitionFor(word));
+             * 
+             *  falls "definition" ? liefereExakte Completion : liefere closest completion
+             *  ... und baut dann die commands so zusammen wie wir das hier unten fakemässig gemacht haben. 
+             * 
+             */
+
+
             return await Task.Run(() =>
             {
                 var documentPath = request.TextDocument.Uri.ToString();
