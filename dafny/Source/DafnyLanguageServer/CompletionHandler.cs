@@ -51,6 +51,30 @@ namespace DafnyLanguageServer
              * 
              *  falls "definition" ? liefereExakte Completion : liefere closest completion
              *  ... und baut dann die commands so zusammen wie wir das hier unten fakemässig gemacht haben. 
+             *  
+             *  
+             *  private provideExactCompletions(symbols: DafnySymbol[], definition: DafnySymbol): CompletionItem[] {
+                    const possibleSymbolForCompletion: DafnySymbol[] = symbols.filter(
+                                (symbol: DafnySymbol) => symbol.canProvideCodeCompletionForDefinition(definition));
+                    return possibleSymbolForCompletion.map((e: DafnySymbol) => this.buildCompletion(e));
+                }
+
+                private provideBestEffortCompletion(symbols: DafnySymbol[], word: string): CompletionItem[] {
+                    const fields: DafnySymbol[] = symbols.filter((e: DafnySymbol) => e.isField(word));
+                    const definingClass = this.findDefiningClassForField(symbols, fields);
+                    if (definingClass) {
+                        const possibleSymbolForCompletion: DafnySymbol[] = symbols.filter(
+                            (symbol: DafnySymbol) => symbol.canProvideCodeCompletionForClass(definingClass));
+                        return possibleSymbolForCompletion.map((e: DafnySymbol) => this.buildCompletion(e));
+                    }
+                    return [];
+                }
+                public canProvideCodeCompletionForClass(symbol: DafnySymbol) {
+                    return this.hasParentClass(symbol.name) &&
+                        this.hasModule(symbol.module) &&
+                        this.isOfType([SymbolType.Field, SymbolType.Method]) &&
+                        this.name !== DafnyKeyWords.ConstructorMethod;
+                }
              */
 
             return await Task.Run(() =>
