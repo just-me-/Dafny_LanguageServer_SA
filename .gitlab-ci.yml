@@ -39,7 +39,6 @@ test_mstest:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
-    - apt-get install nunit
     - "dotnet test dafny/Source/Dafny.sln"
     
 

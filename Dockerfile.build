@@ -7,8 +7,15 @@ ARG GO_RELEASE=go1.10.3.linux-amd64.tar.gz
 # Note: The mkdir is required due to a bug in the debian-slim image.
 RUN apt-get update \
  && mkdir -p /usr/share/man/man1\
- && apt-get install -y openjdk-8-jdk-headless\
- && apt-get install -y git python3-pip wget unzip\
+ && apt-get install -y openjdk-8-jdk-headless gpg apt-transport-https git python3-pip wget unzip\
+ && rm -rf /var/lib/apt/lists/* /tmp/*
+
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.asc.gpg \
+ && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/microsoft-prod.list
+
+RUN apt-get update \
+ && mkdir -p /usr/share/man/man1\
+ && apt-get install -y openjdk-8-jdk-headless dotnet-sdk-3.0 nunit\
  && rm -rf /var/lib/apt/lists/* /tmp/*
 
 WORKDIR /opt
