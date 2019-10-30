@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CompileHandlerTest
+namespace CompilationTest
 {
     [TestClass]
     public class UnitTest1
@@ -9,7 +9,6 @@ namespace CompileHandlerTest
         [TestMethod]
         public void TestMethod1()
         {
-            Assert.IsTrue(true); 
         }
     }
 }

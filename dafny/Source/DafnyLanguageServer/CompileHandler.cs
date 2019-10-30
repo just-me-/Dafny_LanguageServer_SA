@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO.Packaging;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
@@ -31,13 +32,24 @@ namespace DafnyLanguageServer
     {
         public async Task<CompilerResults> Handle(CompilerParams request, CancellationToken cancellationToken)
         {
+
+            string dafnyExe = request.DafnyExePath;
+            string dafnyFile = request.DafnyFilePath;
+
+            return await Compile(dafnyExe, dafnyFile);
+        }
+
+
+
+
+
+        public static async Task<CompilerResults> Compile(string dafnyExe, string dafnyFile)
+        {
             return await Task.Run(() =>
             {
-                string dafnyExe = request.DafnyExePath;
-                string dafnyFile = request.DafnyFilePath;
 
                 //To support spaces in path:
-                dafnyFile = '\"' + request.DafnyFilePath + '\"';
+                dafnyFile = '\"' + dafnyFile + '\"';
 
                 System.Diagnostics.Process process = new Process();
                 process.StartInfo.FileName = dafnyExe;
@@ -99,6 +111,8 @@ namespace DafnyLanguageServer
                 }
             });
         }
+
+
     }
 }
 
@@ -117,4 +131,3 @@ Dafny program verifier finished with 0 verified, 1 error
 
 G:\Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries>
     */
-    
