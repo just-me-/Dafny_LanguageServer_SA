@@ -4,9 +4,11 @@ method MultipleReturns(x: int, y: int) returns (more: int, less: int)
 {
    more := x + y;
    less := x - y;
-   assert x == 1;              //auskommentieren -> assertion violation geht weg
+
+   //assert x == 1;              //auskommentieren -> assertion violation geht weg
    // bruder := 1;
 }
+
 
 
 method Main() {
