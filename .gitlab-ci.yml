@@ -29,7 +29,7 @@ build:
       fi;
     - cd dafny/Source
     - nuget restore Dafny.sln
-    - msbuild -t:restore Dafny.sln
+    - msbuild Dafny.sln
   artifacts:
     paths:
       - dafny/Binaries/
@@ -39,7 +39,6 @@ test_mstest:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
-    - apt-get install nunit
     - "dotnet test dafny/Source/Dafny.sln"
     
 
@@ -47,10 +46,16 @@ test_vscode:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
-    - apt-get update -y
-    - apt-get install -y libgtk-3-0
-    - apt-get install -y libxss1
-    - apt-get install -y libasound2
+    - |
+      Xvfb :99 -ac -screen 0 $XVFB_WHD -nolisten tcp 2>&1    | grep -v "_XSERVTransmkdir: ERROR: euid != 0,directory /tmp/.X11-unix will not be created." &
+      xvfb=$!
+      for i in $(seq 1 10); do
+        echo "Waiting for Xvfb..."
+        sleep 1
+        xdpyinfo -display ${DISPLAY} >/dev/null 2>&1
+        if [ $? -eq 0 ]; then break; fi
+        if [ "$i" -gt 9 ]; then echo "Waiting for Xvfb timed out. (Waited for $i seconds)"; exit 255; fi
+      done
     - cd VSCodePlugin
     - npm install
     - npm run test
@@ -59,6 +64,7 @@ test_dafny:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
+    - cd dafny
     - pushd Binaries; ln -s /opt/z3; popd
     - npm install bignumber.js #TODO: Should this be global or in build dependency? Else package.json with fixed versions!
     - cd Test
