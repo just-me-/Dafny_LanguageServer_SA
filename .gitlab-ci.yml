@@ -20,7 +20,7 @@ build_image:
     - docker build --tag $BUILD_IMAGE:latest - < Dockerfile.build
     - docker push $BUILD_IMAGE:latest
 
-build:
+build_dafny:
   stage: build
   image: $BUILD_IMAGE:latest
   script:
@@ -34,6 +34,17 @@ build:
     paths:
       - dafny/Binaries/
 
+
+build_vscode_extension:
+  stage: build
+  image: $BUILD_IMAGE:latest
+  script:
+    - cd VSCodePlugin
+    - npm install
+    - npm run vscode:prepublish
+  artifacts:
+    paths:
+      - VSCodePlugin/out/
       
 test_mstest:
   stage: test
