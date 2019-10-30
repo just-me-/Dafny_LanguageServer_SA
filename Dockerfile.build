@@ -25,13 +25,13 @@ RUN apt-get update \
 
 WORKDIR /opt
 
-RUN wget https://dl.google.com/go/${GO_RELEASE} &&\
+RUN wget --no-verbose https://dl.google.com/go/${GO_RELEASE} &&\
     tar -xzf ${GO_RELEASE} &&\
     rm -r ${GO_RELEASE}
 ENV GOROOT=/opt/go
 ENV PATH=${PATH}:${GOROOT}/bin
 
-RUN wget https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz &&\
+RUN wget --no-verbose https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz &&\
     tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz &&\
     rm node-v${NODE_VERSION}-linux-x64.tar.xz &&\
     ln -s node-v${NODE_VERSION}-linux-x64 node
