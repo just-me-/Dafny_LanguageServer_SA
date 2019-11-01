@@ -80,7 +80,7 @@ export class DafnyClientProvider {
         vscode.workspace.onDidSaveTextDocument(this.doVerify, this);
         vscode.workspace.onDidCloseTextDocument(this.hideCounterModel, this);
 
-        vscode.commands.registerCommand(CommandStrings.ShowCounterExample, () => {
+        vscode.commands.registerCommand("dafny.showCounterExample", () => {
             const editor = vscode.window.activeTextEditor;
             if (editor) {
                 this.doCounterModel(editor.document);

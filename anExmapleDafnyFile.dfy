@@ -1,6 +1,7 @@
 method MultipleReturns(x: int, y: int) returns (more: int, less: int)
-   requires 0 < y            //einkommentieren -> fehler postcondition geht weg
+   //requires 0 < y            //einkommentieren -> fehler postcondition geht weg
    ensures less < x < more
+   ensures y > 0
 {
    more := x + y;
    less := x - y;
