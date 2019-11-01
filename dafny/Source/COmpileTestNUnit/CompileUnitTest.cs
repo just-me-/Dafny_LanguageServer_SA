@@ -19,10 +19,8 @@ namespace CompileHandlerTest
         {
             List<string> files = new List<string>
             {
-                Path.Combine(testPath, "fineDLL.dll"),
-                Path.Combine(testPath, "fineDLL.pdb"),
-                Path.Combine(testPath, "fineEXE.exe"),
-                Path.Combine(testPath, "fineEXE.pdb")
+                Path.Combine(testPath, PathConstants.fineDLLOutput),
+                Path.Combine(testPath, PathConstants.fineEXEOutput)
             };
 
             foreach (string path in files)
@@ -38,7 +36,7 @@ namespace CompileHandlerTest
         [Test]
         public void ExeCalled()
         {
-            string dafnyFile = Path.Combine(testPath, "fineDLL.dfy");
+            string dafnyFile = Path.Combine(testPath, PathConstants.dfy_fineDLL);
             CompileHandler.Compile(dafnyExe, dafnyFile);
             
             Thread.Sleep(500);
@@ -52,7 +50,7 @@ namespace CompileHandlerTest
         [Test]
         public void DfyAccess()
         {
-            string dafnyFile = Path.Combine(testPath, "fineDLL.dfy");
+            string dafnyFile = Path.Combine(testPath, PathConstants.dfy_fineDLL);
             CompileHandler.Compile(dafnyExe, dafnyFile);
 
             Thread.Sleep(500);
