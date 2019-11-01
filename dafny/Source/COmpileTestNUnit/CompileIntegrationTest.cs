@@ -1,20 +1,22 @@
-﻿using System;
 using System.IO;
-using Microsoft.Boogie;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DafnyLanguageServer;
+using NUnit.Framework;
 
 namespace CompileHandlerTest
 {
-    [TestClass]
-    public class CompileHandlerTests
+    public class CompileIntegrationTests
     {
 
-        static string assemblyPath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
-        static string testPath = Path.GetFullPath(Path.Combine(assemblyPath, "../../../../Test/compileHandler"));
-        static string dafnyExe = Path.GetFullPath(Path.Combine(assemblyPath, "../../../../Binaries/Dafny.exe"));
+        static string assemblyPath = Path.GetDirectoryName(typeof(CompileIntegrationTests).Assembly.Location);
+        static string testPath = Path.GetFullPath(Path.Combine(assemblyPath, "../../../../../Test/compileHandler"));
+        static string dafnyExe = Path.GetFullPath(Path.Combine(assemblyPath, "../../../../../Binaries/Dafny.exe"));
 
-        [TestMethod]
+        [SetUp]
+        public void Setup()
+        {
+        }
+
+        [Test]
         public void IsFine()
         {
             string dafnyFile = Path.Combine(testPath, "fineDLL.dfy");
@@ -23,11 +25,11 @@ namespace CompileHandlerTest
 
             Assert.IsFalse(r.Error);
             Assert.IsFalse(r.Executable ?? true);
-            
-            
+
+
         }
 
-        [TestMethod]
+        [Test]
         public void IsFineExe()
         {
             string dafnyFile = Path.Combine(testPath, "fineEXE.dfy");
@@ -39,7 +41,7 @@ namespace CompileHandlerTest
 
         }
 
-        [TestMethod]
+        [Test]
         public void Assertion()
         {
             string dafnyFile = Path.Combine(testPath, "assertion.dfy");
@@ -52,7 +54,7 @@ namespace CompileHandlerTest
 
         }
 
-        [TestMethod]
+        [Test]
         public void Identifier()
         {
             string dafnyFile = Path.Combine(testPath, "identifier.dfy");
@@ -65,7 +67,7 @@ namespace CompileHandlerTest
 
         }
 
-        [TestMethod]
+        [Test]
         public void Postcondition()
         {
             string dafnyFile = Path.Combine(testPath, "postcondition.dfy");
