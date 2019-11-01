@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using DafnyLanguageServer;
 using NUnit.Framework;
@@ -7,13 +8,27 @@ namespace CompileHandlerTest
     public class CompileIntegrationTests
     {
 
-        static string assemblyPath = Path.GetDirectoryName(typeof(CompileIntegrationTests).Assembly.Location);
-        static string testPath = Path.GetFullPath(Path.Combine(assemblyPath, "../../../../../Test/compileHandler"));
-        static string dafnyExe = Path.GetFullPath(Path.Combine(assemblyPath, "../../../../../Binaries/Dafny.exe"));
+        private static readonly string testPath = PathConstants.testPath;
+        private static readonly string dafnyExe = PathConstants.dafnyExe;
 
         [SetUp]
-        public void Setup()
+        public void DeleteFiles()
         {
+            List<string> files = new List<string>
+            {
+                Path.Combine(testPath, "fineDLL.dll"),
+                Path.Combine(testPath, "fineDLL.pdb"),
+                Path.Combine(testPath, "fineEXE.exe"),
+                Path.Combine(testPath, "fineEXE.pdb")
+            };
+
+            foreach (string path in files)
+            {
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+            }
         }
 
         [Test]
@@ -25,7 +40,6 @@ namespace CompileHandlerTest
 
             Assert.IsFalse(r.Error);
             Assert.IsFalse(r.Executable ?? true);
-
 
         }
 
@@ -78,6 +92,23 @@ namespace CompileHandlerTest
             Assert.IsFalse(r.Executable ?? true);
             Assert.IsTrue(r.Message.Contains("postcondition might not hold"));
 
+        }
+
+
+        [Test]
+        public void DllCreated()
+        {
+            string dafnyFile = Path.Combine(testPath, "fineDLL.dfy");
+            CompilerResults r = CompileHandler.Compile(dafnyExe, dafnyFile).Result;
+            Assert.IsTrue(File.Exists(Path.Combine(testPath, "fineDLL.dll")));
+        }
+
+        [Test]
+        public void ExeCreated()
+        {
+            string dafnyFile = Path.Combine(testPath, "fineEXE.dfy");
+            CompilerResults r = CompileHandler.Compile(dafnyExe, dafnyFile).Result;
+            Assert.IsTrue(File.Exists(Path.Combine(testPath, "fineExe.exe")));
         }
     }
 }
