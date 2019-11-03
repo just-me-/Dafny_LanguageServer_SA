@@ -17,28 +17,14 @@ namespace VerificationServiceTest
     [TestClass]
     public class CreateDiagnosticTest
     {
-        static readonly String dafnyCode = @" 
-            method Test(x: int, y: int) returns (more: int, less: int)
-                requires 0 < y
-                ensures less < x < more
-            {
-                more := x + y;
-                less := x - y;
-            }
-        ";
-        static readonly DafnyLanguageServer.DafnyFile file = new DafnyLanguageServer.DafnyFile
-        {
-            Uri = null,
-            Sourcecode = dafnyCode
-        };
 
         [TestMethod]
-        public void TestDiagnosticNoErrors()
+        public void TestDiagnosticOneError()
         {
             var verificationService = new VerificationService(null);
 
             string[] args = new string[] { };
-            DafnyHelper helper = new DafnyHelper(args, file.Filepath, file.Sourcecode);
+            DafnyHelper helper = new DafnyHelper(args, null, null);
 
             // faka data... 
             var token = new Token();
@@ -54,10 +40,11 @@ namespace VerificationServiceTest
             //  foreach (ErrorInformation e in helper.Errors)
             // for (int i = 0; i < e.Aux.Count - 1; i++) //ignore last element (trace)
 
-            var diagnostics = verificationService.CreateDafnyDiagnostics(helper.Errors, file.Filepath);
+            var diagnostics = verificationService.CreateDafnyDiagnostics(helper.Errors, token.filename);
             // now compare 
 
-
+            Assert.AreEqual(diagnostics.Count, 1);
+            Assert.AreEqual(diagnostics[0].Source, token.filename);
         }
     }
 }
