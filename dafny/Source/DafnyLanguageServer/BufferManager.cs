@@ -3,16 +3,20 @@ using System.Collections.Concurrent;
 
 namespace DafnyLanguageServer
 {
+    class BufferObject
+    {
+        public string Code { get; set; }
+        public FileSymboltable symboltable { get; set; }
+    }
     class BufferManager
     {
         // DafnyFile statt String? 
-        private ConcurrentDictionary<Uri, string> _fileBuffers = new ConcurrentDictionary<Uri, string>();
-        private ConcurrentDictionary<Uri, FileSymboltable> _SymboltableBuffers = new ConcurrentDictionary<Uri, FileSymboltable>();
+        private ConcurrentDictionary<Uri, BufferObject> _fileBuffers = new ConcurrentDictionary<Uri, BufferObject>();
 
-        public void UpdateBuffer(Uri documentPath, string content)
+        public void UpdateBuffer(Uri documentPath, string code)
         {
             // Ist das File valide? Symboltabelle updaten... ebenfalls im Buffer 'halten' 
-            _fileBuffers.AddOrUpdate(documentPath, content, (k, v) => content);
+            _fileBuffers.AddOrUpdate(documentPath, code, (k, v) => BufferObject.Code);
         }
 
         public void UpdateBuffer(DafnyFile file)
