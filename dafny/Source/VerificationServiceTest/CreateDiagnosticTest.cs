@@ -7,39 +7,54 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace VerificationServiceTest
 {
-
-    public class FakeErrorObject : ErrorInformation
-    {
-        public FakeErrorObject(IToken tok, string msg) : base(tok, msg)
-        {
-        }
-    }
-
     [TestClass]
     public class CreateDiagnosticTest
     {
+        private static VerificationService verificationService = new VerificationService(null);
+
+        [TestMethod]
+        public void TestDiagnosticNoErrors()
+        {
+            var errors = new List<FakeErrorObject>();
+            var diagnostics = verificationService.CreateDafnyDiagnostics(errors, "NotExistingFile");
+            Assert.AreEqual(0, diagnostics.Count);
+        }
 
         [TestMethod]
         public void TestDiagnosticOneError()
         {
-            var verificationService = new VerificationService(null);
-
             var token = new Token();
             token.filename = "FakedFile";
-            token.val = "Dies ist eigentlich kein Fehler";
+            token.val = "This would be an error description";
             token.kind = token.pos = token.line = token.col = token.line = 3;
 
             var errors = new List<FakeErrorObject>();
             var info = new FakeErrorObject(token, "Msg");
             errors.Add(info); 
 
-            //  foreach (ErrorInformation e in helper.Errors)
-            // for (int i = 0; i < e.Aux.Count - 1; i++) //ignore last element (trace)
+            var diagnostics = verificationService.CreateDafnyDiagnostics(errors, token.filename);
+
+            Assert.AreEqual(1, diagnostics.Count);
+            Assert.AreEqual(token.filename, diagnostics[0].Source);
+        }
+
+        [TestMethod]
+        public void TestDiagnosticSubError()
+        {
+            var token = new Token();
+            token.filename = "FakedFile";
+            token.val = "This would be an error description";
+            token.kind = token.pos = token.line = token.col = token.line = 3;
+
+            var errors = new List<FakeErrorObject>();
+            var info = new FakeErrorObject(token, "Msg");
+            info.AddAuxInfo(token, "SubMsg");
+            info.AddAuxInfo(token, "TraceData");
+            errors.Add(info);
 
             var diagnostics = verificationService.CreateDafnyDiagnostics(errors, token.filename);
 
-            Assert.AreEqual(diagnostics.Count, 1);
-            Assert.AreEqual(diagnostics[0].Source, token.filename);
+            Assert.AreEqual(2, diagnostics.Count);
         }
     }
 }

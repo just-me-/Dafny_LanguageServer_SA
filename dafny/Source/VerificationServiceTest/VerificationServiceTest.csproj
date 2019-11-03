@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreateDiagnosticTest.cs" />
+    <Compile Include="FakeErrorObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
