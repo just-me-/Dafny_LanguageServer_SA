@@ -11,6 +11,16 @@ namespace VerificationServiceTest
     public class CreateDiagnosticTest
     {
         private static VerificationService verificationService = new VerificationService(null);
+        private Token token;
+
+        [TestInitialize]
+        public void setupExampleToken()
+        {
+            token = new Token();
+            token.filename = "FakedFile";
+            token.val = "This would be an error description";
+            token.kind = token.pos = token.line = token.col = token.line = 3;
+        }
 
         [TestMethod]
         public void TestDiagnosticNoErrors()
@@ -23,11 +33,6 @@ namespace VerificationServiceTest
         [TestMethod]
         public void TestDiagnosticOneError()
         {
-            var token = new Token();
-            token.filename = "FakedFile";
-            token.val = "This would be an error description";
-            token.kind = token.pos = token.line = token.col = token.line = 3;
-
             var errors = new List<FakeErrorObject>();
             var info = new FakeErrorObject(token, "Msg");
             errors.Add(info); 
@@ -41,11 +46,6 @@ namespace VerificationServiceTest
         [TestMethod]
         public void TestDiagnosticSubError()
         {
-            var token = new Token();
-            token.filename = "FakedFile";
-            token.val = "This would be an error description";
-            token.kind = token.pos = token.line = token.col = token.line = 3;
-
             var errors = new List<FakeErrorObject>();
             var info = new FakeErrorObject(token, "Msg");
             info.AddAuxInfo(token, "SubMsg");
