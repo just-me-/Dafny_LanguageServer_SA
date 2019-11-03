@@ -80,15 +80,10 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
                 var documentPath = request.TextDocument.Uri.ToString();
-                var buffer = _bufferManager.GetTextFromBuffer(request.TextDocument.Uri);
-                var version = VersionCheck.CurrentVersion(); // wozu? löschbar? ins startup verschieben unnd info an plugin senden? 
+                var symbols = _bufferManager.GetSymboltableFromBuffer(request.TextDocument.Uri); // 2do... noma mit dem alten server vergleichen
+                // hmm eig will ich hier nicht die symbols von einem dokument sondern von allen. 
+                // kann man sagen; nur die varis vom aktuellen dokument... methoden / klassen aber von allen files? 
 
-                if (buffer == null)
-                {
-                    return new CompletionList();
-                }
-
-                var symbols = getSymbolList(documentPath, buffer);// invalid; schmiert ab. saubere zwischenresultate buffern 2Do
                 return convertListToCompletionresponse(symbols, request); 
             });
         }
@@ -120,15 +115,10 @@ namespace DafnyLanguageServer
                     }); 
             }
             return new CompletionList(complitionItems); 
+            // 2do does empty case still work? 
         }
 
-        private List<SymbolTable.SymbolInformation> getSymbolList(String documentPath, String code)
-        {
-            string[] args = new string[] { };
-            DafnyHelper helper = new DafnyHelper(args, documentPath, code);
-            return helper.Symbols();
-        }
-
+        /*
         private static int GetPosition(string buffer, int line, int col)
         {
             var position = 0;
@@ -138,10 +128,12 @@ namespace DafnyLanguageServer
             }
             return position + col;
         }
+        */
 
         public void SetCapability(CompletionCapability capability)
         {
             _capability = capability;
         }
+
     }
 }
