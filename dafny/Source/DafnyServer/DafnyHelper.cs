@@ -152,28 +152,7 @@ namespace Microsoft.Dafny
                 return new List<SymbolTable.SymbolInformation>(); 
             }
         }
-
-        /*
-         * 
-         *Alter Inhalt vom Server: 
-         * private addCounterModel(log: string): any | undefined {
-                if (log && log.indexOf(EnvironmentConfig.CounterExampleStart) > -1 && log.indexOf(EnvironmentConfig.CounterExampleEnd) > -1) {
-                    const startOfSymbols: number = log.indexOf(EnvironmentConfig.CounterExampleStart) +
-                        EnvironmentConfig.CounterExampleStart.length;
-                    const endOfSymbols: number = log.indexOf(EnvironmentConfig.CounterExampleEnd);
-                    const info: string = log.substring(startOfSymbols, endOfSymbols);
-                    try {
-                        return JSON.parse(info);
-                    } catch (exception) {
-                        console.error("Failure  to parse response: " + exception + ", json: " + info);
-                        return undefined;
-                    }
-                }
-            }
-         *
-         * 
-         */
-        // Hier CounterExample vom Dafny; ConsoleLog als Return umschreiben 
+        
         public void CounterExample()
         {
             var listArgs = args.ToList();
