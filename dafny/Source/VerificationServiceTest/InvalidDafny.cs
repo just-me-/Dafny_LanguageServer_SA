@@ -21,14 +21,16 @@ namespace VerificationServiceTest
         ";
         static readonly DafnyFile file = new DafnyLanguageServer.DafnyFile
         {
-            Uri = new Uri("C://none"),
+            Uri = null,
             Sourcecode = dafnyCode
         };
 
         [TestMethod]
         public void TestMethod1()
         {
-            var helper = VerificationService.DafnyVerify(file);
+
+            var verificationService = new VerificationService();
+            var helper = verificationService.DafnyVerify(file);
             Assert.IsFalse(helper.Errors.Count == 0);
         }
     }
