@@ -16,12 +16,6 @@ namespace DafnyLanguageServer
         private readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
         private readonly ILanguageServer _router;
 
-
-        public VerificationService()
-        {
-            _router = null; // 2DO evt? Ein mocked router Objekt erstellen? Bzw Fake Klasse implementieren die dann auch gleich LSP testbar ist? 
-        }
-
         public VerificationService(ILanguageServer router)
         {
             _router = router;
@@ -33,7 +27,7 @@ namespace DafnyLanguageServer
             _router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
 
             var helper = DafnyVerify(file);
-            var diagnostics = CreateDafnyDiagnostics(helper, file);
+            var diagnostics = CreateDafnyDiagnostics(helper.Errors, file.Filepath);
 
             PublishDiagnosticsParams p = new PublishDiagnosticsParams
             {
@@ -55,11 +49,11 @@ namespace DafnyLanguageServer
             return helper; 
         }
 
-        public Collection<Diagnostic> CreateDafnyDiagnostics(DafnyHelper helper, DafnyFile file)
+        public Collection<Diagnostic> CreateDafnyDiagnostics(IEnumerable<ErrorInformation> errors, String filepath)
         {
             Collection<Diagnostic> diagnostics = new Collection<Diagnostic>();
 
-            foreach (ErrorInformation e in helper.Errors)
+            foreach (ErrorInformation e in errors)
             {
                 Diagnostic d = new Diagnostic();
                 d.Message = e.Msg + " - Hint: " + e.Tok.val;
@@ -75,7 +69,7 @@ namespace DafnyLanguageServer
                     });
 
                 d.Severity = DiagnosticSeverity.Error;
-                d.Source = file.Filepath;
+                d.Source = filepath;
 
                 for (int i = 0; i < e.Aux.Count - 1; i++) //ignore last element (trace)
                 {
