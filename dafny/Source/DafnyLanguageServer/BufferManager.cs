@@ -6,11 +6,13 @@ namespace DafnyLanguageServer
     class BufferManager
     {
         // DafnyFile statt String? 
-        private ConcurrentDictionary<Uri, string> _buffers = new ConcurrentDictionary<Uri, string>();
+        private ConcurrentDictionary<Uri, string> _fileBuffers = new ConcurrentDictionary<Uri, string>();
+        private ConcurrentDictionary<Uri, FileSymboltable> _SymboltableBuffers = new ConcurrentDictionary<Uri, FileSymboltable>();
 
         public void UpdateBuffer(Uri documentPath, string content)
         {
-            _buffers.AddOrUpdate(documentPath, content, (k, v) => content);
+            // Ist das File valide? Symboltabelle updaten... ebenfalls im Buffer 'halten' 
+            _fileBuffers.AddOrUpdate(documentPath, content, (k, v) => content);
         }
 
         public void UpdateBuffer(DafnyFile file)
@@ -20,7 +22,7 @@ namespace DafnyLanguageServer
 
         public string GetTextFromBuffer(Uri documentPath)
         {
-            return _buffers.TryGetValue(documentPath, out var buffer) ? buffer : null;
+            return _fileBuffers.TryGetValue(documentPath, out var buffer) ? buffer : null;
         }
     }
 }

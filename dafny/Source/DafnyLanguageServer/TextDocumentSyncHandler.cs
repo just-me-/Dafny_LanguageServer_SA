@@ -64,7 +64,6 @@ namespace DafnyLanguageServer
         public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
             updateBuffer(request.TextDocument.Uri, request.ContentChanges.FirstOrDefault()?.Text);
-
             return Unit.Task;
         }
 
