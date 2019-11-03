@@ -16,6 +16,12 @@ namespace DafnyLanguageServer
         private readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
         private readonly ILanguageServer _router;
 
+
+        public VerificationService()
+        {
+            _router = null; // 2DO evt? Ein mocked router Objekt erstellen? Bzw Fake Klasse implementieren die dann auch gleich LSP testbar ist? 
+        }
+
         public VerificationService(ILanguageServer router)
         {
             _router = router;
