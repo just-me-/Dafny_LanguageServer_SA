@@ -24,13 +24,11 @@ namespace VerificationServiceTest
         {
             var verificationService = new VerificationService(null);
 
-            // faka data... 
             var token = new Token();
             token.filename = "FakedFile";
             token.val = "Dies ist eigentlich kein Fehler";
             token.kind = token.pos = token.line = token.col = token.line = 3;
 
-            // Dieses Mist hat keinen public Konstruktor ... ausserhhalb von Boogie. Will der micht den total v___-.. 
             var errors = new List<FakeErrorObject>();
             var info = new FakeErrorObject(token, "Msg");
             errors.Add(info); 
