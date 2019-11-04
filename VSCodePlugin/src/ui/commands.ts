@@ -42,24 +42,41 @@ export default class Commands {
 
 
     // tslint:disable: object-literal-sort-keys
+
+    
+        
+        //TODO:es hat zuviele ocmmands jetzt? hä?
+
+
     public commands = [
         { name: CommandStrings.ShowReferences, callback: Commands.showReferences, doNotDispose: true },
         { name: CommandStrings.RestartServer, callback: () => this.restartServer() },
         { name: CommandStrings.InstallDafny, callback: () => this.installDafny() },
         { name: CommandStrings.UninstallDafny, callback: () => this.uninstallDafny() },
-        /*{
-            name: CommandStrings.RequestTest,
+
+        {
+            name: CommandStrings.Compile,
             callback: () => {
-                vscode.window.showInformationMessage('Aloha');
-                console.log("Lets try...");
-                this.languageServer.sendRequest(LanguageServerRequest.SayHello).then((answer) => {
-                    console.log("Answer: " + answer);
-                    vscode.window.showInformationMessage('We did it!');
-                }, (e) => {
-                    vscode.window.showErrorMessage("Request Test Error: " + e);
-                });
-            }
-        },*/
+                if (!vscode.window.activeTextEditor) {
+                    return; // The window was closed before compilation was executed
+                }
+                return this.compile(vscode.window.activeTextEditor.document);
+            },
+        },
+        {
+            name: CommandStrings.CompileAndRun,
+            callback: () => {
+                if (!vscode.window.activeTextEditor) {
+                    return; // The window was closed before compilation was executed
+                }
+                return this.compile(vscode.window.activeTextEditor.document, true);
+            },
+        },
+        {
+            name: CommandStrings.EditText,
+            // tslint:disable-next-line:object-literal-sort-keys
+            callback: (uri: string, version: number, edits: vscode.TextEdit[]) => this.applyTextEdits(uri, version, edits),
+        },
 
         { name: CommandStrings.ShowCounterExample, callback: () => {
             if (!vscode.window.activeTextEditor) {
@@ -71,12 +88,7 @@ export default class Commands {
 
             this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
             .then((result: any) => {
-                ////////////////////////////////////////////////////////////////////////////////////
-
-
-
                 const editor: vscode.TextEditor = vscode.window.activeTextEditor!;
-                
 
                 let line = result.line - 1;
                 let col = result.col;
@@ -87,12 +99,6 @@ export default class Commands {
                 for (let [key, value] of Object.entries(result.variables)) {
                     variables += key + " = " + value + "; ";
                   }
-
-                //for (let j = 0; j < result.variables.length; j++) {
-                //    if (j > 0) { variables += ", \n"; }
-                //    variables += result.variables[j].Name + "=" + result.variables[j].Value;
-                //}
-
 
                 const renderOptions: vscode.DecorationRenderOptions = {
                     after: {
@@ -126,38 +132,13 @@ export default class Commands {
             arrayDannHalt.push(decorator);
             if (!vscode.window.activeTextEditor) return null;
             editor.setDecorations(variableDisplay, arrayDannHalt);
+            })
+            }
         },
     
         { name: CommandStrings.HideCounterExample, callback: () => {
             vscode.window.showInformationMessage("TODO");
             }
-        },
-
-        
-        //TODO: es hat zuviele ocmmands jetzt? hä?
-    
-        {
-            name: CommandStrings.Compile,
-            callback: () => {
-                if (!vscode.window.activeTextEditor) {
-                    return; // The window was closed before compilation was executed
-                }
-                return this.compile(vscode.window.activeTextEditor.document);
-            },
-        },
-        {
-            name: CommandStrings.CompileAndRun,
-            callback: () => {
-                if (!vscode.window.activeTextEditor) {
-                    return; // The window was closed before compilation was executed
-                }
-                return this.compile(vscode.window.activeTextEditor.document, true);
-            },
-        },
-        {
-            name: CommandStrings.EditText,
-            // tslint:disable-next-line:object-literal-sort-keys
-            callback: (uri: string, version: number, edits: vscode.TextEdit[]) => this.applyTextEdits(uri, version, edits),
         },
     ];
 

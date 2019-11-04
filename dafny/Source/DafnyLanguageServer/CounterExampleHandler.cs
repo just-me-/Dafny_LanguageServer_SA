@@ -64,33 +64,9 @@ namespace DafnyLanguageServer
             {
                 result.Variables.Add(variable.Name, variable.Value);
             }
-            
 
             return result;
         }
 
-
-
-
-
     }
 }
-
-
-
-
-/*    type ist da counterExample, und arg ist das TextDocument als ganzes
-     recht generisch, im tditem sogar die languageid drin, wtf.
-     
- *     private sendDocument(textDocument: vscode.TextDocument, type: string): void {
-        if (textDocument !== null && textDocument.languageId === EnvironmentConfig.Dafny) {
-            this.context.localQueue.add(textDocument.uri.toString());
-            const tditem = JSON.stringify(TextDocumentItem.create(textDocument.uri.toString(),
-                textDocument.languageId, textDocument.version, textDocument.getText()));
-            this.languageServer.sendNotification(type, tditem);
-        }
-    }
-
-    */
-
-
