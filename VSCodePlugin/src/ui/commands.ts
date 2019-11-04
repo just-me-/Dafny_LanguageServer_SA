@@ -64,9 +64,9 @@ export default class Commands {
             if (!vscode.window.activeTextEditor) {
                 return;
             }
-            const arg = vscode.window.activeTextEditor.document
+            const documentURI = vscode.window.activeTextEditor.document.uri
 
-            this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
+            this.languageServer.sendRequest(LanguageServerRequest.CounterExample, documentURI)
             .then((result) => {
                     console.log(result)
             }

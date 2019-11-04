@@ -27,6 +27,7 @@ namespace DafnyLanguageServer
                     .WithHandler<TextDocumentSyncHandler>()
                     .WithHandler<CompletionHandler>()
                     .WithHandler<CompileHandler>()
+                    .WithHandler<CounterExampleHandler>()
             );
 
             try

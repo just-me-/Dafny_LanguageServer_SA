@@ -19,30 +19,31 @@ namespace DafnyLanguageServer
 
     public class CounterExampleResults
     {
-        public string counterExample { get; set; }
+        public string CounterExample { get; set; }
+    }
 
-        [Serial, Method("counterExample")]
-        public interface ICounterExample : IJsonRpcRequestHandler<CounterExampleParams, CounterExampleResults>
+
+    [Serial, Method("counterExample")]
+    public interface ICounterExample : IJsonRpcRequestHandler<CounterExampleParams, CounterExampleResults>
+    {
+    }
+
+    public class CounterExampleHandler : ICounterExample
+    {
+        public async Task<CounterExampleResults> Handle(CounterExampleParams request, CancellationToken cancellationToken)
         {
+
+
+            return new CounterExampleResults { CounterExample = "baba" };
         }
 
-        public class CounterExampleHandler : ICounterExample
-        {
-            public async Task<CounterExampleResults> Handle(CounterExampleParams request,
-                CancellationToken cancellationToken)
-            {
-
-
-                return null;
-            }
 
 
 
 
-
-        }
     }
 }
+
 
 
 
