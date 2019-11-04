@@ -1,6 +1,7 @@
 import { ExtensionContext, workspace, env } from "vscode";
 import { LanguageClient, ServerOptions } from "vscode-languageclient";
-import { TransportKind, LanguageClientOptions, VersionedTextDocumentIdentifier } from "vscode-languageclient/lib/client";
+//import { TransportKind, LanguageClientOptions, VersionedTextDocumentIdentifier } from "vscode-languageclient/lib/client";
+import { LanguageClientOptions } from "vscode-languageclient/lib/client";
 import { window } from 'vscode';
 import * as path from 'path';
 
@@ -9,6 +10,7 @@ export default class DafnyLanguageClient extends LanguageClient {
     constructor(extensionContext: ExtensionContext) {
         
         const dafnyLangServerExe = path.join(__dirname, "../../../../dafny/Binaries/DafnyLanguageServer.exe")   //TODO: Production Folder Structure may be different.
+        extensionContext;
 
         /*
         const path_marcel = '/Users/marcel/Documents/HSR/5. Semester/SA/_Code/dafny-server-redesign/Dafny_Server_Redesign/Dafny_Server_Redesign/bin/Debug/netcoreapp2.1/Dafny_Server_Redesign.dll';

@@ -1,12 +1,12 @@
 "use strict";
 import * as vscode from "vscode";
-import * as path from 'path';
+//import * as path from 'path';
 import { LanguageClient } from "vscode-languageclient";
 import { TextDocumentItem } from "vscode-languageserver-types";
 import { Context } from "./context";
 import { CounterModelProvider } from "./counterModelProvider";
 import { Statusbar } from "./dafnyStatusbar";
-import { IVerificationResult } from "./IVerificationResult";
+//import { IVerificationResult } from "./IVerificationResult";
 import { CommandStrings, Config, EnvironmentConfig, LanguageServerNotification } from "./stringRessources";
 
 export class DafnyClientProvider {

@@ -82,7 +82,7 @@ namespace Microsoft.Dafny
             {
                 dafnyProgram = new Dafny.Program(fname, module, builtIns, reporter);
             }
-            Console.WriteLine("Parsed");
+            //Console.WriteLine("Parsed");
             return success;
         }
 
@@ -90,7 +90,7 @@ namespace Microsoft.Dafny
         {
             var resolver = new Dafny.Resolver(dafnyProgram);
             resolver.ResolveProgram(dafnyProgram);
-            Console.WriteLine("Resolved");
+            //Console.WriteLine("Resolved");
             return reporter.Count(ErrorLevel.Error) == 0;
         }
 
@@ -98,7 +98,7 @@ namespace Microsoft.Dafny
         {
             boogiePrograms = Translator.Translate(dafnyProgram, reporter,
                 new Translator.TranslatorFlags() { InsertChecksums = true, UniqueIdPrefix = fname }); // FIXME how are translation errors reported?
-            Console.WriteLine("Translated");
+            //Console.WriteLine("Translated");
             return true;
         }
 
@@ -121,7 +121,7 @@ namespace Microsoft.Dafny
                 {
                     case PipelineOutcome.Done:
                     case PipelineOutcome.VerificationCompleted:
-                        Console.WriteLine("BoogieOnced");
+                        //Console.WriteLine("BoogieOnced");
                         return true;
                 }
             }
