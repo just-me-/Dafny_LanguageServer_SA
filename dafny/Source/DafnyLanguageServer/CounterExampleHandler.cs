@@ -52,15 +52,15 @@ namespace DafnyLanguageServer
 
             var helper = new DafnyHelper(args, filename, programSource);
             var models = helper.CounterExample();
-            var states = models[models.Count - 1].States;
-            var lastEntry = states[states.Count - 1];
+            var states = models[0].States;
+            var firstEntry = states[2];   //bisschen viele magic numbers aber ich glaub das kommt halt so retour von dafny. TODO: Im Dafny Helper anpassen und was gescheites returnen.
 
-            var lastEntryVariables = lastEntry.Variables;
+            var firstEntryVariables = firstEntry.Variables;
 
-            result.Col = lastEntry.Column;
-            result.Line = lastEntry.Line;
+            result.Col = firstEntry.Column;
+            result.Line = firstEntry.Line;
 
-            foreach (var variable in lastEntryVariables)
+            foreach (var variable in firstEntryVariables)
             {
                 result.Variables.Add(variable.Name, variable.Value);
             }
