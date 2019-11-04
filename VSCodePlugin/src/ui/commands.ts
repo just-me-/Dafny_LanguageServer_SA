@@ -69,13 +69,74 @@ export default class Commands {
             const arg = { DafnyFile: vscode.window.activeTextEditor.document.fileName}
 
             this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
-            .then((result) => {
-                    console.log(result)
-            }
-            )
+            .then((result: any) => {
+                ////////////////////////////////////////////////////////////////////////////////////
+
+
+
+                const editor: vscode.TextEditor = vscode.window.activeTextEditor!;
                 
-            }
+
+                let line = result.line - 1;
+                let col = result.col;
+                if (line < 0) { return null; }
+
+                let variables = "";
+
+                for (let [key, value] of Object.entries(result.variables)) {
+                    variables += key + " = " + value + "; ";
+                  }
+
+                //for (let j = 0; j < result.variables.length; j++) {
+                //    if (j > 0) { variables += ", \n"; }
+                //    variables += result.variables[j].Name + "=" + result.variables[j].Value;
+                //}
+
+
+                const renderOptions: vscode.DecorationRenderOptions = {
+                    after: {
+                        contentText: variables,
+                    },
+                };
+
+                let decorator: vscode.DecorationOptions = {
+                    range: new vscode.Range(new vscode.Position(line, col), new vscode.Position(line, Number.MAX_VALUE)),
+                    renderOptions,
+                  };
+            
+
+            const variableDisplay = vscode.window.createTextEditorDecorationType({
+                dark: {
+                    after: {
+                        backgroundColor: "#cccccc",
+                        color: "#161616",
+                        margin: "0 0 0 30px",
+                    },
+                },
+                light: {
+                    after: {
+                        backgroundColor: "#161616",
+                        color: "#cccccc",
+                    },
+                },
+            });
+
+            let arrayDannHalt: vscode.DecorationOptions[] = []
+            arrayDannHalt.push(decorator)
+            if (!vscode.window.activeTextEditor) return null;
+            editor.setDecorations(variableDisplay, arrayDannHalt);
         },
+    
+
+
+        
+                
+
+
+
+                ///////////////////////////////////////////////////////////////////////////////////
+
+
         
 
     
