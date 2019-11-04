@@ -42,6 +42,9 @@ namespace DafnyLanguageServer
         {
             /*
              * 
+             * // hole das aktuelle word... entferne den punkt. (sonst kein wort => "") 
+             * // filtere die Liste mit diesem Wort: "isDefinitionFor(word) if SymbolType.Definition
+             * 
              * 2Do: von hier noch abgucken wie sie "die inteligente" vervollständigung gemacht haben
              * 
              * completionProvider.ts (auch server) 
@@ -79,10 +82,11 @@ namespace DafnyLanguageServer
 
             return await Task.Run(() =>
             {
-                var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri); 
+                var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri);
+                var word = "C"; 
                 return (symbols is null) ?
                     new CompletionList() :
-                    convertListToCompletionresponse(symbols.getTmpList(), request);
+                    convertListToCompletionresponse(symbols.getList(word), request);
             });
         }
 
@@ -97,7 +101,7 @@ namespace DafnyLanguageServer
                 complitionItems.Add(
                     new CompletionItem
                     {
-                        Label = symbol.Name + " (Type: " + symbol.SymbolType + ")",
+                        Label = symbol.Name + " (Type: " + symbol.SymbolType + ")" + symbol.ParentClass,
                         Kind = kind, 
                         TextEdit = new TextEdit
                         {

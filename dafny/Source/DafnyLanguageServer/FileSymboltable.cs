@@ -19,10 +19,24 @@ namespace DafnyLanguageServer
             HasEntries = (_symbolTable.Count > 0); 
         }
 
-        public List<SymbolTable.SymbolInformation> getTmpList()
+        public List<SymbolTable.SymbolInformation> getList()
         {
             return _symbolTable; 
         }
+
+        public List<SymbolTable.SymbolInformation> getList(string specificWord)
+        {
+            if(specificWord is null)
+                return getList();
+
+            return _symbolTable.Where(x => x.ParentClass == specificWord).ToList();
+            /*
+            var filteredList = _symbolTable; // in eigene funktion auslagern mit lambda als Mitgabefilter..?
+            var countRemoved = filteredList?.RemoveAll(x => ((!(x.ParentClass is null)) && x.ParentClass.ToString().Equals(specificWord)));
+            return filteredList;
+            */
+        }
+
 
         private List<SymbolTable.SymbolInformation> getSymbolList(String documentPath, String code)
         {
@@ -40,7 +54,7 @@ namespace DafnyLanguageServer
         private List<SymbolTable.SymbolInformation> removeLeadingDashSymbols(List<SymbolTable.SymbolInformation> list)
         {
             var filteredList = list;
-            var countRemoved = filteredList.RemoveAll(x => x.Name.StartsWith("_"));
+            var countRemoved = filteredList?.RemoveAll(x => x.Name.StartsWith("_"));
             return filteredList;
         }
 
