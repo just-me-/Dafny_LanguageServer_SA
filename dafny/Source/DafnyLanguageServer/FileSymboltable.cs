@@ -10,9 +10,14 @@ namespace DafnyLanguageServer
 {
     class FileSymboltable
     {
+        private List<SymbolTable.SymbolInformation> _symbolTable; 
 
+        public FileSymboltable(string uri, string content)
+        {
+            _symbolTable = getSymbolList(uri, content); 
+        }
 
-        public List<SymbolTable.SymbolInformation> getSymbolList(String documentPath, String code)
+        private List<SymbolTable.SymbolInformation> getSymbolList(String documentPath, String code)
         {
             string[] args = new string[] { };
             DafnyHelper helper = new DafnyHelper(args, documentPath, code);
