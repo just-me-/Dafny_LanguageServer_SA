@@ -6,6 +6,9 @@ method MultipleReturns(x: int, y: int) returns (more: int, less: int)
    less := x - y;
    // assert x == 1;              //auskommentieren -> assertion violation geht weg
    // bruder := 1;
+   var a := 1; 
+   var aa := 1; 
+   
 }
 
 class C {

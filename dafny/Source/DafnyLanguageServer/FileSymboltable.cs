@@ -15,7 +15,7 @@ namespace DafnyLanguageServer
 
         public FileSymboltable(string uri, string content)
         {
-            _symbolTable = getSymbolList(uri, content);
+            _symbolTable = removeDuplicates(getSymbolList(uri, content));
             HasEntries = (_symbolTable.Count > 0); 
         }
 
@@ -29,6 +29,19 @@ namespace DafnyLanguageServer
             string[] args = new string[] { };
             DafnyHelper helper = new DafnyHelper(args, documentPath, code);
             return helper.Symbols();
+        }
+
+        private List<SymbolTable.SymbolInformation> removeDuplicates(List<SymbolTable.SymbolInformation> list)
+        {
+            list = removeLeadingDashSymbols(list); // tmp?
+            return list.GroupBy(x => x.Name).Select(x => x.First()).ToList();
+        }
+        // not sure if this is a good idea. Therefore its an isolated function 
+        private List<SymbolTable.SymbolInformation> removeLeadingDashSymbols(List<SymbolTable.SymbolInformation> list)
+        {
+            var filteredList = list;
+            var countRemoved = filteredList.RemoveAll(x => x.Name.StartsWith("_"));
+            return filteredList;
         }
 
     }
