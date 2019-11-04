@@ -97,7 +97,7 @@ namespace DafnyLanguageServer
                 complitionItems.Add(
                     new CompletionItem
                     {
-                        Label = symbol.Name + " --- Type: " + symbol.SymbolType,
+                        Label = symbol.Name + " (Type: " + symbol.SymbolType + ")",
                         Kind = kind, 
                         TextEdit = new TextEdit
                         {
@@ -117,18 +117,6 @@ namespace DafnyLanguageServer
             }
             return new CompletionList(complitionItems); 
         }
-
-        /*
-        private static int GetPosition(string buffer, int line, int col)
-        {
-            var position = 0;
-            for (var i = 0; i < line; i++)
-            {
-                position = buffer.IndexOf('\n', position) + 1;
-            }
-            return position + col;
-        }
-        */
 
         public void SetCapability(CompletionCapability capability)
         {

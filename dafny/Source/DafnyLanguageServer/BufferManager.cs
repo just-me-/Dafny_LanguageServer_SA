@@ -8,7 +8,6 @@ namespace DafnyLanguageServer
 {
     class BufferManager
     {
-        // DafnyFile statt String? 
         private ConcurrentDictionary<Uri, string> _fileBuffers = new ConcurrentDictionary<Uri, string>();
         private ConcurrentDictionary<Uri, FileSymboltable> _symboltableBuffers = new ConcurrentDictionary<Uri, FileSymboltable>();
         // hmm auch noch error information hinzutun?
