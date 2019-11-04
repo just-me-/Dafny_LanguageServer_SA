@@ -17,7 +17,8 @@ namespace DafnyLanguageServer
             _fileBuffers.AddOrUpdate(documentPath, content, (k, v) => content);
             // if file valid, add or update buffer, else tue nichts
             // was für den fall dass das file valid ist, die tabelle aber leer? also man leert das file sozusagen tatsächlich => testen! 
-            var symbols = getSymbolList(documentPath.ToString(), content);
+            var symboltable = new FileSymboltable();
+            var symbols = symboltable.getSymbolList(documentPath.ToString(), content); 
             // symbols zu FileSymboltable casten... also alle Inhalte zu Einträgen pro File casten. Doppelte Infos kommen raus. etc. 
             _symboltableBuffers.AddOrUpdate(documentPath, symbols, (k, v) => symbols);
         }
@@ -39,13 +40,6 @@ namespace DafnyLanguageServer
         public ConcurrentDictionary<Uri, FileSymboltable> GetAllSymboltabls()
         {
             return _symboltableBuffers;
-        }
-
-        private List<SymbolTable.SymbolInformation> getSymbolList(String documentPath, String code)
-        {
-            string[] args = new string[] { };
-            DafnyHelper helper = new DafnyHelper(args, documentPath, code);
-            return helper.Symbols();
         }
     }
 }
