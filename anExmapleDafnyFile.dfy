@@ -1,19 +1,7 @@
-method MultipleReturns(x: int, y: int) returns (more: int, less: int)
+method MultipleReturns(tomsInputVar: int) returns (tomsOutputVar: int)
    //requires 0 < y            //einkommentieren -> fehler postcondition geht weg
-   ensures less < x < more
-   ensures y > 0
+   ensures tomsOutputVar > 0
 {
-   more := x + y;
-   less := x - y;
-
-   //assert x == 1;              //auskommentieren -> assertion violation geht weg
-   // bruder := 1;
+   return tomsInputVar;
 }
 
-
-
-method Main() {
-   var a := 1+2;
-   print "a is ";
-   print a;
-}

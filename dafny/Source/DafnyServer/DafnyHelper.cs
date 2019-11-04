@@ -153,7 +153,7 @@ namespace Microsoft.Dafny
             }
         }
 
-        public void CounterExample()
+        public List<CounterExampleProvider.CounterExample> CounterExample()
         {
             var listArgs = args.ToList();
             listArgs.Add("/mv:" + CounterExampleProvider.ModelBvd);
@@ -163,19 +163,28 @@ namespace Microsoft.Dafny
                 if (Parse() && Resolve() && Translate())
                 {
                     var counterExampleProvider = new CounterExampleProvider();
+                    List<CounterExampleProvider.CounterExample> counterExamples = new List<CounterExampleProvider.CounterExample>();
                     foreach (var boogieProgram in boogiePrograms)
                     {
                         RemoveExistingModel();
                         BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);
                         var model = counterExampleProvider.LoadCounterModel();
-                        Console.WriteLine("COUNTEREXAMPLE_START " + ConvertToJson(model) + " COUNTEREXAMPLE_END");
+                        Console.WriteLine("COUNTEREXAMPLE_START " + ConvertToJson(model) + " COUNTEREXAMPLE_END"); //2do: LEGACY aber evtl für testzeug mal drin gelassen
+                        counterExamples.Add(model);
                     }
+                    return counterExamples;
                 }
+
+                
+                
             }
+           
             catch (Exception e)
             {
-                Console.WriteLine("Error collection models: " + e.Message);
+                Console.WriteLine("Error while collecting models: " + e.Message);
             }
+
+            return new List<CounterExampleProvider.CounterExample>(); 
         }
 
         private void RemoveExistingModel()

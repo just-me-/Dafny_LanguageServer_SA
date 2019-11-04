@@ -19,7 +19,10 @@ namespace DafnyLanguageServer
 
     public class CounterExampleResults
     {
-        public string CounterExample { get; set; }
+        public int Line { get; set; }
+        public int Col { get; set; }
+        public string Variable { get; set; }
+        public string Value { get; set; }
     }
 
 
@@ -40,10 +43,25 @@ namespace DafnyLanguageServer
 
         public async Task<CounterExampleResults> Handle(CounterExampleParams request, CancellationToken cancellationToken)
         {
-            //            var doc = _bufferManager.GetTextFromBuffer(request.DafnyFileUri);
-            Uri uri = new Uri(request.DafnyFile);
-            string content = _bufferManager.GetTextFromBuffer(uri);
-            return new CounterExampleResults { CounterExample = content };
+            string[] args = new string[] { };
+            string filename = request.DafnyFile;
+            string programSource = _bufferManager.GetTextFromBuffer(new Uri(request.DafnyFile));
+
+            var result = new CounterExampleResults();
+
+            var helper = new DafnyHelper(args, filename, programSource);
+            var models = helper.CounterExample();
+            var entry = models[models.Count - 1].States;
+            var lastEntry = entry[entry.Count - 1];
+            var lastEntryVariables = lastEntry.Variables;
+            var lastEntryFirstVariable = lastEntryVariables[0];
+
+            result.Col = lastEntry.Column;
+            result.Line = lastEntry.Line;
+            result.Variable = lastEntryFirstVariable.Name;
+            result.Value = lastEntryFirstVariable.Value;
+
+            return result;
         }
 
 
