@@ -30,11 +30,6 @@ namespace DafnyLanguageServer
                 return getList();
 
             return _symbolTable.Where(x => x.ParentClass == specificWord).ToList();
-            /*
-            var filteredList = _symbolTable; // in eigene funktion auslagern mit lambda als Mitgabefilter..?
-            var countRemoved = filteredList?.RemoveAll(x => ((!(x.ParentClass is null)) && x.ParentClass.ToString().Equals(specificWord)));
-            return filteredList;
-            */
         }
 
 

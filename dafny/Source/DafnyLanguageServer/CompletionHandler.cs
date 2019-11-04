@@ -40,50 +40,10 @@ namespace DafnyLanguageServer
 
         public async Task<CompletionList> Handle(CompletionParams request, CancellationToken cancellationToken)
         {
-            /*
-             * 
-             * // hole das aktuelle word... entferne den punkt. (sonst kein wort => "") 
-             * // filtere die Liste mit diesem Wort: "isDefinitionFor(word) if SymbolType.Definition
-             * 
-             * 2Do: von hier noch abgucken wie sie "die inteligente" vervollständigung gemacht haben
-             * 
-             * completionProvider.ts (auch server) 
-             *   const word = this.parseWordForCompletion(document, handler.position);
-                 const allSymbols = await this.server.symbolService.getAllSymbols(document);
-                 const definition = allSymbols.find((e) => e.isDefinitionFor(word));
-             * 
-             *  falls "definition" ? liefereExakte Completion : liefere closest completion
-             *  ... und baut dann die commands so zusammen wie wir das hier unten fakemässig gemacht haben. 
-             *  
-             *  
-             *  private provideExactCompletions(symbols: DafnySymbol[], definition: DafnySymbol): CompletionItem[] {
-                    const possibleSymbolForCompletion: DafnySymbol[] = symbols.filter(
-                                (symbol: DafnySymbol) => symbol.canProvideCodeCompletionForDefinition(definition));
-                    return possibleSymbolForCompletion.map((e: DafnySymbol) => this.buildCompletion(e));
-                }
-
-                private provideBestEffortCompletion(symbols: DafnySymbol[], word: string): CompletionItem[] {
-                    const fields: DafnySymbol[] = symbols.filter((e: DafnySymbol) => e.isField(word));
-                    const definingClass = this.findDefiningClassForField(symbols, fields);
-                    if (definingClass) {
-                        const possibleSymbolForCompletion: DafnySymbol[] = symbols.filter(
-                            (symbol: DafnySymbol) => symbol.canProvideCodeCompletionForClass(definingClass));
-                        return possibleSymbolForCompletion.map((e: DafnySymbol) => this.buildCompletion(e));
-                    }
-                    return [];
-                }
-                public canProvideCodeCompletionForClass(symbol: DafnySymbol) {
-                    return this.hasParentClass(symbol.name) &&
-                        this.hasModule(symbol.module) &&
-                        this.isOfType([SymbolType.Field, SymbolType.Method]) &&
-                        this.name !== DafnyKeyWords.ConstructorMethod;
-                }
-             */
-
             return await Task.Run(() =>
             {
                 var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri);
-                var word = "C"; 
+                var word = "C"; // 2do..
                 return (symbols is null) ?
                     new CompletionList() :
                     convertListToCompletionresponse(symbols.getList(word), request);
