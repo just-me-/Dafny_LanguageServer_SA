@@ -61,8 +61,22 @@ export default class Commands {
         },*/
 
         { name: CommandStrings.ShowCounterExample, callback: () => {
-            vscode.window.showInformationMessage("Tüüt")
-        }},
+            if (!vscode.window.activeTextEditor) {
+                return;
+            }
+            const arg = vscode.window.activeTextEditor.document
+
+            this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
+            .then((result) => {
+                    console.log(result)
+            }
+            )
+                
+            }
+        },
+        
+
+
         {
             name: CommandStrings.Compile,
             callback: () => {
