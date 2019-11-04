@@ -64,9 +64,11 @@ export default class Commands {
             if (!vscode.window.activeTextEditor) {
                 return;
             }
-            const documentURI = vscode.window.activeTextEditor.document.uri
 
-            this.languageServer.sendRequest(LanguageServerRequest.CounterExample, documentURI)
+            vscode.window.activeTextEditor.document.save();
+            const arg = { DafnyFile: vscode.window.activeTextEditor.document.fileName}
+
+            this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
             .then((result) => {
                     console.log(result)
             }
@@ -76,7 +78,7 @@ export default class Commands {
         },
         
 
-
+    
         {
             name: CommandStrings.Compile,
             callback: () => {

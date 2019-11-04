@@ -14,7 +14,7 @@ namespace DafnyLanguageServer
 {
     public class CounterExampleParams : IRequest<CounterExampleResults>
     {
-        public string DafnyFileUri { get; set; }
+        public string DafnyFile { get; set; }
     }
 
     public class CounterExampleResults
@@ -30,11 +30,20 @@ namespace DafnyLanguageServer
 
     public class CounterExampleHandler : ICounterExample
     {
+
+        private readonly BufferManager _bufferManager;
+
+        public CounterExampleHandler(BufferManager b)
+        {
+            _bufferManager = b;
+        }
+
         public async Task<CounterExampleResults> Handle(CounterExampleParams request, CancellationToken cancellationToken)
         {
-
-
-            return new CounterExampleResults { CounterExample = "baba" };
+            //            var doc = _bufferManager.GetTextFromBuffer(request.DafnyFileUri);
+            Uri uri = new Uri(request.DafnyFile);
+            string content = _bufferManager.GetTextFromBuffer(uri);
+            return new CounterExampleResults { CounterExample = content };
         }
 
 

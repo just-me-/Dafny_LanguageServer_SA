@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 namespace DafnyLanguageServer
 {
-    class BufferManager
+    public class BufferManager
     {
         // DafnyFile statt String? 
         private ConcurrentDictionary<Uri, string> _buffers = new ConcurrentDictionary<Uri, string>();
