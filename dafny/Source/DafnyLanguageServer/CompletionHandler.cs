@@ -80,7 +80,9 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
                 var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri); 
-                return convertListToCompletionresponse(symbols.getTmpList(), request); 
+                return (symbols is null) ?
+                    new CompletionList() :
+                    convertListToCompletionresponse(symbols.getTmpList(), request);
             });
         }
 
