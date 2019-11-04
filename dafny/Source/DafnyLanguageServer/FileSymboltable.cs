@@ -15,15 +15,8 @@ namespace DafnyLanguageServer
 
         public FileSymboltable(string uri, string content)
         {
-            var symboltable = getSymbolList(uri, content);
-            if(symboltable.Count > 0)
-            {
-                _symbolTable = symboltable;
-            } else
-            {
-                _symbolTable = new List<SymbolTable.SymbolInformation>(); 
-            }
-            HasEntries = (symboltable.Count > 0); 
+            _symbolTable = getSymbolList(uri, content);
+            HasEntries = (_symbolTable.Count > 0); 
         }
 
         public List<SymbolTable.SymbolInformation> getTmpList()
