@@ -126,14 +126,17 @@ export default class Commands {
                         color: "#cccccc",
                     },
                 },
+                
             });
 
             let arrayDannHalt: vscode.DecorationOptions[] = []
             arrayDannHalt.push(decorator);
             if (!vscode.window.activeTextEditor) return null;
             editor.setDecorations(variableDisplay, arrayDannHalt);
-            })
             return true;
+            })
+
+            
             }
             
         },
