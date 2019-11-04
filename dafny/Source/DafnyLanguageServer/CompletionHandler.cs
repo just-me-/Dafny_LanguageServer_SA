@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using DafnyServer;
@@ -43,11 +44,28 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
                 var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri);
-                var word = "C"; // 2do..
+                var word = getCurrentWord(
+                    _bufferManager.GetTextFromBuffer(request.TextDocument.Uri), 
+                    (int)request.Position.Line, 
+                    (int)request.Position.Character
+                );
+                var parentClass = symbols.getParentForWord(word); 
                 return (symbols is null) ?
                     new CompletionList() :
-                    convertListToCompletionresponse(symbols.getList(word), request);
+                    convertListToCompletionresponse(symbols.getList(parentClass), request);
             });
+        }
+
+        private string getCurrentWord(string code, int line, int character)
+        {
+            var codeLines = Regex.Split(code, "\r\n|\r|\n");
+            var selectedLine = codeLines[line];
+            var match = Regex.Match(selectedLine, @"(\S+)\.");
+            if (match.Success)
+            {
+                return(match.Groups[1].Value);
+            }
+            return null; 
         }
 
         private CompletionList convertListToCompletionresponse(List<SymbolTable.SymbolInformation> symbols, CompletionParams request)

@@ -32,6 +32,12 @@ namespace DafnyLanguageServer
             return _symbolTable.Where(x => x.ParentClass == specificWord).ToList();
         }
 
+        public string getParentForWord(string word)
+        {
+            if (word is null)
+                return null;
+            return _symbolTable.Where(x => x.Name == word).FirstOrDefault().ParentClass; 
+        }
 
         private List<SymbolTable.SymbolInformation> getSymbolList(String documentPath, String code)
         {
