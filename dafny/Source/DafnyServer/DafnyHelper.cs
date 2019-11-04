@@ -149,7 +149,7 @@ namespace Microsoft.Dafny
             }
             else
             {
-                return new List<SymbolTable.SymbolInformation>(); 
+                return null; 
             }
         }
         

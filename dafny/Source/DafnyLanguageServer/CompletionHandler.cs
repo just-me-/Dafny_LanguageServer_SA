@@ -79,12 +79,8 @@ namespace DafnyLanguageServer
 
             return await Task.Run(() =>
             {
-                var documentPath = request.TextDocument.Uri.ToString();
-                var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri); // 2do... noma mit dem alten server vergleichen
-                // hmm eig will ich hier nicht die symbols von einem dokument sondern von allen. 
-                // kann man sagen; nur die varis vom aktuellen dokument... methoden / klassen aber von allen files? 
-
-                return convertListToCompletionresponse(symbols, request); 
+                var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri); 
+                return convertListToCompletionresponse(symbols.getTmpList(), request); 
             });
         }
 
@@ -96,12 +92,12 @@ namespace DafnyLanguageServer
                 complitionItems.Add(
                     new CompletionItem
                     {
-                        Label = symbol.Name+" --- Type: "+symbol.SymbolType,
+                        Label = symbol.Name + " --- Type: " + symbol.SymbolType,
                         Kind = CompletionItemKind.Reference,
                         TextEdit = new TextEdit
                         {
                             NewText = symbol.Name,
-                            Range = new Range( // hmm ned das von der tabelle nehmen (weil das die vorkommen sind) sondern aktuelle position oder? 
+                            Range = new Range( 
                             new Position
                             {
                                 Line = request.Position.Line,
@@ -115,7 +111,6 @@ namespace DafnyLanguageServer
                     }); 
             }
             return new CompletionList(complitionItems); 
-            // 2do does empty case still work? 
         }
 
         /*

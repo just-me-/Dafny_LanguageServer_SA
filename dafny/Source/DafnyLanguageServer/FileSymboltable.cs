@@ -11,10 +11,24 @@ namespace DafnyLanguageServer
     class FileSymboltable
     {
         private List<SymbolTable.SymbolInformation> _symbolTable; 
+        public bool HasEntries { get; }
 
         public FileSymboltable(string uri, string content)
         {
-            _symbolTable = getSymbolList(uri, content); 
+            var symboltable = getSymbolList(uri, content);
+            if(symboltable.Count > 0)
+            {
+                _symbolTable = symboltable;
+            } else
+            {
+                _symbolTable = new List<SymbolTable.SymbolInformation>(); 
+            }
+            HasEntries = (symboltable.Count > 0); 
+        }
+
+        public List<SymbolTable.SymbolInformation> getTmpList()
+        {
+            return _symbolTable; 
         }
 
         private List<SymbolTable.SymbolInformation> getSymbolList(String documentPath, String code)
