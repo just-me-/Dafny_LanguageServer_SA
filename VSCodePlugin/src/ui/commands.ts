@@ -59,6 +59,10 @@ export default class Commands {
                 });
             }
         },*/
+
+        { name: CommandStrings.ShowCounterExample, callback: () => {
+            vscode.window.showInformationMessage("Tüüt")
+        }},
         {
             name: CommandStrings.Compile,
             callback: () => {
