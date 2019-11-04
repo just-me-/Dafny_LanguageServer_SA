@@ -40,6 +40,7 @@ export default class Commands {
     public provider: DafnyClientProvider;
     public runner: DafnyRunner;
 
+
     // tslint:disable: object-literal-sort-keys
     public commands = [
         { name: CommandStrings.ShowReferences, callback: Commands.showReferences, doNotDispose: true },
@@ -122,23 +123,18 @@ export default class Commands {
             });
 
             let arrayDannHalt: vscode.DecorationOptions[] = []
-            arrayDannHalt.push(decorator)
+            arrayDannHalt.push(decorator);
             if (!vscode.window.activeTextEditor) return null;
             editor.setDecorations(variableDisplay, arrayDannHalt);
         },
     
-
-
-        
-                
-
-
-
-                ///////////////////////////////////////////////////////////////////////////////////
-
+        { name: CommandStrings.HideCounterExample, callback: () => {
+            vscode.window.showInformationMessage("TODO");
+            }
+        },
 
         
-
+        //TODO: es hat zuviele ocmmands jetzt? hä?
     
         {
             name: CommandStrings.Compile,
