@@ -9,6 +9,7 @@ using OmniSharp.Extensions.Embedded.MediatR;
 using OmniSharp.Extensions.JsonRpc;
 using System.Text.RegularExpressions;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
+using System.Collections.Generic;
 
 namespace DafnyLanguageServer
 {
@@ -21,8 +22,8 @@ namespace DafnyLanguageServer
     {
         public int Line { get; set; }
         public int Col { get; set; }
-        public string Variable { get; set; }
-        public string Value { get; set; }
+        public Dictionary<string, string> Variables { get; } = new Dictionary<string, string>();
+
     }
 
 
@@ -51,15 +52,19 @@ namespace DafnyLanguageServer
 
             var helper = new DafnyHelper(args, filename, programSource);
             var models = helper.CounterExample();
-            var entry = models[models.Count - 1].States;
-            var lastEntry = entry[entry.Count - 1];
+            var states = models[models.Count - 1].States;
+            var lastEntry = states[states.Count - 1];
+
             var lastEntryVariables = lastEntry.Variables;
-            var lastEntryFirstVariable = lastEntryVariables[0];
 
             result.Col = lastEntry.Column;
             result.Line = lastEntry.Line;
-            result.Variable = lastEntryFirstVariable.Name;
-            result.Value = lastEntryFirstVariable.Value;
+
+            foreach (var variable in lastEntryVariables)
+            {
+                result.Variables.Add(variable.Name, variable.Value);
+            }
+            
 
             return result;
         }
