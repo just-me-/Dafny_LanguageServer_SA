@@ -80,7 +80,7 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
                 var documentPath = request.TextDocument.Uri.ToString();
-                var symbols = _bufferManager.GetSymboltableFromBuffer(request.TextDocument.Uri); // 2do... noma mit dem alten server vergleichen
+                var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri); // 2do... noma mit dem alten server vergleichen
                 // hmm eig will ich hier nicht die symbols von einem dokument sondern von allen. 
                 // kann man sagen; nur die varis vom aktuellen dokument... methoden / klassen aber von allen files? 
 

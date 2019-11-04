@@ -32,6 +32,15 @@ namespace DafnyLanguageServer
             return _fileBuffers.TryGetValue(documentPath, out var buffer) ? buffer : null;
         }
 
+        public FileSymboltable GetSymboltableForFile(Uri documentPath)
+        {
+            return _symboltableBuffers.TryGetValue(documentPath, out var buffer) ? buffer : null;
+        }
+        public ConcurrentDictionary<Uri, FileSymboltable> GetAllSymboltabls()
+        {
+            return _symboltableBuffers;
+        }
+
         private List<SymbolTable.SymbolInformation> getSymbolList(String documentPath, String code)
         {
             string[] args = new string[] { };
