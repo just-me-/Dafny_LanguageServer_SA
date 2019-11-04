@@ -133,7 +133,9 @@ export default class Commands {
             if (!vscode.window.activeTextEditor) return null;
             editor.setDecorations(variableDisplay, arrayDannHalt);
             })
+            return true;
             }
+            
         },
     
         { name: CommandStrings.HideCounterExample, callback: () => {
