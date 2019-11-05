@@ -28,8 +28,13 @@ namespace DafnyLanguageServer
         {
             if(specificWord is null)
                 return getList();
+            SymbolTable.SymbolInformation parentSymbol = _symbolTable.Where(x => (x.Name == specificWord)).FirstOrDefault();
+            return _symbolTable.Where(x => (x.ParentClass == specificWord  && symbolIsInRangeOf(x, parentSymbol))).ToList();
+        }
 
-            return _symbolTable.Where(x => x.ParentClass == specificWord).ToList();
+        private bool symbolIsInRangeOf(SymbolTable.SymbolInformation child, SymbolTable.SymbolInformation parent)
+        {
+            return (child.Line >= parent.Line && child.EndLine <= parent.EndLine); 
         }
 
         public string getParentForWord(string word)

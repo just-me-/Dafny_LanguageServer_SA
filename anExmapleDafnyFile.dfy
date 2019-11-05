@@ -22,5 +22,6 @@ method Main() {
    print "a is ";
    print a;
    var acc := new C();
-   //acc.
+   // acc.
+   
 }

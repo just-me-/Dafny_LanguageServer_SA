@@ -79,7 +79,7 @@ namespace DafnyLanguageServer
                 complitionItems.Add(
                     new CompletionItem
                     {
-                        Label = symbol.Name + " (Type: " + symbol.SymbolType + ")" + symbol.ParentClass,
+                        Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Parent: {symbol.ParentClass})",
                         Kind = kind, 
                         TextEdit = new TextEdit
                         {
