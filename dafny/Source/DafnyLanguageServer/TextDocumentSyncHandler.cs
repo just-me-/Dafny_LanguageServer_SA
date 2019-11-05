@@ -19,6 +19,7 @@ namespace DafnyLanguageServer
     {
         private readonly ILanguageServer _router;
         private readonly BufferManager _bufferManager;
+        private readonly VerificationService _verificationService;
         private SynchronizationCapability _capability;
         private readonly DocumentSelector _documentSelector = new DocumentSelector(
             new DocumentFilter()
@@ -32,6 +33,7 @@ namespace DafnyLanguageServer
         {
             _router = router;
             _bufferManager = bufferManager;
+            _verificationService = new VerificationService(router); 
         }
 
         public TextDocumentChangeRegistrationOptions GetRegistrationOptions()
@@ -57,12 +59,11 @@ namespace DafnyLanguageServer
             _bufferManager.UpdateBuffer(file);
             //_router.Window.LogInfo($"Updated buffer for document: {uri.TOString()}\n{text}");
 
-            VerificationService.Verify(_router, file);
+            _verificationService.Verify(file);
         }
         public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
             updateBuffer(request.TextDocument.Uri, request.ContentChanges.FirstOrDefault()?.Text);
-
             return Unit.Task;
         }
 

@@ -4,15 +4,23 @@ method MultipleReturns(x: int, y: int) returns (more: int, less: int)
 {
    more := x + y;
    less := x - y;
-
-   //assert x == 1;              //auskommentieren -> assertion violation geht weg
+   // assert x == 1;              //auskommentieren -> assertion violation geht weg
    // bruder := 1;
+   var a := 1; 
+   var aa := 1; 
+   
 }
 
+class C {
+   constructor ()
 
+   method m() 
+  }
 
 method Main() {
    var a := 1+2;
    print "a is ";
    print a;
+   var acc := new C();
+   //acc.
 }

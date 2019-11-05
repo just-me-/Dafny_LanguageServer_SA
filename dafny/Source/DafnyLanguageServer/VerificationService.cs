@@ -11,28 +11,34 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 
 namespace DafnyLanguageServer
 {
-    public static class VerificationService
+    public class VerificationService
     {
-        private static readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
+        private readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
+        private readonly ILanguageServer _router;
 
-        static public void Verify(ILanguageServer router, DafnyFile file)
+        public VerificationService(ILanguageServer router)
+        {
+            _router = router;
+        }
+
+        public void Verify(DafnyFile file)
         {
             // im Plugin das aktuelle Dokument setzen für die Statusbar
-            router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
+            _router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
 
             var helper = DafnyVerify(file);
-            var diagnostics = CreateDafnyDiagnostics(helper, file);
+            var diagnostics = CreateDafnyDiagnostics(helper.Errors, file.Filepath);
 
             PublishDiagnosticsParams p = new PublishDiagnosticsParams
             {
                 Uri = file.Uri,
                 Diagnostics = new Container<Diagnostic>(diagnostics)
             };
-            router.Document.PublishDiagnostics(p);
-            router.Window.SendNotification("updateStatusbar", diagnostics.Count);
+            _router.Document.PublishDiagnostics(p);
+            _router.Window.SendNotification("updateStatusbar", diagnostics.Count);
         }
 
-        static public DafnyHelper DafnyVerify(DafnyFile file)
+        public DafnyHelper DafnyVerify(DafnyFile file)
         {
             string[] args = new string[] { };
             DafnyHelper helper = new DafnyHelper(args, file.Filepath, file.Sourcecode);
@@ -43,11 +49,11 @@ namespace DafnyLanguageServer
             return helper; 
         }
 
-        static public Collection<Diagnostic> CreateDafnyDiagnostics(DafnyHelper helper, DafnyFile file)
+        public Collection<Diagnostic> CreateDafnyDiagnostics(IEnumerable<ErrorInformation> errors, String filepath)
         {
             Collection<Diagnostic> diagnostics = new Collection<Diagnostic>();
 
-            foreach (ErrorInformation e in helper.Errors)
+            foreach (ErrorInformation e in errors)
             {
                 Diagnostic d = new Diagnostic();
                 d.Message = e.Msg + " - Hint: " + e.Tok.val;
@@ -63,7 +69,7 @@ namespace DafnyLanguageServer
                     });
 
                 d.Severity = DiagnosticSeverity.Error;
-                d.Source = file.Filepath;
+                d.Source = filepath;
 
                 for (int i = 0; i < e.Aux.Count - 1; i++) //ignore last element (trace)
                 {

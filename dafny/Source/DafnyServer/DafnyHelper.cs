@@ -152,7 +152,7 @@ namespace Microsoft.Dafny
                 return new List<SymbolTable.SymbolInformation>(); 
             }
         }
-
+        
         public void CounterExample()
         {
             var listArgs = args.ToList();
