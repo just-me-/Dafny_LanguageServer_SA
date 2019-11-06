@@ -42,9 +42,6 @@ sonar_test:
     - master@dafny-sa/dafny-server-redesign
   script:
     - sonar-scanner
-    - SonarScanner.MSBuild.exe begin /k:"dafny-server" 
-    - MSBuild.exe <path to Dafny.sln> /t:Rebuild
-    - SonarScanner.MSBuild.exe end
 
 build_vscode_extension:
   stage: build
