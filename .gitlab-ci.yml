@@ -53,6 +53,7 @@ build_vscode_extension:
   artifacts:
     paths:
       - VSCodePlugin/out/
+      - VSCodePlugin/node_modules/
       
 test_mstest:
   stage: test
