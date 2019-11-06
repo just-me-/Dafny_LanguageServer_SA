@@ -33,7 +33,7 @@ build_dafny:
   artifacts:
     paths:
       - dafny/Binaries/
-      - dafny/Test/NUnitWillItWork
+      - dafny/Test/TestBinaries
 
 
 build_vscode_extension:
@@ -51,27 +51,9 @@ test_nunit:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
-    - cd dafny/Source
     - nuget install nunit.consolerunner
-    - nuget restore Dafny.sln
-#    - nunit-console Dafny.sln
-#    - nunit-console ../Test/NUnitWillItWork/NUnitWillItWork.csproj
-#    - cd packages/
-#    - cd ../Binaries
-#    - ls -l
-#    - ls -l
-#    - cd ../Test
-#    - ls -l
-#    - cd NUnitWillItWork
-#    - ls -l
-#    - cd bin
-#    - ls -l
-#    - cd Debug
-#    - ls -l
-#    - cd net461
-#    - ls -l
-#    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe ../Test/NUnitWillItWork/bin/Debug/net461/NUnitWillItWork.dll
-    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe ../Test/NUnitWillItWork/bin/Debug/net461/NUnitWillItWork.dll    
+#    - nuget restore Dafny.sln
+    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/NUnitWillItWork.dll    
 
 test_vscode:
   stage: test
