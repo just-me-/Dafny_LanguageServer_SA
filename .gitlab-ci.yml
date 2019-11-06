@@ -51,10 +51,11 @@ test_nunit:
   image: $BUILD_IMAGE:latest
   script:
     - cd dafny/Source
+    - nuget install nunit.consolerunner
     - nuget restore Dafny.sln
-    - nunit-console Dafny.sln
-    - nunit-console ../Test/NUnitWillItWork/NUnitWillItWork.csproj
-    - cd packages/
+#    - nunit-console Dafny.sln
+#    - nunit-console ../Test/NUnitWillItWork/NUnitWillItWork.csproj
+#    - cd packages/
     - ls -l
     - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe Dafny.sln
     
