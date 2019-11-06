@@ -50,15 +50,13 @@ RUN git clone https://github.com/boogie-org/boogie.git &&\
 ENV PATH=$PATH:/opt/boogie/Binaries
 
 
-RUN curl --insecure -o ./sonarscanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.0.3.778-linux.zip && \
+RUN curl -o sonarscanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.0.3.778-linux.zip && \
     unzip sonarscanner.zip && \
     rm sonarscanner.zip && \
-    mv sonar-scanner-3.0.3.778-linux /usr/lib/sonar-scanner && \
-  ln -s /usr/lib/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
+    mv sonar-scanner-3.0.3.778-linux sonar-scanner
+ENV PATH=$PATH:/opt/sonar-scanner/bin
 
-ENV SONAR_RUNNER_HOME=/usr/lib/sonar-scanner
-COPY sonar-scanner-run.sh /usr/bin
-RUN ["chmod", "+x", "/usr/bin/sonar-scanner-run.sh"]
+ENV SONAR_RUNNER_HOME=/opt/sonar-scanner
 
 
 RUN mkdir /mono
