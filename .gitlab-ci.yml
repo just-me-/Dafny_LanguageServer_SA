@@ -57,7 +57,7 @@ test_nunit:
 #    - nunit-console ../Test/NUnitWillItWork/NUnitWillItWork.csproj
 #    - cd packages/
     - ls -l
-    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe ../Test/NUnitWillItWork/NUnitWillItWork.csproj
+    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe ../Test/NUnitWillItWork/bin/Debug/net461/NUnitWillItWork.dll
     
 
 test_vscode:
