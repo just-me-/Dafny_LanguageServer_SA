@@ -4,7 +4,6 @@ variables:
 stages:
   - prebuild
   - build
-  - sonar
   - test
 
 build_image:
@@ -34,12 +33,7 @@ build_dafny:
   artifacts:
     paths:
       - dafny/Binaries/
-      
-sonar_test:
-  stage: sonar
-  image: $BUILD_IMAGE:latest
-  script:
-    - if [ -n "${SONAR_TOKEN}" ]; then sonar-scanner; fi
+
 
 build_vscode_extension:
   stage: build
@@ -52,11 +46,15 @@ build_vscode_extension:
     paths:
       - VSCodePlugin/out/
       
-test_mstest:
+test_nunit:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
-    - "dotnet test dafny/Source/Dafny.sln"
+    - cd dafny/Source
+    - nuget restore Dafny.sln
+    - cd packages/
+    - ls -l
+    - mono packages//console.runner.exe 
     
 
 test_vscode:

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using DafnyLanguageServer;
 using Microsoft.Boogie;
 using Microsoft.Dafny;
 using NUnit.Framework;
