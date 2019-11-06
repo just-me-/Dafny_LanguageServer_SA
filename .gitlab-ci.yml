@@ -52,9 +52,10 @@ test_nunit:
   script:
     - cd dafny/Source
     - nuget restore Dafny.sln
+    - nunit-console Dafny.sln
     - cd packages/
     - ls -l
-    - mono packages/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe 
+    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe Dafny.sln
     
 
 test_vscode:
