@@ -38,8 +38,10 @@ build_dafny:
 sonar_test:
   stage: sonar
   image: $BUILD_IMAGE:latest
+  only: 
+    - master@dafny-sa/dafny-server-redesign
   script:
-    - if [ -n "${SONAR_TOKEN}" ]; then sonar-scanner; fi
+    - sonar-scanner
 
 build_vscode_extension:
   stage: build
