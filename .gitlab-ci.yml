@@ -4,6 +4,7 @@ variables:
 stages:
   - prebuild
   - build
+  - sonar
   - test
 
 build_image:
@@ -33,6 +34,37 @@ build_dafny:
   artifacts:
     paths:
       - dafny/Binaries/
+      
+sonar_test:
+  stage: sonar
+  image: $BUILD_IMAGE:latest
+  script:
+    - if [ ! -e boogie ];
+        then ln -s /opt/boogie;
+      fi;
+    - cd dafny/Source
+    - nuget restore Dafny.sln
+    - msbuild Dafny.sln
+  artifacts:
+    paths:
+      - dafny/Binaries/
+      
+  dist: trusty
+    sudo: required
+    language: node_js
+    services:
+      - docker
+    addons:
+      sonarcloud:
+        organization: "hsr"
+        token:
+          secure: "6c85312d2237318b8f37b7b973c4e3e212c83aba"
+    node_js:
+      - "10"
+
+    script:
+      - if [ -n "${SONAR_TOKEN}" ]; then sonar-scanner; fi
+
 
 
 build_vscode_extension:
