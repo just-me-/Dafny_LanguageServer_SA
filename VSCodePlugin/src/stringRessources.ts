@@ -1,5 +1,40 @@
 // tslint:disable:max-classes-per-file
 
+
+export class DuplicatedCode1 {
+    public static Warning1: string = "Warning";
+    public static Warning2: string = "Warning";
+    public static Warning3: string = "Warning";
+    public static Warning4: string = "Warning";
+    public static Warning5: string = "Warning";
+    public static Warning6: string = "Warning";
+    public static Warning7: string = "Warning";
+    public func1 = () => { console.log("HelloWorld") };
+    public func2 = () => { console.log("HelloWorld") };
+    public func3 = () => { console.log("HelloWorld") };
+    public func4 = () => { console.log("HelloWorld") };
+    public func5 = () => { console.log("HelloWorld") };
+    public func6 = () => { console.log("HelloWorld") };
+}
+
+export class DuplicatedCode2 {
+    public static Warning1: string = "Warning";
+    public static Warning2: string = "Warning";
+    public static Warning3: string = "Warning";
+    public static Warning4: string = "Warning";
+    public static Warning5: string = "Warning";
+    public static Warning6: string = "Warning";
+    public static Warning7: string = "Warning";
+    public func1 = () => { console.log("HelloWorld") };
+    public func2 = () => { console.log("HelloWorld") };
+    public func3 = () => { console.log("HelloWorld") };
+    public func4 = () => { console.log("HelloWorld") };
+    public func5 = () => { console.log("HelloWorld") };
+    public func6 = () => { console.log("HelloWorld") };
+}
+
+
+
 export class Severity {
     public static Warning: string = "Warning";
     public static Error: string = "Error";
