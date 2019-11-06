@@ -33,6 +33,7 @@ build_dafny:
   artifacts:
     paths:
       - dafny/Binaries/
+      - dafny/Test/NUnitWillItWork
 
 
 build_vscode_extension:
