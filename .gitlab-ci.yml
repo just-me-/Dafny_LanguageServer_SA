@@ -4,8 +4,8 @@ variables:
 stages:
   - prebuild
   - build
-  - sonar
   - test
+  - sonar
 
 build_image:
   stage: prebuild
