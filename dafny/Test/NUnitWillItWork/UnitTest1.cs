@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using DafnyLanguageServer;
 using Microsoft.Boogie;
 using Microsoft.Dafny;
 using NUnit.Framework;
@@ -36,7 +35,6 @@ namespace Tests
 
                     //.WithHandler<TextDocumentSyncHandler>()
                     //.WithHandler<CompletionHandler>()
-                    .WithHandler<CompileHandler>()
             );
             server.SendNotification("hallo???");
         }
