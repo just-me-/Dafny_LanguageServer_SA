@@ -39,18 +39,7 @@ sonar_test:
   stage: sonar
   image: $BUILD_IMAGE:latest
   script:
-    - if [ ! -e boogie ];
-        then ln -s /opt/boogie;
-      fi;
-    - cd dafny/Source
-    - nuget restore Dafny.sln
-    - msbuild Dafny.sln
-  artifacts:
-    paths:
-      - dafny/Binaries/
-    script:
-      - if [ -n "${SONAR_TOKEN}" ]; then sonar-scanner; fi
-
+    - if [ -n "${SONAR_TOKEN}" ]; then sonar-scanner; fi
 
 build_vscode_extension:
   stage: build
