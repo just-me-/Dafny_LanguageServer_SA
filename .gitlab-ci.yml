@@ -54,7 +54,7 @@ test_nunit:
     - nuget restore Dafny.sln
     - cd packages/
     - ls -l
-    - mono packages//console.runner.exe 
+    - mono packages/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe 
     
 
 test_vscode:
