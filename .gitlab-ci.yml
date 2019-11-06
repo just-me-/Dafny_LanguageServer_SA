@@ -56,6 +56,8 @@ test_nunit:
 #    - nunit-console Dafny.sln
 #    - nunit-console ../Test/NUnitWillItWork/NUnitWillItWork.csproj
 #    - cd packages/
+    - cd ../Binaries
+    - ls -l
     - ls -l
     - cd ../Test
     - ls -l
