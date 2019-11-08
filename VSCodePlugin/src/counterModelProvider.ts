@@ -7,8 +7,14 @@ export class CounterModelProvider {
     private decorators: { [docPathName: string]: vscode.TextEditorDecorationType } = {};
 
     constructor() { }
+    
+    public hideCounterModel(): void {
+        if (this.decorators[this.getActiveFileName()]) {
+            this.decorators[this.getActiveFileName()].dispose();
+        }
+    }
 
-    public showCounterModel(allCounterExamples: any) {
+    public showCounterModel(allCounterExamples: any): void {
         const editor: vscode.TextEditor = vscode.window.activeTextEditor!;
         let arrayOfDecorations: vscode.DecorationOptions[] = []
 
@@ -17,17 +23,16 @@ export class CounterModelProvider {
             let currentCounterExample: any = allCounterExamples.counterExamples[i];
             let line = currentCounterExample.line - 1;
             let col = currentCounterExample.col;
-            if (line < 0) { return null; }
+            if (line < 0) { return }
 
-            let variables = "";
-
+            let shownText =  "";
             for (let [key, value] of Object.entries(currentCounterExample.variables)) {
-                variables += key + " = " + value + "; ";
+                shownText += key + " = " + value + "; ";
             }
 
             const renderOptions: vscode.DecorationRenderOptions = {
                 after: {
-                    contentText: variables,
+                    contentText: shownText,
                 },
             };
 
@@ -36,11 +41,16 @@ export class CounterModelProvider {
                 renderOptions,
             };
 
-
             arrayOfDecorations.push(decorator);
         }
 
-        const variableDisplay = vscode.window.createTextEditorDecorationType({
+        const shownTextTemplate = this.getDisplay();
+        this.decorators[this.getActiveFileName()] = shownTextTemplate;
+        editor.setDecorations(shownTextTemplate, arrayOfDecorations);
+    }
+
+    private getDisplay(): vscode.TextEditorDecorationType {
+        return vscode.window.createTextEditorDecorationType({
             dark: {
                 after: {
                     backgroundColor: "#0300ad",
@@ -55,20 +65,10 @@ export class CounterModelProvider {
                 },
             },
 
-        });
-        
-        this.decorators[this.getActiveFileName()] = variableDisplay;
-        editor.setDecorations(variableDisplay, arrayOfDecorations);
-        return true;
-    }
-    
-    public hideCounterModel(): void {
-        if (this.decorators[this.getActiveFileName()]) {
-            this.decorators[this.getActiveFileName()].dispose();
-        }
+        })
     }
 
-    private getActiveFileName() {
+    private getActiveFileName(): string {
         if (!vscode.window.activeTextEditor) return "";
         return vscode.window.activeTextEditor.document.uri.toString();
     }
