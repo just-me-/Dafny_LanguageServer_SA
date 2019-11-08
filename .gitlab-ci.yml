@@ -4,7 +4,6 @@ variables:
 stages:
   - prebuild
   - build
-  - sonar
   - test
 
 build_image:
@@ -34,11 +33,11 @@ build_dafny:
   artifacts:
     paths:
       - dafny/Binaries/
-      
+
 sonar_test:
   stage: sonar
   image: $BUILD_IMAGE:latest
-  only: 
+  only:
     - master@dafny-sa/dafny-server-redesign
   script:
     - sonar-scanner
@@ -54,13 +53,14 @@ build_vscode_extension:
     paths:
       - VSCodePlugin/out/
       - VSCodePlugin/node_modules/
-      
-test_mstest:
+
+test_nunit:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
-    - "dotnet test dafny/Source/Dafny.sln"
-    
+    - nuget install nunit.consolerunner
+#    - nuget restore Dafny.sln
+    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/NUnitWillItWork.dll
 
 test_vscode:
   stage: test
@@ -79,7 +79,7 @@ test_vscode:
     - cd VSCodePlugin
     - npm install
     - npm run test
-    
+
 test_dafny:
   stage: test
   image: $BUILD_IMAGE:latest
