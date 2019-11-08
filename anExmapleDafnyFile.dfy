@@ -3,7 +3,10 @@ method MultipleReturns(tomsInputVar: int, tomsInputVar2: int) returns (tomsOutpu
    ensures tomsOutputVar > 0
    ensures tomsOutputVar2 > 0
 {
-   tomsOutputVar := tomsInputVar+tomsInputVar2; 
-   tomsOutputVar2 := tomsInputVar+tomsInputVar2; 
-}
 
+   
+
+   tomsOutputVar := tomsInputVar+tomsInputVar2; 
+   tomsOutputVar2 := tomsInputVar+tomsInputVar2;  
+
+}

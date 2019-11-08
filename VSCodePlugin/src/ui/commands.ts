@@ -40,6 +40,7 @@ export default class Commands {
     public provider: DafnyClientProvider;
     public runner: DafnyRunner;
 
+    private variableDisplay: any;
 
     // tslint:disable: object-literal-sort-keys
 
@@ -124,8 +125,8 @@ export default class Commands {
                 const variableDisplay = vscode.window.createTextEditorDecorationType({
                     dark: {
                         after: {
-                            backgroundColor: "#cccccc",
-                            color: "#161616",
+                            backgroundColor: "#0300ad",
+                            color: "#cccccc",
                             margin: "0 0 0 30px",
                         },
                     },
@@ -138,9 +139,13 @@ export default class Commands {
                     
                 });
 
+                this.variableDisplay = variableDisplay;
+
+                
+
 
                 if (!vscode.window.activeTextEditor) return null;
-                editor.setDecorations(variableDisplay, arrayOfDecorations);
+                editor.setDecorations(this.variableDisplay, arrayOfDecorations);
                 return true;
                 })
 
@@ -150,7 +155,7 @@ export default class Commands {
         },
     
         { name: CommandStrings.HideCounterExample, callback: () => {
-            vscode.window.showInformationMessage("TODO");
+            this.variableDisplay.dispose()
             }
         },
     ];
