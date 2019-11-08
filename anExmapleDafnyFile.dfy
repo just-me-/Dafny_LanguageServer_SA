@@ -9,6 +9,7 @@ method MultipleReturns(tomsInputVar: int, tomsInputVar2: int) returns (tomsOutpu
    // bruder := 1;
    var a := 1; 
    var aa := 1; 
+   tomsOutputVar = a + y-100;
    
 }
 
