@@ -57,7 +57,7 @@ namespace Microsoft.Dafny
             this.reporter = new Dafny.ConsoleErrorReporter();
         }
 
-        //Note: Diesen CTOR hat Tom hinzugefügt, brauchen wir wahrscheinlich gar net mehr.
+        //Note: Diesen CTOR hat Tom hinzugefï¿½gt, brauchen wir wahrscheinlich gar net mehr.
         public DafnyHelper(string[] args, string fname, string source, ErrorReporter reporter)
         {
             this.args = args;
@@ -134,7 +134,7 @@ namespace Microsoft.Dafny
             var isVerified = true;
             foreach (var boogieProgram in boogiePrograms)
             {
-                isVerified = isVerified && BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);  //TODO Can be made schöner.
+                isVerified = isVerified && BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);  //TODO Can be made schï¿½ner.
             }
             return isVerified;
         }
@@ -169,7 +169,7 @@ namespace Microsoft.Dafny
                         RemoveExistingModel();
                         BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);
                         var model = counterExampleProvider.LoadCounterModel();
-                        Console.WriteLine("COUNTEREXAMPLE_START " + ConvertToJson(model) + " COUNTEREXAMPLE_END"); //2do: LEGACY aber evtl für testzeug mal drin gelassen
+                        Console.WriteLine("COUNTEREXAMPLE_START " + ConvertToJson(model) + " COUNTEREXAMPLE_END"); //2do: LEGACY aber evtl fï¿½r testzeug mal drin gelassen
                         counterExamples.Add(model);
                     }
                     return counterExamples;

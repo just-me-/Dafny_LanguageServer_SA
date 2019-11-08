@@ -4,6 +4,7 @@ variables:
 stages:
   - prebuild
   - build
+  - sonar
   - test
 
 build_image:
@@ -33,7 +34,14 @@ build_dafny:
   artifacts:
     paths:
       - dafny/Binaries/
-
+      
+sonar_test:
+  stage: sonar
+  image: $BUILD_IMAGE:latest
+  only: 
+    - master@dafny-sa/dafny-server-redesign
+  script:
+    - sonar-scanner
 
 build_vscode_extension:
   stage: build
@@ -45,6 +53,7 @@ build_vscode_extension:
   artifacts:
     paths:
       - VSCodePlugin/out/
+      - VSCodePlugin/node_modules/
       
 test_mstest:
   stage: test
