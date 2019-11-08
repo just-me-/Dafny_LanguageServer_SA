@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DafnyLanguageServer
 {
-    class FileSymboltable
+    public class FileSymboltable
     {
         private List<SymbolTable.SymbolInformation> _symbolTable; 
         public bool HasEntries { get; }
