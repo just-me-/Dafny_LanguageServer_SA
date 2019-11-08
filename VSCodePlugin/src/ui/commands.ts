@@ -40,21 +40,13 @@ export default class Commands {
     public provider: DafnyClientProvider;
     public runner: DafnyRunner;
 
-    private variableDisplay: any;
-
-    // tslint:disable: object-literal-sort-keys
-
     
-        
-        //TODO:es hat zuviele ocmmands jetzt? hä?
-
 
     public commands = [
         { name: CommandStrings.ShowReferences, callback: Commands.showReferences, doNotDispose: true },
         { name: CommandStrings.RestartServer, callback: () => this.restartServer() },
         { name: CommandStrings.InstallDafny, callback: () => this.installDafny() },
         { name: CommandStrings.UninstallDafny, callback: () => this.uninstallDafny() },
-
         {
             name: CommandStrings.Compile,
             callback: () => {
@@ -79,83 +71,28 @@ export default class Commands {
             callback: (uri: string, version: number, edits: vscode.TextEdit[]) => this.applyTextEdits(uri, version, edits),
         },
 
-        { name: CommandStrings.ShowCounterExample, callback: () => {
-            if (!vscode.window.activeTextEditor) {
-                return;
-            }
-
-            vscode.window.activeTextEditor.document.save();
-            const arg = { DafnyFile: vscode.window.activeTextEditor.document.fileName}
-
-            this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
-            .then((allCounterExamples: any) => {
-                const editor: vscode.TextEditor = vscode.window.activeTextEditor!;
-
-
-                let arrayOfDecorations: vscode.DecorationOptions[] = []
-
-                for (let i = 0; i < allCounterExamples.counterExamples.length; i++) {
-
-                    let currentCounterExample : any = allCounterExamples.counterExamples[i];
-                    let line = currentCounterExample.line - 1;
-                    let col = currentCounterExample.col;
-                    if (line < 0) { return null; }
-
-                    let variables = "";
-
-                    for (let [key, value] of Object.entries(currentCounterExample.variables)) {
-                        variables += key + " = " + value + "; ";
-                    }
-
-                    const renderOptions: vscode.DecorationRenderOptions = {
-                        after: {
-                            contentText: variables,
-                        },
-                    };
-
-                    let decorator: vscode.DecorationOptions = {
-                        range: new vscode.Range(new vscode.Position(line, col), new vscode.Position(line, Number.MAX_VALUE)),
-                        renderOptions,
-                    };
-
-                
-                    arrayOfDecorations.push(decorator);
+        { 
+            name: CommandStrings.ShowCounterExample, callback: () => {
+                if (!vscode.window.activeTextEditor) {
+                    return;
                 }
 
-                const variableDisplay = vscode.window.createTextEditorDecorationType({
-                    dark: {
-                        after: {
-                            backgroundColor: "#0300ad",
-                            color: "#cccccc",
-                            margin: "0 0 0 30px",
-                        },
-                    },
-                    light: {
-                        after: {
-                            backgroundColor: "#161616",
-                            color: "#cccccc",
-                        },
-                    },
-                    
-                });
+                // 2Do ab hier in eigene sub funktion reintun... 
 
-                this.variableDisplay = variableDisplay;
+                vscode.window.activeTextEditor.document.save(); 
+                const arg = { DafnyFile: vscode.window.activeTextEditor.document.fileName}
 
-                
-
-
-                if (!vscode.window.activeTextEditor) return null;
-                editor.setDecorations(this.variableDisplay, arrayOfDecorations);
-                return true;
+                this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
+                .then((allCounterExamples: any) => {
+                    this.provider.getCounterModelProvider().showCounterModel(allCounterExamples);
                 })
-
-            
             }
             
         },
     
-        { name: CommandStrings.HideCounterExample, callback: () => {
-            this.variableDisplay.dispose()
+        { 
+            name: CommandStrings.HideCounterExample, callback: () => {
+                this.provider.getCounterModelProvider().hideCounterModel()
             }
         },
     ];

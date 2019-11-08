@@ -24,7 +24,7 @@ export class DafnyClientProvider {
         this.loadConfig();
         this.context = new Context();
         this.dafnyStatusbar = new Statusbar(this.languageServer, this.context);
-        this.counterModelProvider = new CounterModelProvider(this.context);
+        this.counterModelProvider = new CounterModelProvider();
 
         languageServer.onNotification(LanguageServerNotification.UpdateStatusbar,
             (counter: Number) => {
@@ -37,7 +37,8 @@ export class DafnyClientProvider {
         vscode.window.onDidChangeActiveTextEditor((editor) => {
             if (editor) {
                 this.dafnyStatusbar.update();
-                this.counterModelProvider.update();
+                // 2do... was machen wir hier. 
+                // this.counterModelProvider.showCounterModel();
             }
         }, this);
         this.subscriptions = subs;
@@ -47,7 +48,7 @@ export class DafnyClientProvider {
             vscode.workspace.onDidChangeTextDocument(this.docChanged, this);
         }
         vscode.workspace.onDidSaveTextDocument(this.doVerify, this);
-        vscode.workspace.onDidCloseTextDocument(this.hideCounterModel, this);
+        vscode.workspace.onDidCloseTextDocument(this.counterModelProvider.hideCounterModel, this);
 
         vscode.workspace.onDidChangeConfiguration(this.loadConfig, this);
 
@@ -72,7 +73,7 @@ export class DafnyClientProvider {
 
     // 2DO; auch raus? 
     private doVerify(textDocument: vscode.TextDocument): void {
-        this.hideCounterModel(textDocument);
+        this.counterModelProvider.hideCounterModel();
         console.log("Try to verify... ")
         if (this.automaticShowCounterExample) {
             this.sendDocument(textDocument, LanguageServerNotification.CounterExample);
@@ -82,11 +83,8 @@ export class DafnyClientProvider {
 
     }
 
-    // evt noch als Vorlage ...  evt auch in den counterModelProvider rein 
-    private hideCounterModel(textDocument: vscode.TextDocument): void {
-        if (this.context.decorators[textDocument.uri.toString()]) {
-            this.context.decorators[textDocument.uri.toString()].dispose();
-        }
+    public getCounterModelProvider() {
+        return this.counterModelProvider; 
     }
 
     private sendDocument(textDocument: vscode.TextDocument, type: string): void {

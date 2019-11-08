@@ -74,7 +74,7 @@ function openFile(fileName: string): Promise<vscode.TextDocument> {
     });
 }
 
-function closeActiveEditor(): Promise<{}> {
+function closeActiveEditor(): Promise<unknown> {
     return executeCommand("workbench.action.closeActiveEditor");
 }
 
