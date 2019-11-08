@@ -101,6 +101,7 @@ export class StatusString {
 export class LanguageServerRequest {
     public static Reset: string = "reset";
     public static Compile: string = "compile";
+    public static CounterExample: string = "counterExample";
     public static Install: string = "install";
     public static Uninstall: string = "uninstall";
     //public static SayHello: string = "sayhello";

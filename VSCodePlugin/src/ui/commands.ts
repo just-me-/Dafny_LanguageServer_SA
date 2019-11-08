@@ -40,25 +40,13 @@ export default class Commands {
     public provider: DafnyClientProvider;
     public runner: DafnyRunner;
 
-    // tslint:disable: object-literal-sort-keys
+    
+
     public commands = [
         { name: CommandStrings.ShowReferences, callback: Commands.showReferences, doNotDispose: true },
         { name: CommandStrings.RestartServer, callback: () => this.restartServer() },
         { name: CommandStrings.InstallDafny, callback: () => this.installDafny() },
         { name: CommandStrings.UninstallDafny, callback: () => this.uninstallDafny() },
-        /*{
-            name: CommandStrings.RequestTest,
-            callback: () => {
-                vscode.window.showInformationMessage('Aloha');
-                console.log("Lets try...");
-                this.languageServer.sendRequest(LanguageServerRequest.SayHello).then((answer) => {
-                    console.log("Answer: " + answer);
-                    vscode.window.showInformationMessage('We did it!');
-                }, (e) => {
-                    vscode.window.showErrorMessage("Request Test Error: " + e);
-                });
-            }
-        },*/
         {
             name: CommandStrings.Compile,
             callback: () => {
@@ -81,6 +69,31 @@ export default class Commands {
             name: CommandStrings.EditText,
             // tslint:disable-next-line:object-literal-sort-keys
             callback: (uri: string, version: number, edits: vscode.TextEdit[]) => this.applyTextEdits(uri, version, edits),
+        },
+
+        { 
+            name: CommandStrings.ShowCounterExample, callback: () => {
+                if (!vscode.window.activeTextEditor) {
+                    return;
+                }
+
+                // 2Do ab hier in eigene sub funktion reintun... 
+
+                vscode.window.activeTextEditor.document.save(); 
+                const arg = { DafnyFile: vscode.window.activeTextEditor.document.fileName}
+
+                this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
+                .then((allCounterExamples: any) => {
+                    this.provider.getCounterModelProvider().showCounterModel(allCounterExamples);
+                })
+            }
+            
+        },
+    
+        { 
+            name: CommandStrings.HideCounterExample, callback: () => {
+                this.provider.getCounterModelProvider().hideCounterModel()
+            }
         },
     ];
 

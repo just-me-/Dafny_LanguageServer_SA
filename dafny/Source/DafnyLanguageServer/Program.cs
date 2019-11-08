@@ -27,12 +27,14 @@ namespace DafnyLanguageServer
                     .WithHandler<TextDocumentSyncHandler>()
                     .WithHandler<CompletionHandler>()
                     .WithHandler<CompileHandler>()
+                    .WithHandler<CounterExampleHandler>()
             );
 
             try
             {
-                string assemblyPath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
-                string path = Path.Combine(assemblyPath, "../../MsgLogger.txt");
+                string tempPath = Path.Combine(Path.GetTempPath(), "./Dafny");
+                Directory.CreateDirectory(tempPath);
+                string path = Path.Combine(tempPath, "./MsgLogger.txt");
 
                 using (StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write)))
                 {

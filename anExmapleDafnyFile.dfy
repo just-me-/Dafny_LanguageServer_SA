@@ -1,6 +1,7 @@
-method MultipleReturns(x: int, y: int) returns (more: int, less: int)
-   requires 0 < y            //einkommentieren -> fehler postcondition geht weg
-   ensures less < x < more
+method MultipleReturns(tomsInputVar: int, tomsInputVar2: int) returns (tomsOutputVar: int, tomsOutputVar2: int)
+   //requires 0 < y            //einkommentieren -> fehler postcondition geht weg
+   ensures tomsOutputVar > 0
+   ensures tomsOutputVar2 > 0
 {
    more := x + y;
    less := x - y;

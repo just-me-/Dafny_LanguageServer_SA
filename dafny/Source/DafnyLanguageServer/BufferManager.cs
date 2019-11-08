@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DafnyLanguageServer
 {
-    class BufferManager
+    public class BufferManager
     {
         private ConcurrentDictionary<Uri, string> _fileBuffers = new ConcurrentDictionary<Uri, string>();
         private ConcurrentDictionary<Uri, FileSymboltable> _symboltableBuffers = new ConcurrentDictionary<Uri, FileSymboltable>();

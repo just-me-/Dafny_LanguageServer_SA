@@ -57,7 +57,7 @@ namespace Microsoft.Dafny
             this.reporter = new Dafny.ConsoleErrorReporter();
         }
 
-        //Note: Diesen CTOR hat Tom hinzugefügt, brauchen wir wahrscheinlich gar net mehr.
+        //Note: Diesen CTOR hat Tom hinzugefï¿½gt, brauchen wir wahrscheinlich gar net mehr.
         public DafnyHelper(string[] args, string fname, string source, ErrorReporter reporter)
         {
             this.args = args;
@@ -134,7 +134,7 @@ namespace Microsoft.Dafny
             var isVerified = true;
             foreach (var boogieProgram in boogiePrograms)
             {
-                isVerified = isVerified && BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);  //TODO Can be made schöner.
+                isVerified = isVerified && BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);  //TODO Can be made schï¿½ner.
             }
             return isVerified;
         }
@@ -152,8 +152,8 @@ namespace Microsoft.Dafny
                 return new List<SymbolTable.SymbolInformation>(); 
             }
         }
-        
-        public void CounterExample()
+
+        public List<CounterExampleProvider.CounterExample> CounterExample()
         {
             var listArgs = args.ToList();
             listArgs.Add("/mv:" + CounterExampleProvider.ModelBvd);
@@ -163,19 +163,28 @@ namespace Microsoft.Dafny
                 if (Parse() && Resolve() && Translate())
                 {
                     var counterExampleProvider = new CounterExampleProvider();
+                    List<CounterExampleProvider.CounterExample> counterExamples = new List<CounterExampleProvider.CounterExample>();
                     foreach (var boogieProgram in boogiePrograms)
                     {
                         RemoveExistingModel();
                         BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);
                         var model = counterExampleProvider.LoadCounterModel();
-                        Console.WriteLine("COUNTEREXAMPLE_START " + ConvertToJson(model) + " COUNTEREXAMPLE_END");
+                        Console.WriteLine("COUNTEREXAMPLE_START " + ConvertToJson(model) + " COUNTEREXAMPLE_END"); //2do: LEGACY aber evtl fï¿½r testzeug mal drin gelassen
+                        counterExamples.Add(model);
                     }
+                    return counterExamples;
                 }
+
+                
+                
             }
+           
             catch (Exception e)
             {
-                Console.WriteLine("Error collection models: " + e.Message);
+                Console.WriteLine("Error while collecting models: " + e.Message);
             }
+
+            return new List<CounterExampleProvider.CounterExample>(); 
         }
 
         private void RemoveExistingModel()
