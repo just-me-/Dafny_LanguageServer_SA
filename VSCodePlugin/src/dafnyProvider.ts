@@ -7,7 +7,7 @@ import { Context } from "./context";
 import { CounterModelProvider } from "./counterModelProvider";
 import { Statusbar } from "./dafnyStatusbar";
 //import { IVerificationResult } from "./IVerificationResult";
-import { CommandStrings, Config, EnvironmentConfig, LanguageServerNotification } from "./stringRessources";
+import { Config, EnvironmentConfig, LanguageServerNotification } from "./stringRessources";
 
 export class DafnyClientProvider {
     public dafnyStatusbar: Statusbar;
@@ -28,43 +28,12 @@ export class DafnyClientProvider {
 
         languageServer.onNotification(LanguageServerNotification.UpdateStatusbar,
             (counter: Number) => {
-                
                this.dafnyStatusbar.update();
                this.dafnyStatusbar.forceText(counter);
-
-                //LEGACY
-/*
-                const collection =  vscode.languages.createDiagnosticCollection('test');
-                const myuri = vscode.Uri.file("D:/anExmapleDafnyFile.dfy")
-                collection.set(myuri, [{
-                    code: '',
-                    message: 'cannot assign twice to immutable variable `x`',
-                    range: new vscode.Range(new vscode.Position(3, 4), new vscode.Position(3, 10)),
-                    severity: vscode.DiagnosticSeverity.Error,
-                    source: '',
-                    relatedInformation: [
-                        new vscode.DiagnosticRelatedInformation(new vscode.Location(myuri, new vscode.Range(new vscode.Position(1, 8), new vscode.Position(1, 9))), 'first assignment to `x`')
-                    ]
-                }]);
-
-                
-*/
-
-                //this.context.localQueue.remove(docPathName);
-                //const verificationResult: IVerificationResult = JSON.parse(json);
-                //this.context.verificationResults[docPathName] = verificationResult;
-                //this.dafnyStatusbar.update();
-                //this.counterModelProvider.update();
-                //if (Context.unitTest) { Context.unitTest.verificationComplete(verificationResult); }
             });
-            
     }
 
     public activate(subs: vscode.Disposable[]): void {
-        /*vscode.workspace.textDocuments.forEach((e) => {
-            this.doVerify(e);
-        }, this);*/
-
         vscode.window.onDidChangeActiveTextEditor((editor) => {
             if (editor) {
                 this.dafnyStatusbar.update();
@@ -80,22 +49,7 @@ export class DafnyClientProvider {
         vscode.workspace.onDidSaveTextDocument(this.doVerify, this);
         vscode.workspace.onDidCloseTextDocument(this.hideCounterModel, this);
 
-        vscode.commands.registerCommand("dafny.showCounterExample", () => {   //LEGACY - diese kommands werden gar net mehr registriert.
-            const editor = vscode.window.activeTextEditor;
-            if (editor) {
-                this.doCounterModel(editor.document);
-            }
-        });
-
-        vscode.commands.registerCommand(CommandStrings.HideCounterExample, () => {
-            const editor = vscode.window.activeTextEditor;
-            if (editor) {
-                this.hideCounterModel(editor.document);
-            }
-        });
-
-        const that = this;
-        vscode.workspace.onDidChangeConfiguration(this.loadConfig, that);
+        vscode.workspace.onDidChangeConfiguration(this.loadConfig, this);
 
         if (Context.unitTest) { Context.unitTest.activated(); }
     }
@@ -116,10 +70,7 @@ export class DafnyClientProvider {
         this.automaticShowCounterExample = config.get<boolean>(Config.AutomaticShowCounterExample)!;
     }
 
-    private doCounterModel(textDocument: vscode.TextDocument): void {
-        this.sendDocument(textDocument, LanguageServerNotification.CounterExample);
-    }
-
+    // 2DO; auch raus? 
     private doVerify(textDocument: vscode.TextDocument): void {
         this.hideCounterModel(textDocument);
         console.log("Try to verify... ")
@@ -131,6 +82,7 @@ export class DafnyClientProvider {
 
     }
 
+    // evt noch als Vorlage ...  evt auch in den counterModelProvider rein 
     private hideCounterModel(textDocument: vscode.TextDocument): void {
         if (this.context.decorators[textDocument.uri.toString()]) {
             this.context.decorators[textDocument.uri.toString()].dispose();
