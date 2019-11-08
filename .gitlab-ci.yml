@@ -5,6 +5,7 @@ stages:
   - prebuild
   - build
   - test
+  - sonar
 
 build_image:
   stage: prebuild
