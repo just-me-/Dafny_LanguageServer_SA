@@ -87,54 +87,62 @@ export default class Commands {
             const arg = { DafnyFile: vscode.window.activeTextEditor.document.fileName}
 
             this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
-            .then((result: any) => {
+            .then((allCounterExamples: any) => {
                 const editor: vscode.TextEditor = vscode.window.activeTextEditor!;
 
-                let line = result.line - 1;
-                let col = result.col;
-                if (line < 0) { return null; }
 
-                let variables = "";
+                let arrayOfDecorations: vscode.DecorationOptions[] = []
 
-                for (let [key, value] of Object.entries(result.variables)) {
-                    variables += key + " = " + value + "; ";
-                  }
+                for (let i = 0; i < allCounterExamples.counterExamples.length; i++) {
 
-                const renderOptions: vscode.DecorationRenderOptions = {
-                    after: {
-                        contentText: variables,
-                    },
-                };
+                    let currentCounterExample : any = allCounterExamples.counterExamples[i];
+                    let line = currentCounterExample.line - 1;
+                    let col = currentCounterExample.col;
+                    if (line < 0) { return null; }
 
-                let decorator: vscode.DecorationOptions = {
-                    range: new vscode.Range(new vscode.Position(line, col), new vscode.Position(line, Number.MAX_VALUE)),
-                    renderOptions,
-                  };
-            
+                    let variables = "";
 
-            const variableDisplay = vscode.window.createTextEditorDecorationType({
-                dark: {
-                    after: {
-                        backgroundColor: "#cccccc",
-                        color: "#161616",
-                        margin: "0 0 0 30px",
-                    },
-                },
-                light: {
-                    after: {
-                        backgroundColor: "#161616",
-                        color: "#cccccc",
-                    },
-                },
+                    for (let [key, value] of Object.entries(currentCounterExample.variables)) {
+                        variables += key + " = " + value + "; ";
+                    }
+
+                    const renderOptions: vscode.DecorationRenderOptions = {
+                        after: {
+                            contentText: variables,
+                        },
+                    };
+
+                    let decorator: vscode.DecorationOptions = {
+                        range: new vscode.Range(new vscode.Position(line, col), new vscode.Position(line, Number.MAX_VALUE)),
+                        renderOptions,
+                    };
+
                 
-            });
+                    arrayOfDecorations.push(decorator);
+                }
 
-            let arrayDannHalt: vscode.DecorationOptions[] = []
-            arrayDannHalt.push(decorator);
-            if (!vscode.window.activeTextEditor) return null;
-            editor.setDecorations(variableDisplay, arrayDannHalt);
-            return true;
-            })
+                const variableDisplay = vscode.window.createTextEditorDecorationType({
+                    dark: {
+                        after: {
+                            backgroundColor: "#cccccc",
+                            color: "#161616",
+                            margin: "0 0 0 30px",
+                        },
+                    },
+                    light: {
+                        after: {
+                            backgroundColor: "#161616",
+                            color: "#cccccc",
+                        },
+                    },
+                    
+                });
+
+
+                if (!vscode.window.activeTextEditor) return null;
+                editor.setDecorations(variableDisplay, arrayOfDecorations);
+                return true;
+                })
 
             
             }
