@@ -34,7 +34,7 @@ namespace CompileHandlerTest
         {
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_fineDLL);
 
-            CompilerResults r = CompileHandler.Compile(dafnyExe, dafnyFile).Result;
+            CompilerResults r = new CompilationService(dafnyExe, dafnyFile).Compile().Result;
 
             Assert.IsFalse(r.Error);
             Assert.IsFalse(r.Executable ?? true);
@@ -46,7 +46,7 @@ namespace CompileHandlerTest
         {
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_fineEXE);
 
-            CompilerResults r = CompileHandler.Compile(dafnyExe, dafnyFile).Result;
+            CompilerResults r = new CompilationService(dafnyExe, dafnyFile).Compile().Result;
 
             Assert.IsFalse(r.Error);
             Assert.IsTrue(r.Executable ?? false);
@@ -58,7 +58,7 @@ namespace CompileHandlerTest
         {
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_assertion);
 
-            CompilerResults r = CompileHandler.Compile(dafnyExe, dafnyFile).Result;
+            CompilerResults r = new CompilationService(dafnyExe, dafnyFile).Compile().Result;
 
             Assert.IsTrue(r.Error);
             Assert.IsFalse(r.Executable ?? true);
@@ -71,7 +71,7 @@ namespace CompileHandlerTest
         {
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_identifier);
 
-            CompilerResults r = CompileHandler.Compile(dafnyExe, dafnyFile).Result;
+            CompilerResults r = new CompilationService(dafnyExe, dafnyFile).Compile().Result;
 
             Assert.IsTrue(r.Error);
             Assert.IsFalse(r.Executable ?? true);
@@ -84,7 +84,7 @@ namespace CompileHandlerTest
         {
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_postcondition);
 
-            CompilerResults r = CompileHandler.Compile(dafnyExe, dafnyFile).Result;
+            CompilerResults r = new CompilationService(dafnyExe, dafnyFile).Compile().Result;
 
             Assert.IsTrue(r.Error);
             Assert.IsFalse(r.Executable ?? true);
@@ -97,7 +97,7 @@ namespace CompileHandlerTest
         public void DllCreated()
         {
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_fineDLL);
-            CompilerResults r = CompileHandler.Compile(dafnyExe, dafnyFile).Result;
+            CompilerResults r = new CompilationService(dafnyExe, dafnyFile).Compile().Result;
             Assert.IsTrue(File.Exists(Path.Combine(testPath, PathConstants.fineDLLOutput)));
         }
 
@@ -105,7 +105,7 @@ namespace CompileHandlerTest
         public void ExeCreated()
         {
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_fineEXE);
-            CompilerResults r = CompileHandler.Compile(dafnyExe, dafnyFile).Result;
+            CompilerResults r = new CompilationService(dafnyExe, dafnyFile).Compile().Result;
             Assert.IsTrue(File.Exists(Path.Combine(testPath, PathConstants.fineEXEOutput)));
         }
     }

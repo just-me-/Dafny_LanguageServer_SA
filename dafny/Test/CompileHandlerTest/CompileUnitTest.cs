@@ -37,8 +37,8 @@ namespace CompileHandlerTest
         public void ExeCalled()
         {
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_fineDLL);
-            CompileHandler.Compile(dafnyExe, dafnyFile);
-            
+            new CompilationService(dafnyExe, dafnyFile).Compile();
+
             Thread.Sleep(500);
 
             DateTime exeLastAccess = File.GetLastAccessTime(dafnyExe);
@@ -51,7 +51,7 @@ namespace CompileHandlerTest
         public void DfyAccess()
         {
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_fineDLL);
-            CompileHandler.Compile(dafnyExe, dafnyFile);
+            new CompilationService(dafnyExe, dafnyFile).Compile();
 
             Thread.Sleep(500);
 

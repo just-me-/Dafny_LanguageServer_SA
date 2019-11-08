@@ -32,87 +32,9 @@ namespace DafnyLanguageServer
     {
         public async Task<CompilerResults> Handle(CompilerParams request, CancellationToken cancellationToken)
         {
-
-            string dafnyExe = request.DafnyExePath;
-            string dafnyFile = request.DafnyFilePath;
-
-            return await Compile(dafnyExe, dafnyFile);
+            CompilationService cs = new CompilationService(request.DafnyExePath, request.DafnyFilePath);
+            return await cs.Compile();
         }
-
-
-
-
-
-        public static async Task<CompilerResults> Compile(string dafnyExe, string dafnyFile)
-        {
-            return await Task.Run(() =>
-            {
-
-                //To support spaces in path:
-                dafnyFile = '\"' + dafnyFile + '\"';
-
-                System.Diagnostics.Process process = new Process();
-                process.StartInfo.FileName = dafnyExe;
-                process.StartInfo.Arguments = "/compile:1 /nologo " + dafnyFile;
-                process.EnableRaisingEvents = true;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.RedirectStandardOutput = true;
-
-                string processOut = "";
-                process.OutputDataReceived += (sender, args) => processOut += args.Data + "\n";
-
-                try
-                {
-                    process.Start();
-                    process.BeginErrorReadLine();
-                    process.BeginOutputReadLine();
-                    process.WaitForExit();
-                }
-                catch (Exception e)
-                {
-                    return new CompilerResults
-                    {
-                        Error = true,
-                        Message = "Internal Server Error: " + e.Message,
-                        Executable = false
-                    };
-                }
-
-                if (processOut.Contains("Compiled assembly into") && processOut.Contains(".exe"))
-                {
-                    return new CompilerResults
-                    {
-                        Error = false,
-                        Message = "Compilation successful",
-                        Executable = true
-                    };
-                }
-                else if (processOut.Contains("Compiled assembly into"))
-                {
-                    return new CompilerResults
-                    {
-                        Error = false,
-                        Message = "Compilation successful",
-                        Executable = false
-                    };
-                }
-                else
-                {
-                    string pattern = "Error:? .*\n";
-                    Match m = Regex.Match(processOut, pattern);
-
-                    return new CompilerResults
-                    {
-                        Error = true,
-                        Message = "Compilation failed: " + m.Value,
-                        Executable = false
-                    };
-                }
-            });
-        }
-
-
     }
 }
 
