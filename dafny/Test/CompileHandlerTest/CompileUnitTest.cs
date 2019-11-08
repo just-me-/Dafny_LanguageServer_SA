@@ -39,12 +39,12 @@ namespace CompileHandlerTest
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_fineDLL);
             new CompilationService(dafnyExe, dafnyFile).Compile();
 
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
 
             DateTime exeLastAccess = File.GetLastAccessTime(dafnyExe);
             TimeSpan diff = DateTime.Now - exeLastAccess;
 
-            Assert.LessOrEqual(diff, new TimeSpan(0,0,2), "dafnyExe was not Called within the last second");
+            Assert.LessOrEqual(diff, new TimeSpan(0,0,3), "dafnyExe was not Called within the last second");
         }
 
         [Test]
@@ -53,12 +53,12 @@ namespace CompileHandlerTest
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_fineDLL);
             new CompilationService(dafnyExe, dafnyFile).Compile();
 
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
 
             DateTime dfyLastAccess = File.GetLastAccessTime(dafnyFile);
             TimeSpan diff = DateTime.Now - dfyLastAccess;
 
-            Assert.LessOrEqual(diff, new TimeSpan(0, 0, 2), ".dfy was not Called within the last second");
+            Assert.LessOrEqual(diff, new TimeSpan(0, 0, 3), ".dfy was not Called within the last second");
         }
 
     }
