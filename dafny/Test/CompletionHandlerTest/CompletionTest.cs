@@ -1,8 +1,8 @@
 using NUnit.Framework;
 
-namespace Tests
+namespace CompletionHandlerTest
 {
-    public class Tests
+    public class CompletionTests
     {
         [SetUp]
         public void Setup()
@@ -14,5 +14,6 @@ namespace Tests
         {
             Assert.Pass();
         }
+
     }
 }

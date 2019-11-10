@@ -38,11 +38,10 @@ namespace DafnyLanguageServer
 
         private bool SymbolIsInRangeOf(SymbolTable.SymbolInformation child, SymbolTable.SymbolInformation parent)
         {
-            return (
-                (child.Line >= parent.Line && child.EndLine <= parent.EndLine && parent.Line != parent.EndLine) ||
-                // if it is an one liner check position 
-                (parent.Line == parent.EndLine && child.Position >= parent.Position && child.EndPosition <= parent.EndPosition)
-            ); 
+            return FileHelper.ChildIsContainedByParent(
+                child.Line, child.EndLine, child.Position, child.EndPosition, 
+                parent.Line, parent.EndLine, parent.Position, parent.EndPosition
+            );
         }
 
         public string GetParentForWord(string word)

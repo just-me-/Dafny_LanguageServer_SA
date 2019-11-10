@@ -168,6 +168,7 @@
     <Compile Include="CompletionHandler.cs" />
     <Compile Include="CounterExampleHandler.cs" />
     <Compile Include="DafnyFile.cs" />
+    <Compile Include="FileHelper.cs" />
     <Compile Include="FileSymboltable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
