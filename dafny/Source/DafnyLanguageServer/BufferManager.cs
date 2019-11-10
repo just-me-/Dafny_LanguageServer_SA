@@ -12,7 +12,7 @@ namespace DafnyLanguageServer
 
         public void UpdateBuffer(Uri documentPath, string content)
         {
-            DafnyFile file = getOrCreateFileBuffer(documentPath);
+            DafnyFile file = GetOrCreateFileBuffer(documentPath);
             file.Sourcecode = content; 
 
             // do not update symboltable if current file state is invalid 
@@ -30,7 +30,7 @@ namespace DafnyLanguageServer
             UpdateBuffer(file.Uri, file.Sourcecode);
         }
 
-        private DafnyFile getOrCreateFileBuffer(Uri documentPath)
+        private DafnyFile GetOrCreateFileBuffer(Uri documentPath)
         {
             return _buffers.TryGetValue(documentPath, out var buffer) ? buffer : new DafnyFile { Uri = documentPath };
         }

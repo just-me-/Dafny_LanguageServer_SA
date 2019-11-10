@@ -44,19 +44,19 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
                 var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri);
-                var word = getCurrentWord(
+                var word = GetCurrentWord(
                     _bufferManager.GetTextFromBuffer(request.TextDocument.Uri), 
                     (int)request.Position.Line, 
                     (int)request.Position.Character
                 );
-                var parentClass = symbols.getParentForWord(word); 
+                var parentClass = symbols.GetParentForWord(word); 
                 return (symbols is null) ?
                     new CompletionList() :
-                    convertListToCompletionresponse(symbols.getList(parentClass), request);
+                    ConvertListToCompletionresponse(symbols.GetList(parentClass), request);
             });
         }
 
-        private string getCurrentWord(string code, int line, int character)
+        private string GetCurrentWord(string code, int line, int character)
         {
             var codeLines = Regex.Split(code, "\r\n|\r|\n");
             var selectedLine = codeLines[line];
@@ -68,7 +68,7 @@ namespace DafnyLanguageServer
             return null; 
         }
 
-        private CompletionList convertListToCompletionresponse(List<SymbolTable.SymbolInformation> symbols, CompletionParams request)
+        private CompletionList ConvertListToCompletionresponse(List<SymbolTable.SymbolInformation> symbols, CompletionParams request)
         {
             var complitionItems = new List<CompletionItem>(); 
             foreach(var symbol in symbols)

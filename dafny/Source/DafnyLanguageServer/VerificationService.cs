@@ -35,10 +35,10 @@ namespace DafnyLanguageServer
                 Diagnostics = new Container<Diagnostic>(diagnostics)
             };
             _router.Document.PublishDiagnostics(p);
-            sendErrornumberToClient(diagnostics.Count); 
+            SendErrornumberToClient(diagnostics.Count); 
         }
 
-        private void sendErrornumberToClient(int counted)
+        private void SendErrornumberToClient(int counted)
         {
             // 2do: über alle files statt nur von dem aktuellen? 
             _router.Window.SendNotification("updateStatusbar", counted);
