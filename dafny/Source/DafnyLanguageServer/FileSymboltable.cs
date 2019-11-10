@@ -10,13 +10,12 @@ namespace DafnyLanguageServer
 {
     public class FileSymboltable
     {
-        private List<SymbolTable.SymbolInformation> _symbolTable; 
-        public bool HasEntries { get; }
+        private List<SymbolTable.SymbolInformation> _symbolTable;
+        public bool HasEntries => (_symbolTable.Count > 0);
 
         public FileSymboltable(string uri, string content)
         {
             _symbolTable = RemoveDuplicates(GetSymbolList(uri, content));
-            HasEntries = (_symbolTable.Count > 0); 
         }
 
         public List<SymbolTable.SymbolInformation> GetList()
@@ -28,20 +27,27 @@ namespace DafnyLanguageServer
         {
             if(specificWord is null)
                 return GetList();
-            SymbolTable.SymbolInformation parentSymbol = _symbolTable.Where(x => (x.Name == specificWord)).FirstOrDefault();
+            var parentSymbol = GetSymbolByName(specificWord);
             return _symbolTable.Where(x => (x.ParentClass == specificWord  && SymbolIsInRangeOf(x, parentSymbol))).ToList();
+        }
+
+        private SymbolTable.SymbolInformation GetSymbolByName(string name)
+        {
+            return _symbolTable.Where(x => (x.Name == name)).FirstOrDefault();
         }
 
         private bool SymbolIsInRangeOf(SymbolTable.SymbolInformation child, SymbolTable.SymbolInformation parent)
         {
-            return (child.Line >= parent.Line && child.EndLine <= parent.EndLine); 
+            return (
+                (child.Line >= parent.Line && child.EndLine <= parent.EndLine && parent.Line != parent.EndLine) ||
+                // if it is an one liner check position 
+                (parent.Line == parent.EndLine && child.Position >= parent.Position && child.EndPosition <= parent.EndPosition)
+            ); 
         }
 
         public string GetParentForWord(string word)
         {
-            if (word is null)
-                return null;
-            return _symbolTable.Where(x => x.Name == word).FirstOrDefault().ParentClass; 
+            return word is null ? null : _symbolTable.Where(x => x.Name == word).FirstOrDefault().ParentClass;
         }
 
         private List<SymbolTable.SymbolInformation> GetSymbolList(String documentPath, String code)

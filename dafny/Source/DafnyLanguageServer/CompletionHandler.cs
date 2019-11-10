@@ -59,13 +59,9 @@ namespace DafnyLanguageServer
         private string GetCurrentWord(string code, int line, int character)
         {
             var codeLines = Regex.Split(code, "\r\n|\r|\n");
-            var selectedLine = codeLines[line];
-            var match = Regex.Match(selectedLine, @"(\S+)\.");
-            if (match.Success)
-            {
-                return(match.Groups[1].Value);
-            }
-            return null; 
+            var selectedLine = codeLines[line].Substring(0, character);
+            var match = Regex.Match(selectedLine, @"(\S+)\.$");
+            return (match.Success) ? (match.Groups[1].Value) : null; 
         }
 
         private CompletionList ConvertListToCompletionresponse(List<SymbolTable.SymbolInformation> symbols, CompletionParams request)
