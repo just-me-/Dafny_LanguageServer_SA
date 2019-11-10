@@ -57,7 +57,6 @@ namespace DafnyLanguageServer
                 Sourcecode = text
             }; 
             _bufferManager.UpdateBuffer(file);
-            //_router.Window.LogInfo($"Updated buffer for document: {uri.TOString()}\n{text}");
 
             _verificationService.Verify(file);
         }

@@ -8,20 +8,21 @@ namespace DafnyLanguageServer
 {
     public class BufferManager
     {
-        private ConcurrentDictionary<Uri, string> _fileBuffers = new ConcurrentDictionary<Uri, string>();
-        private ConcurrentDictionary<Uri, FileSymboltable> _symboltableBuffers = new ConcurrentDictionary<Uri, FileSymboltable>();
-        // hmm auch noch error information hinzutun?
-        // und dann die 3 arrays auslagern in eins vom typ "dafnyfile" und infos ins dafny file reinpacken? 
+        private ConcurrentDictionary<Uri, DafnyFile> _buffers = new ConcurrentDictionary<Uri, DafnyFile>();
 
         public void UpdateBuffer(Uri documentPath, string content)
         {
-            _fileBuffers.AddOrUpdate(documentPath, content, (k, v) => content);
+            DafnyFile file = getOrCreateFileBuffer(documentPath);
+            file.Sourcecode = content; 
 
+            // do not update symboltable if current file state is invalid 
             var symboltable = new FileSymboltable(documentPath.ToString(), content);
             if(symboltable.HasEntries)
             {
-                _symboltableBuffers.AddOrUpdate(documentPath, symboltable, (k, v) => symboltable);
+                file.Symboltable = symboltable;
             }
+
+            _buffers.AddOrUpdate(documentPath, file, (k, v) => file);
         }
 
         public void UpdateBuffer(DafnyFile file)
@@ -29,18 +30,24 @@ namespace DafnyLanguageServer
             UpdateBuffer(file.Uri, file.Sourcecode);
         }
 
+        private DafnyFile getOrCreateFileBuffer(Uri documentPath)
+        {
+            return _buffers.TryGetValue(documentPath, out var buffer) ? buffer : new DafnyFile { Uri = documentPath };
+        }
+
         public string GetTextFromBuffer(Uri documentPath)
         {
-            return _fileBuffers.TryGetValue(documentPath, out var buffer) ? buffer : null;
+            return _buffers.TryGetValue(documentPath, out var buffer) ? buffer.Sourcecode : null;
         }
 
         public FileSymboltable GetSymboltableForFile(Uri documentPath)
         {
-            return _symboltableBuffers.TryGetValue(documentPath, out var buffer) ? buffer : null;
+            return _buffers.TryGetValue(documentPath, out var buffer) ? buffer.Symboltable : null;
         }
-        public ConcurrentDictionary<Uri, FileSymboltable> GetAllSymboltabls()
+
+        public ConcurrentDictionary<Uri, DafnyFile> GetAllFiles()
         {
-            return _symboltableBuffers;
+            return _buffers; 
         }
     }
 }

@@ -35,7 +35,13 @@ namespace DafnyLanguageServer
                 Diagnostics = new Container<Diagnostic>(diagnostics)
             };
             _router.Document.PublishDiagnostics(p);
-            _router.Window.SendNotification("updateStatusbar", diagnostics.Count);
+            sendErrornumberToClient(diagnostics.Count); 
+        }
+
+        private void sendErrornumberToClient(int counted)
+        {
+            // 2do: über alle files statt nur von dem aktuellen? 
+            _router.Window.SendNotification("updateStatusbar", counted);
         }
 
         public DafnyHelper DafnyVerify(DafnyFile file)
