@@ -63,6 +63,7 @@ test_nunit:
     - nuget install nunit.consolerunner
     - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/NUnitWillItWork.dll
     - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompileHandlerTest.dll
+    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompletionHandlerTest.dll
 
 test_vscode:
   stage: test
