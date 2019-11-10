@@ -11,7 +11,7 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 
 namespace DafnyLanguageServer
 {
-    internal class CompletionHandler : ICompletionHandler
+    public class CompletionHandler : ICompletionHandler
     {
         private readonly ILanguageServer _router;
         private readonly BufferManager _bufferManager;
@@ -56,7 +56,7 @@ namespace DafnyLanguageServer
             });
         }
 
-        private CompletionList ConvertListToCompletionresponse(List<SymbolTable.SymbolInformation> symbols, CompletionParams request)
+        public CompletionList ConvertListToCompletionresponse(List<SymbolTable.SymbolInformation> symbols, CompletionParams request)
         {
             var complitionItems = new List<CompletionItem>(); 
             foreach(var symbol in symbols)
