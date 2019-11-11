@@ -3,9 +3,11 @@
   <Config name="Debug">
     <assembly path="TestBinaries\NUnitWillItWork.dll"/>
     <assembly path="TestBinaries\CompileHandlerTest.dll"/>
+	<assembly path="TestBinaries\CompletionHandlerTest.dll"/>
   </Config>
   <Config name="Release">
     <assembly path="TestBinaries\NUnitWillItWork.dll"/>
     <assembly path="TestBinaries\CompileHandlerTest.dll"/>
+	<assembly path="TestBinaries\CompletionHandlerTest.dll"/>
   </Config>
 </NUnitProject>
