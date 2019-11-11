@@ -68,7 +68,8 @@ test_nunit:
     - mono ./$NUnitRunner $NUnitFolder/VerificationServiceTest.dll
     - mono ./$NUnitRunner $NUnitFolder/CounterExampleTest.dll
   artifacts:
-    reports: dafny/Test/TestResult.xml
+    reports:
+      junit: dafny/Test/TestResult.xml
 
 test_vscode_xvfb:
   stage: test
