@@ -16,7 +16,6 @@ namespace Tests
         {
             ExecutionEngine.printer = new DafnyConsolePrinter();
             string filename = Path.Combine(testPath, "fail.dfy");
-
             string source = File.ReadAllText(filename);
 
 
