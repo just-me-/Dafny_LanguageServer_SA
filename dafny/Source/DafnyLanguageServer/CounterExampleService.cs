@@ -15,14 +15,14 @@ namespace DafnyLanguageServer
         public string[] Args { get; } = { };
 
         public string ProgramSource { get; }
-    }
+    
 
 
 
         public CounterExampleService(string filename, string programSource)
 
         {
-            ProgramsSource = programSource;
+            ProgramSource = programSource;
             Filename = filename;
         }
 
