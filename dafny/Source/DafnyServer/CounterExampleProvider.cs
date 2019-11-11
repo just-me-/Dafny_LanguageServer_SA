@@ -14,7 +14,7 @@ namespace DafnyServer
     {
         private List<ILanguageSpecificModel> _languageSpecificModels;
 
-        public static readonly string ModelBvd = Path.Combine(Path.GetTempPath(), $".{Path.DirectorySeparatorChar}Dafny{Path.DirectorySeparatorChar}model.bvd");
+        public static readonly string ModelBvd = Path.Combine(Path.GetTempPath(), $"Dafny{Path.DirectorySeparatorChar}model.bvd");
         
 
         public CounterExample LoadCounterModel()
