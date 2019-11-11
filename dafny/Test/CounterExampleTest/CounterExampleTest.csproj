@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
-	<OutputPath>../TestBinaries/</OutputPath>
+	<OutputPath>../../Binaries/</OutputPath>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 	<IsPackable>false</IsPackable>
@@ -16,6 +16,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\DafnyLanguageServer\DafnyLanguageServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BoogieExecutionEngine">
+      <HintPath>..\..\..\boogie\Binaries\BoogieExecutionEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

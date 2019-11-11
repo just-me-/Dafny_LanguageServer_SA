@@ -1,5 +1,7 @@
 using System.IO;
 using DafnyLanguageServer;
+using Microsoft.Boogie;
+using Microsoft.Dafny;
 using NUnit.Framework;
 
 namespace Tests
@@ -12,6 +14,7 @@ namespace Tests
         [Test]
         public void Fail1()
         {
+            ExecutionEngine.printer = new DafnyConsolePrinter();
             //string filename = Path.Combine(testPath, "fail.dfy");
 
             //string source = File.ReadAllText(filename);
@@ -25,7 +28,7 @@ namespace Tests
             var results = service.ProvideCounterExamples().Result;
 
 
-            Assert.AreEqual(1, results.CounterExamples.Count);
+            Assert.AreEqual(2, results.CounterExamples.Count);
         }
     }
 }
