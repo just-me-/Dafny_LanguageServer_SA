@@ -63,10 +63,10 @@ test_nunit:
   script:
     - cd dafny/Test/
     - nuget install nunit.consolerunner
-#    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/NUnitWillItWork.dll
-#    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompileHandlerTest.dll
-#    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompletionHandlerTest.dll
-    - sudo ./runtests.nunit.sh
+    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompileHandlerTest.dll
+    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompletionHandlerTest.dll
+    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/VerificationServiceTest.dll
+    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CounterExampleTest.dll
 
 test_vscode_xvfb:
   stage: test
