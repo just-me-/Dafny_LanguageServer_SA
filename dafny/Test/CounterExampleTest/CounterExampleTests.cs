@@ -9,7 +9,7 @@ namespace Tests
     public class Tests
     {
         private static readonly string assemblyPath = Path.GetDirectoryName(typeof(Tests).Assembly.Location);
-        internal static readonly string testPath = Path.GetFullPath(Path.Combine(assemblyPath, "../Test/CounterExampleFiles"));
+        internal static readonly string testPath = Path.GetFullPath(Path.Combine(assemblyPath, "../CounterExampleFiles"));
 
         [Test]
         public void Fail1()
