@@ -68,8 +68,6 @@ test_nunit:
     - mono ./$NUnitRunner $NUnitFolder/VerificationServiceTest.dll
     - mono ./$NUnitRunner $NUnitFolder/CounterExampleTest.dll
   artifacts:
-    paths:
-      - dafny/Test/TestResult.xml
     reports:
       - dafny/Test/TestResult.xml
 
