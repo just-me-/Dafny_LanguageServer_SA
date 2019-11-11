@@ -14,15 +14,15 @@ namespace DafnyLanguageServer
         public string Filename { get; }
         public string[] Args { get; } = { };
 
-        public string ProgramSource => _bufferManager.GetTextFromBuffer(new Uri(Filename));
+        public string ProgramSource { get; }
+    }
 
-        private readonly BufferManager _bufferManager;
 
 
-        public CounterExampleService(BufferManager b, string filename)
+        public CounterExampleService(string filename, string programSource)
 
         {
-            _bufferManager = b;
+            ProgramsSource = programSource;
             Filename = filename;
         }
 

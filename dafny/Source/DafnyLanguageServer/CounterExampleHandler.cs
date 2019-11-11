@@ -50,8 +50,9 @@ namespace DafnyLanguageServer
 
         public async Task<CounterExampleResults> Handle(CounterExampleParams request, CancellationToken cancellationToken)
         {
-            var x = new CounterExampleService(_bufferManager, request.DafnyFile);
-            return await x.ProvideCounterExamples();
+            string programSource = _bufferManager.GetTextFromBuffer(new Uri(request.DafnyFile));
+            var service = new CounterExampleService(request.DafnyFile, programSource);
+            return await service.ProvideCounterExamples();
         }
 
     }
