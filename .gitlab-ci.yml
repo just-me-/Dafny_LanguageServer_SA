@@ -64,9 +64,9 @@ test_nunit:
 #    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/NUnitWillItWork.dll
 #    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompileHandlerTest.dll
 #    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompletionHandlerTest.dll
-    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/runtests.nunit
+    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/runtests.nunit.csproj
 
-test_vscode:
+test_vscode_xvfb:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
