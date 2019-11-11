@@ -1,5 +1,6 @@
 variables:
   BUILD_IMAGE: $CI_REGISTRY_IMAGE/dafny-linux-mono-build
+  NUnitRunner: $NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe
 
 stages:
   - prebuild
