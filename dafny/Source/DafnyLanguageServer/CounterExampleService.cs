@@ -37,6 +37,12 @@ namespace DafnyLanguageServer
 
                 var helper = new DafnyHelper(Args, Filename, ProgramSource);
                 var models = helper.CounterExample();
+
+                if (models.Count == 0)
+                {
+                    return allCounterExamplesReturnContainer;
+                }
+
                 var states = models[0].States;
 
                 for (int i = 2; i < states.Count; i++)
