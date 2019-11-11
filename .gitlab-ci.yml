@@ -65,7 +65,7 @@ test_nunit:
 #    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/NUnitWillItWork.dll
 #    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompileHandlerTest.dll
 #    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompletionHandlerTest.dll
-    - ./runtests.nunit.sh
+    - sudo ./runtests.nunit.sh
 
 test_vscode_xvfb:
   stage: test
