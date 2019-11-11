@@ -1,0 +1,11 @@
+<NUnitProject>
+  <Settings activeconfig="Debug"/>
+  <Config name="Debug">
+    <assembly path="TestBinaries\NUnitWillItWork.dll"/>
+    <assembly path="TestBinaries\CompileHandlerTest.dll"/>
+  </Config>
+  <Config name="Release">
+    <assembly path="TestBinaries\NUnitWillItWork.dll"/>
+    <assembly path="TestBinaries\CompileHandlerTest.dll"/>
+  </Config>
+</NUnitProject>
