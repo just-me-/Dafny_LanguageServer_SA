@@ -1,5 +1,7 @@
 variables:
   BUILD_IMAGE: $CI_REGISTRY_IMAGE/dafny-linux-mono-build
+  NUnitRunner: NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe
+  NUnitFolder: TestBinaries
 
 stages:
   - prebuild
@@ -60,12 +62,15 @@ test_nunit:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
+    - cd dafny/Test/
     - nuget install nunit.consolerunner
-    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/NUnitWillItWork.dll
-    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompileHandlerTest.dll
-    - mono ./NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe dafny/Test/TestBinaries/CompletionHandlerTest.dll
+    - mono ./$NUnitRunner $NUnitFolder/CompletionHandlerTest.dll
+    - mono ./$NUnitRunner $NUnitFolder/VerificationServiceTest.dll
+  artifacts:
+    reports:
+      junit: dafny/Test/TestResult.xml
 
-test_vscode:
+test_vscode_xvfb:
   stage: test
   image: $BUILD_IMAGE:latest
   script:

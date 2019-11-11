@@ -50,42 +50,9 @@ namespace DafnyLanguageServer
 
         public async Task<CounterExampleResults> Handle(CounterExampleParams request, CancellationToken cancellationToken)
         {
-
-            return await Task.Run(() =>
-            {
-                string[] args = new string[] { };
-                string filename = request.DafnyFile;
-                string programSource = _bufferManager.GetTextFromBuffer(new Uri(request.DafnyFile));
-
-                var allCounterExamplesReturnContainer = new CounterExampleResults();
-
-
-                var helper = new DafnyHelper(args, filename, programSource);
-                var models = helper.CounterExample();
-                var states = models[0].States;
-
-                for (int i = 2; i < states.Count; i++)
-                {
-                    var entry = states[i];
-                    var variables = entry.Variables;
-
-                    CounterExampleResult currentCounterExample = new CounterExampleResult();
-
-                    currentCounterExample.Col = entry.Column;
-                    currentCounterExample.Line = entry.Line;
-
-                    foreach (var variable in variables)
-                    {
-                        currentCounterExample.Variables.Add(variable.Name, variable.Value);
-                    }
-
-                    allCounterExamplesReturnContainer.CounterExamples.Add(currentCounterExample);
-
-                }
-
-                return allCounterExamplesReturnContainer;
-
-            });
+            string programSource = _bufferManager.GetTextFromBuffer(new Uri(request.DafnyFile));
+            var service = new CounterExampleService(request.DafnyFile, programSource);
+            return await service.ProvideCounterExamples();
         }
 
     }

@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using DafnyLanguageServer;
 using Microsoft.Boogie;
-using Microsoft.Dafny;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace VerificationServiceTest
 {
-    [TestClass]
+
     public class CreateDiagnosticTest
     {
-        private static VerificationService verificationService = new VerificationService(null);
+        private static VerificationService verificationService = new DafnyLanguageServer.VerificationService(null);
         private Token token;
 
-        [TestInitialize]
+        [SetUp]
         public void setupExampleToken()
         {
             token = new Token();
@@ -22,7 +21,7 @@ namespace VerificationServiceTest
             token.kind = token.pos = token.line = token.col = token.line = 3;
         }
 
-        [TestMethod]
+        [Test]
         public void TestDiagnosticNoErrors()
         {
             var errors = new List<FakeErrorObject>();
@@ -30,7 +29,7 @@ namespace VerificationServiceTest
             Assert.AreEqual(0, diagnostics.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void TestDiagnosticOneError()
         {
             var errors = new List<FakeErrorObject>();
@@ -43,7 +42,7 @@ namespace VerificationServiceTest
             Assert.AreEqual(token.filename, diagnostics[0].Source);
         }
 
-        [TestMethod]
+        [Test]
         public void TestDiagnosticSubError()
         {
             var errors = new List<FakeErrorObject>();

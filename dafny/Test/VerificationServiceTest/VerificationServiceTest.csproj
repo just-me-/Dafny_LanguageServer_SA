@@ -9,18 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.11.0" />
+    <PackageReference Include="nunit" Version="3.11.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="OmniSharp.Extensions.LanguageServer" Version="0.14.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\DafnyDriver\DafnyDriver.csproj" />
     <ProjectReference Include="..\..\Source\DafnyLanguageServer\DafnyLanguageServer.csproj" />
-    <ProjectReference Include="..\..\Source\DafnyRuntime\DafnyRuntime.csproj" />
-    <ProjectReference Include="..\..\Source\DafnyServer\DafnyServer.csproj" />
-    <ProjectReference Include="..\..\Source\Dafny\DafnyPipeline.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BoogieExecutionEngine">
+      <HintPath>..\..\..\boogie\Binaries\BoogieExecutionEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="BoogieParserHelper">
+      <HintPath>..\..\..\boogie\Binaries\BoogieParserHelper.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
