@@ -66,7 +66,7 @@ test_nunit:
     - nuget install $NUnitNugetPackage
     - mono ./$NUnitRunner CompletionHandlerTest.dll
     - mono ./$NUnitRunner VerificationServiceTest.dll
-    - mono ./$NUnitRunner CounterExampleTest.dll
+#    - mono ./$NUnitRunner CounterExampleTest.dll
     - mono ./$NUnitRunner CompileHandlerTest.dll
   artifacts:
     reports:
