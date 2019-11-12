@@ -10,19 +10,17 @@ using System.Threading.Tasks;
 
 namespace DafnyLanguageServer
 {
-    public class CodeLensHandler : ICodeLensHandler
+    public class CodeLensHandler /* : ICodeLensHandler */
     {
         private CodeLensCapability _capability;
         private readonly ILanguageServer _router;
         private readonly BufferManager _bufferManager;
-
-        /*
+        
         public CodeLensHandler(ILanguageServer router, BufferManager bufferManager)
         {
             _router = router;
             _bufferManager = bufferManager;
         }
-        */
 
         public CodeLensRegistrationOptions GetRegistrationOptions()
         {
@@ -39,8 +37,8 @@ namespace DafnyLanguageServer
                 //items.Add(new CodeLens { Data = request.TextDocument.Uri, symbolTable. /*Range, Comand, JToken Data*/ });
 
 
-                ///Range range = new Range { Start = new Position(1, 5), End = new Position(10, 15) }; // position... 
-                ///items.Add(new CodeLens { Data = request.TextDocument.Uri, Range = range /*Range, Comand, JToken Data*/ });
+                Range range = new Range { Start = new Position(1, 5), End = new Position(10, 15) }; // position... 
+                items.Add(new CodeLens { Data = request.TextDocument.Uri, Range = range /*Range, Comand, JToken Data*/ });
 
                 return new CodeLensContainer(items); 
             });

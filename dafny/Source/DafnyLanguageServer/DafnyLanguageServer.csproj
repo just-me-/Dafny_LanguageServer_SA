@@ -170,6 +170,7 @@
     <Compile Include="CounterExampleHandler.cs" />
     <Compile Include="CounterExampleService.cs" />
     <Compile Include="DafnyFile.cs" />
+    <Compile Include="DefinitionHandler.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="FileSymboltable.cs" />
     <Compile Include="Program.cs" />
