@@ -10,12 +10,19 @@ using System.Threading.Tasks;
 
 namespace DafnyLanguageServer
 {
-    public class CodeLensHandler /* : ICodeLensHandler */
+    public class CodeLensHandler : ICodeLensHandler
     {
         private CodeLensCapability _capability;
         private readonly ILanguageServer _router;
         private readonly BufferManager _bufferManager;
-        
+
+        private readonly DocumentSelector _documentSelector = new DocumentSelector(
+            new DocumentFilter()
+            {
+                Pattern = "**/*.dfy"
+            }
+        );
+
         public CodeLensHandler(ILanguageServer router, BufferManager bufferManager)
         {
             _router = router;
@@ -24,7 +31,11 @@ namespace DafnyLanguageServer
 
         public CodeLensRegistrationOptions GetRegistrationOptions()
         {
-            return new CodeLensRegistrationOptions { ResolveProvider = true }; 
+            return new CodeLensRegistrationOptions
+            {
+                DocumentSelector = _documentSelector,
+                ResolveProvider = false
+            };
         }
 
         public async Task<CodeLensContainer> Handle(CodeLensParams request, CancellationToken token)

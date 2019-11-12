@@ -28,7 +28,7 @@ namespace DafnyLanguageServer
                     .WithHandler<CompletionHandler>()
                     .WithHandler<CompileHandler>()
                     .WithHandler<CounterExampleHandler>()
-                    //.WithHandler<CodeLensHandler>()
+                    .WithHandler<CodeLensHandler>()
                     .WithHandler<DefinitionHandler>()
             );
 

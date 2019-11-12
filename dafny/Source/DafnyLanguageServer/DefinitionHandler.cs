@@ -14,9 +14,21 @@ namespace DafnyLanguageServer
     {
         private DefinitionCapability _capability;
 
+        private readonly DocumentSelector _documentSelector = new DocumentSelector(
+            new DocumentFilter()
+            {
+                Pattern = "**/*.dfy"
+            }
+        );
+
+
+
         public TextDocumentRegistrationOptions GetRegistrationOptions()
         {
-            return new TextDocumentRegistrationOptions();
+            return new TextDocumentRegistrationOptions
+            {
+                DocumentSelector = _documentSelector
+            };
         }
 
         public async Task<LocationOrLocationLinks> Handle(DefinitionParams request, CancellationToken cancellationToken)
