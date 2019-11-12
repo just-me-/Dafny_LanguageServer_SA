@@ -92,6 +92,5 @@ namespace DafnyLanguageServer
         {
             _capability = capability;
         }
-
     }
 }
