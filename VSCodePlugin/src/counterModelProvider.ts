@@ -5,8 +5,6 @@ import * as vscode from "vscode";
 export class CounterModelProvider {
 
     private decorators: { [docPathName: string]: vscode.TextEditorDecorationType } = {};
-
-    constructor() { }
     
     public hideCounterModel(): void {
         if (this.decorators[this.getActiveFileName()]) {
