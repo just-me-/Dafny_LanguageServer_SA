@@ -15,12 +15,17 @@ namespace DafnyLanguageServer
 
         public FileSymboltable(string uri, string content)
         {
-            _symbolTable = RemoveDuplicates(GetSymbolList(uri, content));
+            _symbolTable = GetSymbolList(uri, content);
         }
 
+        public List<SymbolTable.SymbolInformation> GetFullList()
+        {
+            return _symbolTable;
+
+        }
         public List<SymbolTable.SymbolInformation> GetList()
         {
-            return _symbolTable; 
+            return RemoveDuplicates(_symbolTable); 
         }
 
         public List<SymbolTable.SymbolInformation> GetList(string specificWord)
@@ -28,7 +33,7 @@ namespace DafnyLanguageServer
             if(specificWord is null)
                 return GetList();
             var parentSymbol = GetSymbolByName(specificWord);
-            return _symbolTable.Where(x => (x.ParentClass == specificWord  && SymbolIsInRangeOf(x, parentSymbol))).ToList();
+            return RemoveDuplicates(_symbolTable.Where(x => (x.ParentClass == specificWord  && SymbolIsInRangeOf(x, parentSymbol))).ToList());
         }
 
         private SymbolTable.SymbolInformation GetSymbolByName(string name)

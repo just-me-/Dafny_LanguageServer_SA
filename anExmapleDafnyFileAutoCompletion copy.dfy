@@ -35,5 +35,6 @@ method Main() {
    print a; 
    var acc2 := new C();
    var acc3 := new C();
+   acc3.m(); 
 }
 
