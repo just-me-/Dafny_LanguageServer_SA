@@ -67,7 +67,8 @@ test_nunit:
     - nuget install nunit.consolerunner
     - mono ./$NUnitRunner $NUnitFolder/CompletionHandlerTest.dll
     - mono ./$NUnitRunner $NUnitFolder/VerificationServiceTest.dll
-    - mono ./$NUnitRunner $NUnitFolder/CompileHandlerTest.dll
+#    - mono ./$NUnitRunner $NUnitFolder/CompileHandlerTest.dll
+    - mono ./$NUnitRunner $NUnitFolder/CounterExampleTest.dll
   artifacts:
     reports:
       junit: dafny/Test/TestResult.xml
