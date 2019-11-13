@@ -20,7 +20,7 @@ namespace DafnyLanguageServer
 
         public List<SymbolTable.SymbolInformation> GetFullList()
         {
-            return _symbolTable;
+            return RemoveLeadingDashSymbols(_symbolTable);
 
         }
         public List<SymbolTable.SymbolInformation> GetList()

@@ -46,12 +46,12 @@ namespace DafnyLanguageServer
 
                 var fileSymboltable = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri);
                 // die laufzeit ist grottig husthust
-                foreach (var symbol in fileSymboltable.GetList())
+                foreach (var symbol in fileSymboltable.GetFullList())
                 {
                     var symbolReferencecounter = 0;
                     foreach (var fileBuffers in _bufferManager.GetAllFiles().Values)
                     {
-                        foreach (var filesSymboltable in fileBuffers.Symboltable.GetList())
+                        foreach (var filesSymboltable in fileBuffers.Symboltable.GetFullList())
                         {
                             if (filesSymboltable.Name == symbol.Name)
                                 symbolReferencecounter++;
