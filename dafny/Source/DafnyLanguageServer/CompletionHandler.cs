@@ -65,15 +65,16 @@ namespace DafnyLanguageServer
                 Enum.TryParse(symbol.SymbolType.ToString(), true, out kind);
 
                 complitionItems.Add(
+                    // jedes new ein dingens machen. zwischenobjekte als eigene lokale objekte reinmachen. 2do
                     new CompletionItem
                     {
-                        Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Parent: {symbol.ParentClass})",
+                        Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Parent: {symbol.ParentClass})", // 2do: Klasse Label für prod und dev mode ODER überschreiben 
                         Kind = kind, 
                         TextEdit = new TextEdit
                         {
                             NewText = symbol.Name,
                             Range = new Range( 
-                            new Position
+                            new Position // methode 2do
                             {
                                 Line = request.Position.Line,
                                 Character = request.Position.Character

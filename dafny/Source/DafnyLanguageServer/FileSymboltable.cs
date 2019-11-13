@@ -20,15 +20,17 @@ namespace DafnyLanguageServer
 
         public List<SymbolTable.SymbolInformation> GetList()
         {
-            return _symbolTable; 
+            return _symbolTable;
         }
 
-        public List<SymbolTable.SymbolInformation> GetList(string specificWord)
+        public List<SymbolTable.SymbolInformation> GetList(string specificWord) //identifier 
         {
-            if(specificWord is null)
+            if (specificWord is null)
+            {
                 return GetList();
+            }
             var parentSymbol = GetSymbolByName(specificWord);
-            return _symbolTable.Where(x => (x.ParentClass == specificWord  && SymbolIsInRangeOf(x, parentSymbol))).ToList();
+            return _symbolTable.Where(x => (x.ParentClass == specificWord && SymbolIsInRangeOf(x, parentSymbol))).ToList();
         }
 
         private SymbolTable.SymbolInformation GetSymbolByName(string name)
@@ -39,14 +41,17 @@ namespace DafnyLanguageServer
         private bool SymbolIsInRangeOf(SymbolTable.SymbolInformation child, SymbolTable.SymbolInformation parent)
         {
             return FileHelper.ChildIsContainedByParent(
-                child.Line, child.EndLine, child.Position, child.EndPosition, 
+                child.Line, child.EndLine, child.Position, child.EndPosition,
                 parent.Line, parent.EndLine, parent.Position, parent.EndPosition
             );
         }
 
         public string GetParentForWord(string word)
         {
-            return word is null ? null : _symbolTable.Where(x => x.Name == word).FirstOrDefault().ParentClass;
+            // 2do def programmieren 
+            return word is null ? 
+                null 
+                : _symbolTable.Where(x => x.Name == word).FirstOrDefault().ParentClass;
         }
 
         private List<SymbolTable.SymbolInformation> GetSymbolList(String documentPath, String code)
@@ -58,7 +63,7 @@ namespace DafnyLanguageServer
 
         private List<SymbolTable.SymbolInformation> RemoveDuplicates(List<SymbolTable.SymbolInformation> list)
         {
-            list = RemoveLeadingDashSymbols(list); // tmp?
+            list = RemoveLeadingDashSymbols(list); // tmp? 2do 
             return list.GroupBy(x => x.Name).Select(x => x.First()).ToList();
         }
         // not sure if this is a good idea. Therefore its an isolated function 
