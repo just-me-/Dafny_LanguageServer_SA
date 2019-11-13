@@ -45,11 +45,11 @@ namespace DafnyLanguageServer
             {
                 var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri);
                 var word = FileHelper.GetCurrentWord(
-                    _bufferManager.GetTextFromBuffer(request.TextDocument.Uri), 
-                    (int)request.Position.Line, 
+                    _bufferManager.GetTextFromBuffer(request.TextDocument.Uri),
+                    (int)request.Position.Line,
                     (int)request.Position.Character
                 );
-                var parentClass = symbols.GetParentForWord(word); 
+                var parentClass = symbols.GetParentForWord(word);
                 return (symbols is null) ?
                     new CompletionList() :
                     ConvertListToCompletionresponse(symbols.GetList(parentClass), request);
@@ -58,35 +58,30 @@ namespace DafnyLanguageServer
 
         public CompletionList ConvertListToCompletionresponse(List<SymbolTable.SymbolInformation> symbols, CompletionParams request)
         {
-            var complitionItems = new List<CompletionItem>(); 
+            var complitionItems = new List<CompletionItem>();
             foreach(var symbol in symbols)
             {
                 CompletionItemKind kind = CompletionItemKind.Reference;
                 Enum.TryParse(symbol.SymbolType.ToString(), true, out kind);
 
+
+                Range range = GetRange(request.Position.Line, request.Position.Character, symbol.Name.Length);
+                TextEdit textEdit = new TextEdit
+                {
+                    NewText = symbol.Name,
+                    Range = range
+                };
+
                 complitionItems.Add(
                     // jedes new ein dingens machen. zwischenobjekte als eigene lokale objekte reinmachen. 2do
                     new CompletionItem
                     {
-                        Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Parent: {symbol.ParentClass})", // 2do: Klasse Label für prod und dev mode ODER überschreiben 
-                        Kind = kind, 
-                        TextEdit = new TextEdit
-                        {
-                            NewText = symbol.Name,
-                            Range = new Range( 
-                            new Position // methode 2do
-                            {
-                                Line = request.Position.Line,
-                                Character = request.Position.Character
-                            }, new Position
-                            {
-                                Line = request.Position.Line,
-                                Character = request.Position.Character + symbol.Name.Length
-                            })
-                        }
-                    }); 
+                        Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Parent: {symbol.ParentClass})", // 2do: Klasse Label für prod und dev mode ODER überschreiben
+                        Kind = kind,
+                        TextEdit = textEdit
+                    });
             }
-            return new CompletionList(complitionItems); 
+            return new CompletionList(complitionItems);
         }
 
         public void SetCapability(CompletionCapability capability)
@@ -94,5 +89,23 @@ namespace DafnyLanguageServer
             _capability = capability;
         }
 
+
+        //Todo: könnte man auch in nen utility klasse tun ;-)
+        private Position GetPosition(long start, long end)
+        {
+            return new Position
+            {
+                Line = start,
+                Character = end
+            };
+        }
+
+        private Range GetRange(long line, long chr, long length)
+        {
+
+            Position start = GetPosition(line, chr);
+            Position end = GetPosition(line, chr+length);
+            return new Range(start, end);
+        }
     }
 }

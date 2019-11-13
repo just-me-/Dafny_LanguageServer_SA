@@ -62,12 +62,13 @@ test_nunit:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
-    - cd dafny/Binaries/
-    - nuget install $NUnitNugetPackage
-    - mono ./$NUnitRunner CompletionHandlerTest.dll
-    - mono ./$NUnitRunner VerificationServiceTest.dll
-#    - mono ./$NUnitRunner CounterExampleTest.dll #z3 exe und co
-#    - mono ./$NUnitRunner CompileHandlerTest.dll #Dafny.exe
+    - pushd dafny/Binaries; ln -s /opt/z3; popd
+    - cd dafny/Test/
+    - nuget install nunit.consolerunner
+    - mono ./$NUnitRunner $NUnitFolder/CompletionHandlerTest.dll
+    - mono ./$NUnitRunner $NUnitFolder/VerificationServiceTest.dll
+#    - mono ./$NUnitRunner $NUnitFolder/CompileHandlerTest.dll
+    - mono ./$NUnitRunner $NUnitFolder/CounterExampleTest.dll
   artifacts:
     reports:
       junit: dafny/Binaries/TestResult.xml

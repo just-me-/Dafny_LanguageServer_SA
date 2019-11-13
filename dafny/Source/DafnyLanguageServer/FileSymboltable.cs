@@ -15,27 +15,32 @@ namespace DafnyLanguageServer
 
         public FileSymboltable(string uri, string content)
         {
-            _symbolTable = RemoveDuplicates(GetSymbolList(uri, content));
+            _symbolTable = GetSymbolList(uri, content);
         }
 
+        public List<SymbolTable.SymbolInformation> GetFullList()
+        {
+            return RemoveLeadingDashSymbols(_symbolTable);
+
+        }
         public List<SymbolTable.SymbolInformation> GetList()
         {
-            return _symbolTable;
+            return RemoveDuplicates(_symbolTable);
         }
 
-        public List<SymbolTable.SymbolInformation> GetList(string specificWord) //identifier 
+        public List<SymbolTable.SymbolInformation> GetList(string specificWord) //identifier
         {
             if (specificWord is null)
             {
                 return GetList();
             }
             var parentSymbol = GetSymbolByName(specificWord);
-            return _symbolTable.Where(x => (x.ParentClass == specificWord && SymbolIsInRangeOf(x, parentSymbol))).ToList();
+            return RemoveDuplicates(_symbolTable.Where(x => (x.ParentClass == specificWord  && SymbolIsInRangeOf(x, parentSymbol))).ToList());
         }
 
         private SymbolTable.SymbolInformation GetSymbolByName(string name)
         {
-            return _symbolTable.Where(x => (x.Name == name)).FirstOrDefault();
+            return _symbolTable.FirstOrDefault(x => (x.Name == name));
         }
 
         private bool SymbolIsInRangeOf(SymbolTable.SymbolInformation child, SymbolTable.SymbolInformation parent)
@@ -48,30 +53,26 @@ namespace DafnyLanguageServer
 
         public string GetParentForWord(string word)
         {
-            // 2do def programmieren 
-            return word is null ? 
-                null 
-                : _symbolTable.Where(x => x.Name == word).FirstOrDefault().ParentClass;
+            return word is null ? null : _symbolTable.FirstOrDefault(x => x.Name == word)?.ParentClass;
         }
 
-        private List<SymbolTable.SymbolInformation> GetSymbolList(String documentPath, String code)
+        private List<SymbolTable.SymbolInformation> GetSymbolList(string documentPath, string code)
         {
-            string[] args = new string[] { };
+            string[] args = { };
             DafnyHelper helper = new DafnyHelper(args, documentPath, code);
             return helper.Symbols();
         }
 
         private List<SymbolTable.SymbolInformation> RemoveDuplicates(List<SymbolTable.SymbolInformation> list)
         {
-            list = RemoveLeadingDashSymbols(list); // tmp? 2do 
+            list = RemoveLeadingDashSymbols(list); // tmp? 2do
             return list.GroupBy(x => x.Name).Select(x => x.First()).ToList();
         }
-        // not sure if this is a good idea. Therefore its an isolated function 
+        // not sure if this is a good idea. Therefore its an isolated function
         private List<SymbolTable.SymbolInformation> RemoveLeadingDashSymbols(List<SymbolTable.SymbolInformation> list)
         {
-            var filteredList = list;
-            var countRemoved = filteredList?.RemoveAll(x => x.Name.StartsWith("_"));
-            return filteredList;
+            list?.RemoveAll(x => x.Name.StartsWith("_"));
+            return list;
         }
 
     }

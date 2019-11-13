@@ -17,6 +17,14 @@ namespace DafnyLanguageServer
             return (match.Success) ? (match.Groups[1].Value) : null;
         }
 
+        public static string GetFollowingWord(string code, int line, int character)
+        {
+            var codeLines = Regex.Split(code, "\r\n|\r|\n");
+            var selectedLine = codeLines[line].Substring(character);
+            var match = Regex.Match(selectedLine, @"^([a-zA-Z0-9-_]+).*");
+            return (match.Success) ? (match.Groups[1].Value) : null;
+        }
+
         public static bool ChildIsContainedByParent(
             int? childLineStart, int? childLineEnd, int? childPositionStart, int? childPositionEnd,
             int? parentLineStart, int? parentLineEnd, int? parentPositionStart, int? parentPositionEnd
