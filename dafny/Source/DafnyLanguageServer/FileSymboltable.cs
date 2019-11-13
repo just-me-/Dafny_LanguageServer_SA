@@ -38,7 +38,7 @@ namespace DafnyLanguageServer
 
         private SymbolTable.SymbolInformation GetSymbolByName(string name)
         {
-            return _symbolTable.Where(x => (x.Name == name)).FirstOrDefault();
+            return _symbolTable.FirstOrDefault(x => (x.Name == name));
         }
 
         private bool SymbolIsInRangeOf(SymbolTable.SymbolInformation child, SymbolTable.SymbolInformation parent)
@@ -51,12 +51,12 @@ namespace DafnyLanguageServer
 
         public string GetParentForWord(string word)
         {
-            return word is null ? null : _symbolTable.Where(x => x.Name == word).FirstOrDefault().ParentClass;
+            return word is null ? null : _symbolTable.FirstOrDefault(x => x.Name == word)?.ParentClass;
         }
 
-        private List<SymbolTable.SymbolInformation> GetSymbolList(String documentPath, String code)
+        private List<SymbolTable.SymbolInformation> GetSymbolList(string documentPath, string code)
         {
-            string[] args = new string[] { };
+            string[] args = { };
             DafnyHelper helper = new DafnyHelper(args, documentPath, code);
             return helper.Symbols();
         }
@@ -69,9 +69,8 @@ namespace DafnyLanguageServer
         // not sure if this is a good idea. Therefore its an isolated function 
         private List<SymbolTable.SymbolInformation> RemoveLeadingDashSymbols(List<SymbolTable.SymbolInformation> list)
         {
-            var filteredList = list;
-            var countRemoved = filteredList?.RemoveAll(x => x.Name.StartsWith("_"));
-            return filteredList;
+            list?.RemoveAll(x => x.Name.StartsWith("_"));
+            return list;
         }
 
     }

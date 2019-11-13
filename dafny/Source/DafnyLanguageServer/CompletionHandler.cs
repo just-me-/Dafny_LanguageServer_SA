@@ -64,25 +64,20 @@ namespace DafnyLanguageServer
                 CompletionItemKind kind = CompletionItemKind.Reference;
                 Enum.TryParse(symbol.SymbolType.ToString(), true, out kind);
 
+
+                Range range = GetRange(request.Position.Line, request.Position.Character, symbol.Name.Length);
+                TextEdit textEdit = new TextEdit
+                {
+                    NewText = symbol.Name,
+                    Range = range
+                };
+
                 complitionItems.Add(
                     new CompletionItem
                     {
                         Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Parent: {symbol.ParentClass})",
                         Kind = kind, 
-                        TextEdit = new TextEdit
-                        {
-                            NewText = symbol.Name,
-                            Range = new Range( 
-                            new Position
-                            {
-                                Line = request.Position.Line,
-                                Character = request.Position.Character
-                            }, new Position
-                            {
-                                Line = request.Position.Line,
-                                Character = request.Position.Character + symbol.Name.Length
-                            })
-                        }
+                        TextEdit = textEdit
                     }); 
             }
             return new CompletionList(complitionItems); 
@@ -91,6 +86,25 @@ namespace DafnyLanguageServer
         public void SetCapability(CompletionCapability capability)
         {
             _capability = capability;
+        }
+
+
+        //Todo: könnte man auch in nen utility klasse tun ;-)
+        private Position GetPosition(long start, long end)
+        {
+            return new Position
+            {
+                Line = start,
+                Character = end
+            };
+        }
+
+        private Range GetRange(long line, long chr, long length)
+        {
+
+            Position start = GetPosition(line, chr);
+            Position end = GetPosition(line, chr+length);
+            return new Range(start, end);
         }
     }
 }

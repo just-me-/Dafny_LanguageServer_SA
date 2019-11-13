@@ -24,15 +24,20 @@ namespace DafnyLanguageServer
             return await Task.Run(() =>
             {
                 //To support spaces in path:
-                DafnyFile = '\"' + DafnyFile + '\"';
+                DafnyFile = '\"' + DafnyFile + '\"'; //Todo systemmethode
 
-                Process process = new Process();
-                process.StartInfo.FileName = DafnyExe;
-                process.StartInfo.Arguments = "/compile:1 /nologo " + DafnyFile;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.EnableRaisingEvents = true;
+                Process process = new Process
+                {
+                    StartInfo =
+                    {
+                        FileName = DafnyExe,
+                        Arguments = "/compile:1 /nologo " + DafnyFile,
+                        UseShellExecute = false,
+                        RedirectStandardError = true,
+                        RedirectStandardOutput = true
+                    },
+                    EnableRaisingEvents = true
+                };
 
                 string processOut = "";
                 process.OutputDataReceived += (sender, args) => processOut += args.Data + "\n";
