@@ -44,57 +44,53 @@ namespace DafnyLanguageServer
             {
                 List<CodeLens> items = new List<CodeLens>();
 
+                var fileSymboltable = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri);
+                foreach(var symbol in fileSymboltable.GetList())
+                {
+                    var symbolReferencecounter = 0; 
+                    foreach(var fileBuffers in _bufferManager.GetAllFiles().Values)
+                    {
+                        foreach(var filesSymboltable in fileBuffers.Symboltable.GetList())
+                        {
+                            if (filesSymboltable.Name == symbol.Name)
+                                symbolReferencecounter++; 
+                        }
+                    }
+
+                    Range range = new Range {
+                        Start = new Position((long)symbol.Line, (long)symbol.Position),
+                        End = new Position((long)symbol.EndLine, (long)symbol.EndPosition)
+                    };
+                    Command command = new Command { Title = symbolReferencecounter+" reference", Name = "dafny.showReferences" };
+
+                    items.Add(new CodeLens { Data = request.TextDocument.Uri, Range = range, Command = command });
+                }
+
+                // for each (field or method) symbol in current document
+                // go throught each buffer (all files) and count used references
+
+
 
 
 
                 // get symboltable for current document
                 // filter "needsCodeLens"  .... fiield or method ... not constructor method
                 // => btw: 
-                    //public static DefaultModuleName: string = "_default";
-                    //public static ConstructorMethod: string = "_ctor";
-                // map format to "ReferencesCodeLens"
+                //public static DefaultModuleName: string = "_default";
+                //public static ConstructorMethod: string = "_ctor";
 
-                //var symbolTable = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri).GetList()[0];
-                //items.Add(new CodeLens { Data = request.TextDocument.Uri, symbolTable. /*Range, Comand, JToken Data*/ });
 
-                // Range should only be a single line
-                // command: anzeige
-                // data irrelevant 
-
-                Range range = new Range { Start = new Position(3, 5), End = new Position(3, 15) }; // position... 
-                Command command = new Command { Title = "1 reference", Name = "acc3.m()"};
+                Range range1 = new Range { Start = new Position(3, 5), End = new Position(3, 15) }; // position... 
+                Command command1 = new Command { Title = "1 reference", Name = "acc3.m()"};
 
                 Command command2 = new Command { Title = "1 reference", Name = "dafny.showReferences" };
-
-                /*
-                   codeLens.command = {
-                    arguments: [Uri.parse(codeLens.symbol.document.uri).fsPath, codeLens.range.start, locations],
-                    command: Commands.ShowReferences,
-                    title: locations.length === 1
-                        ? "1 reference"
-                        : `${locations.length} references`,
-                }; */
-
-                items.Add(new CodeLens { Data = request.TextDocument.Uri, Range = range, Command = command /*Range, Comand, JToken Data*/
-            });
-                items.Add(new CodeLens { Data = request.TextDocument.Uri, Range = range, Command = command /*Range, Comand, JToken Data*/ });
-                items.Add(new CodeLens { Data = request.TextDocument.Uri, Range = range, Command = command /*Range, Comand, JToken Data*/ });
+                
+                
+                items.Add(new CodeLens { Data = request.TextDocument.Uri, Range = range1, Command = command1 /*Range, Comand, JToken Data*/ });
 
                 return new CodeLensContainer(items); 
             });
         }
-        /*
-        private static void ToCodeLens(TextDocumentIdentifier textDocument, Object node, List<CodeLens> codeLensContainer)
-        {
-            var codeLens = new CodeLens
-            {
-                Data = textDocument.Uri
-                Range = node.Location.ToRange()
-            };
-
-            codeLensContainer.Add(codeLens);
-        }
-        */
 
         public void SetCapability(CodeLensCapability capability)
         {
