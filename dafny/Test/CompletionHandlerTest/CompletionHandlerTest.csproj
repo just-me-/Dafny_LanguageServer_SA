@@ -16,11 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\DafnyDriver\DafnyDriver.csproj" />
     <ProjectReference Include="..\..\Source\DafnyLanguageServer\DafnyLanguageServer.csproj" />
-    <ProjectReference Include="..\..\Source\DafnyRuntime\DafnyRuntime.csproj" />
-    <ProjectReference Include="..\..\Source\DafnyServer\DafnyServer.csproj" />
-    <ProjectReference Include="..\..\Source\Dafny\DafnyPipeline.csproj" />
   </ItemGroup>
 
 </Project>

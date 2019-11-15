@@ -1,5 +1,4 @@
 using DafnyLanguageServer;
-using DafnyServer;
 using NUnit.Framework;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using System.Collections.Generic;
