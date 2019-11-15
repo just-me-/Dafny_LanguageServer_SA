@@ -8,6 +8,7 @@ using Microsoft.Boogie;
 using Microsoft.Dafny;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
+using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyHelper;
 
 namespace DafnyLanguageServer
 {

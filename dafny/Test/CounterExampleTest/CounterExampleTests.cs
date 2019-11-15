@@ -3,6 +3,7 @@ using DafnyLanguageServer;
 using Microsoft.Boogie;
 using Microsoft.Dafny;
 using NUnit.Framework;
+using DafnyConsolePrinter = DafnyLanguageServer.DafnyAdapter.DafnyConsolePrinter;
 
 namespace Tests
 {

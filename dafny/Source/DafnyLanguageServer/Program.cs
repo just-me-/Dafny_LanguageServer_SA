@@ -6,6 +6,7 @@ using Microsoft.Dafny;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OmniSharp.Extensions.LanguageServer.Server;
+using DafnyConsolePrinter = DafnyLanguageServer.DafnyAdapter.DafnyConsolePrinter;
 
 namespace DafnyLanguageServer
 {
