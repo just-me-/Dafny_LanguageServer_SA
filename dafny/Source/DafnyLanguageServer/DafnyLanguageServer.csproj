@@ -172,6 +172,7 @@
     <Compile Include="CounterExampleService.cs" />
     <Compile Include="DafnyAdapter\CounterExampleProvider.cs" />
     <Compile Include="DafnyAdapter\DafnyHelper.cs" />
+    <Compile Include="DafnyAdapter\SymbolTable.cs" />
     <Compile Include="DafnyAdapter\Utilities.cs" />
     <Compile Include="DafnyFile.cs" />
     <Compile Include="DefinitionHandler.cs" />
@@ -188,10 +189,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DafnyServer\DafnyServer.csproj">
-      <Project>{ac9b21ae-ebc1-4a27-ad11-ed031fc7b4a2}</Project>
-      <Name>DafnyServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dafny\DafnyPipeline.csproj">
       <Project>{fe44674a-1633-4917-99f4-57635e6fa740}</Project>
       <Name>DafnyPipeline</Name>

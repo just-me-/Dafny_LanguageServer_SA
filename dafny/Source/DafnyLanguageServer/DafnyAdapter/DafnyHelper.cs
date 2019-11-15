@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using DafnyServer;
 using Microsoft.Boogie;
 using Microsoft.Dafny;
 using Bpl = Microsoft.Boogie;

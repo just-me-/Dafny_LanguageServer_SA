@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Packaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms.VisualStyles;
-using Microsoft.Dafny;
+﻿using System.Threading.Tasks;
 using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyHelper;
 
 namespace DafnyLanguageServer

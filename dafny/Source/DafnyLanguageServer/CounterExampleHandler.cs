@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO.Packaging;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Boogie;
-using Microsoft.Dafny;
 using OmniSharp.Extensions.Embedded.MediatR;
 using OmniSharp.Extensions.JsonRpc;
-using System.Text.RegularExpressions;
-using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 using System.Collections.Generic;
 
 namespace DafnyLanguageServer

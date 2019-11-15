@@ -1,11 +1,7 @@
-﻿using DafnyServer;
-using Microsoft.Dafny;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyHelper;
+using SymbolTable = DafnyLanguageServer.DafnyAdapter.SymbolTable;
 
 namespace DafnyLanguageServer
 {
