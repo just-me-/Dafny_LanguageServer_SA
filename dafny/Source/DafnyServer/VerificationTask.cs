@@ -53,7 +53,7 @@ namespace Microsoft.Dafny {
     }
 
     internal void Symbols() {
-      new DafnyHelper(args, filename, ProgramSource).Symbols(); // wird hier aufgerufen 
+      new DafnyHelper(args, filename, ProgramSource).Symbols();
     }
 
     public void CounterExample() {
