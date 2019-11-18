@@ -63,7 +63,7 @@ namespace DafnyLanguageServer
                 Enum.TryParse(symbol.SymbolType.ToString(), true, out kind);
 
 
-                Range range = GetRange(request.Position.Line, request.Position.Character, symbol.Name.Length);
+                Range range = CreateRange(request.Position.Line, request.Position.Character, symbol.Name.Length);
                 TextEdit textEdit = new TextEdit
                 {
                     NewText = symbol.Name,
@@ -89,7 +89,7 @@ namespace DafnyLanguageServer
 
 
         //Todo: könnte man auch in nen utility klasse tun ;-)
-        private Position GetPosition(long start, long end)
+        private Position CreatePosition(long start, long end)
         {
             return new Position
             {
@@ -98,11 +98,11 @@ namespace DafnyLanguageServer
             };
         }
 
-        private Range GetRange(long line, long chr, long length)
+        private Range CreateRange(long line, long chr, long length)
         {
 
-            Position start = GetPosition(line, chr);
-            Position end = GetPosition(line, chr+length);
+            Position start = CreatePosition(line, chr);
+            Position end = CreatePosition(line, chr+length);
             return new Range(start, end);
         }
     }
