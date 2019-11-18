@@ -62,13 +62,13 @@ namespace DafnyLanguageServer
 
         private List<SymbolTable.SymbolInformation> RemoveDuplicates(List<SymbolTable.SymbolInformation> list)
         {
-            list = RemoveLeadingDashSymbols(list); // tmp? 2do
-            return list.GroupBy(x => x.Name).Select(x => x.First()).ToList();
+            return RemoveConstructorSymbols(list).GroupBy(x => x.Name).Select(x => x.First()).ToList();
         }
-        // not sure if this is a good idea. Therefore its an isolated function
-        private List<SymbolTable.SymbolInformation> RemoveLeadingDashSymbols(List<SymbolTable.SymbolInformation> list)
+
+        private List<SymbolTable.SymbolInformation> RemoveConstructorSymbols(List<SymbolTable.SymbolInformation> list)
         {
-            list?.RemoveAll(x => x.Name.StartsWith("_"));
+            var ignoredSymbols = new[] { "_ctor", "_default" };
+            list?.RemoveAll(x => ignoredSymbols.Any(x.Name.Contains));
             return list;
         }
 

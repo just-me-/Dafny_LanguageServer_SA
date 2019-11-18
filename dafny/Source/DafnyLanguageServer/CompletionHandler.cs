@@ -71,10 +71,13 @@ namespace DafnyLanguageServer
                 };
 
                 complitionItems.Add(
-                    // jedes new ein dingens machen. zwischenobjekte als eigene lokale objekte reinmachen. 2do
                     new CompletionItem
                     {
-                        Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Parent: {symbol.ParentClass})", // 2do: Klasse Label für prod und dev mode ODER überschreiben
+                        #if DEBUG
+                        Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Parent: {symbol.ParentClass})",
+                        #else
+                        Label = $"{symbol.Name}", 
+                         #endif
                         Kind = kind,
                         TextEdit = textEdit
                     });

@@ -36,7 +36,6 @@ namespace DafnyLanguageServer
 
         private void SendErrornumberToClient(int counted)
         {
-            // 2do: über alle files statt nur von dem aktuellen? 
             _router.Window.SendNotification("updateStatusbar", counted);
         }
 
@@ -46,7 +45,7 @@ namespace DafnyLanguageServer
             DafnyHelper helper = new DafnyHelper(args, file.Filepath, file.Sourcecode);
             if (!helper.Verify())
             {
-                throw new ArgumentException("Failed to verify document."); //TODO: Während des schreibens ist das doc immer wieder invalid... exception ist etwas zu krass imho
+                throw new ArgumentException("Failed to verify document."); // 2do: Während des schreibens ist das doc immer wieder invalid... exception ist etwas zu krass imho
             }
             return helper; 
         }

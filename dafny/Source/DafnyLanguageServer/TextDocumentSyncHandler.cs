@@ -23,7 +23,7 @@ namespace DafnyLanguageServer
                 Pattern = "**/*.dfy"
             }
         );
-        public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full; //TODO: Incremental damit nicht immer alles geschickt wird
+        public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full; //2do: Incremental damit nicht immer alles geschickt wird
 
         public TextDocumentSyncHandler(ILanguageServer router, BufferManager bufferManager)
         {

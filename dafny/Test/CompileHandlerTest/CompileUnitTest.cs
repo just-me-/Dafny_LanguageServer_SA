@@ -34,7 +34,7 @@ namespace CompileHandlerTest
 
 
         [Test]
-        public void ExeCalled()
+        public void ExeCalled() // evt process mocken... 2do bleibt mal noch drinne => Ticket #42
         {
             /*
             string dafnyFile = Path.Combine(testPath, PathConstants.dfy_fineDLL);
@@ -42,7 +42,7 @@ namespace CompileHandlerTest
 
             Thread.Sleep(1000);
 
-            DateTime exeLastAccess = File.GetLastAccessTime(dafnyExe); //TODO: Auf server nicht supported; und so timing zeugs ist eh nicht gut
+            DateTime exeLastAccess = File.GetLastAccessTime(dafnyExe); //2do: Auf server nicht supported; und so timing zeugs ist eh nicht gut
             TimeSpan diff = DateTime.Now - exeLastAccess;
 
             Assert.LessOrEqual(diff, new TimeSpan(0,0,3), "dafnyExe was not Called within the last second");

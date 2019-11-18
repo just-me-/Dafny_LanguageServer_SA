@@ -130,12 +130,13 @@ namespace DafnyLanguageServer.DafnyAdapter
 
         private bool Boogie()
         {
-            var isVerified = true;
             foreach (var boogieProgram in boogiePrograms)
             {
-                isVerified = isVerified && BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);  //TODO Can be made sch�ner.
+                if (!BoogieOnce(boogieProgram.Item1, boogieProgram.Item2)) {
+                    return false;
+                }
             }
-            return isVerified;
+            return true;
         }
 
         public List<SymbolTable.SymbolInformation> Symbols()
@@ -168,7 +169,6 @@ namespace DafnyLanguageServer.DafnyAdapter
                         RemoveExistingModel();
                         BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);
                         var model = counterExampleProvider.LoadCounterModel();
-                        Console.WriteLine("COUNTEREXAMPLE_START " + ConvertToJson(model) + " COUNTEREXAMPLE_END"); //2do: LEGACY aber evtl f�r testzeug mal drin gelassen
                         counterExamples.Add(model);
                     }
                     return counterExamples;
@@ -212,16 +212,6 @@ namespace DafnyLanguageServer.DafnyAdapter
                         }
                     }
                 }
-            }
-        }
-
-        private static string ConvertToJson<T>(T data) //todo das brauchen wir fast sicher nüm
-        {
-            var serializer = new DataContractJsonSerializer(typeof(T));
-            using (var ms = new MemoryStream())
-            {
-                serializer.WriteObject(ms, data);
-                return Encoding.Default.GetString(ms.ToArray());
             }
         }
     }
