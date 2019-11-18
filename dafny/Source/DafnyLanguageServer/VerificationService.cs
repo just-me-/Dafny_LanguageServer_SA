@@ -37,7 +37,6 @@ namespace DafnyLanguageServer
 
         private void SendErrornumberToClient(int counted)
         {
-            // 2do: über alle files statt nur von dem aktuellen? 
             _router.Window.SendNotification("updateStatusbar", counted);
         }
 
