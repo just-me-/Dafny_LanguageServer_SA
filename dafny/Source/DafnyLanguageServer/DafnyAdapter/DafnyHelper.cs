@@ -214,15 +214,5 @@ namespace DafnyLanguageServer.DafnyAdapter
                 }
             }
         }
-
-        private static string ConvertToJson<T>(T data) // 2do das brauchen wir fast sicher nüm
-        {
-            var serializer = new DataContractJsonSerializer(typeof(T));
-            using (var ms = new MemoryStream())
-            {
-                serializer.WriteObject(ms, data);
-                return Encoding.Default.GetString(ms.ToArray());
-            }
-        }
     }
 }
