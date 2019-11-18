@@ -20,7 +20,7 @@ namespace DafnyLanguageServer
         {
             return await Task.Run(() =>
             {
-                //To support spaces in path:
+                // 2do: To support spaces in path:
                 DafnyFile = '\"' + DafnyFile + '\"'; //Todo systemmethode
 
                 Process process = new Process

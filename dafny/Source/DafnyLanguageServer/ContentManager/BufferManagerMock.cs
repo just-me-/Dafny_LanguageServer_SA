@@ -9,7 +9,7 @@ namespace DafnyLanguageServer
 {
 
 
-    /*TODO: Brauchen wir das????*/
+    /* 2do TODO: Brauchen wir das????*/
     //nein
 
     class BufferManagerMock : IBufferManager

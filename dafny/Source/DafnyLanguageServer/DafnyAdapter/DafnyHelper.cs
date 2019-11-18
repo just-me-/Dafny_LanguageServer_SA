@@ -133,7 +133,7 @@ namespace DafnyLanguageServer.DafnyAdapter
             var isVerified = true;
             foreach (var boogieProgram in boogiePrograms)
             {
-                isVerified = isVerified && BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);  //TODO Can be made sch�ner.
+                isVerified = isVerified && BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);  // 2do Can be made sch�ner.
             }
             return isVerified;
         }
@@ -214,7 +214,7 @@ namespace DafnyLanguageServer.DafnyAdapter
             }
         }
 
-        private static string ConvertToJson<T>(T data) //todo das brauchen wir fast sicher nüm
+        private static string ConvertToJson<T>(T data) // 2do das brauchen wir fast sicher nüm
         {
             var serializer = new DataContractJsonSerializer(typeof(T));
             using (var ms = new MemoryStream())
