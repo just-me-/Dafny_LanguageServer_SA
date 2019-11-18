@@ -130,12 +130,13 @@ namespace DafnyLanguageServer.DafnyAdapter
 
         private bool Boogie()
         {
-            var isVerified = true;
             foreach (var boogieProgram in boogiePrograms)
             {
-                isVerified = isVerified && BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);  // 2do Can be made sch�ner.
+                if (!BoogieOnce(boogieProgram.Item1, boogieProgram.Item2)) {
+                    return false;
+                }
             }
-            return isVerified;
+            return true;
         }
 
         public List<SymbolTable.SymbolInformation> Symbols()
