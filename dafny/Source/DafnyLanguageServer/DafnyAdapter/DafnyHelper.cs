@@ -168,7 +168,6 @@ namespace DafnyLanguageServer.DafnyAdapter
                         RemoveExistingModel();
                         BoogieOnce(boogieProgram.Item1, boogieProgram.Item2);
                         var model = counterExampleProvider.LoadCounterModel();
-                        Console.WriteLine("COUNTEREXAMPLE_START " + ConvertToJson(model) + " COUNTEREXAMPLE_END"); //2do: LEGACY aber evtl f�r testzeug mal drin gelassen
                         counterExamples.Add(model);
                     }
                     return counterExamples;
