@@ -1,4 +1,8 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
+using Microsoft.Boogie.Houdini;
+using Newtonsoft.Json.Linq;
+using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 
 namespace DafnyLanguageServer
 {
@@ -32,6 +36,33 @@ namespace DafnyLanguageServer
                 (parentLineStart == parentLineEnd && childLineStart == childLineEnd  && parentLineStart == childLineStart
                  && childPositionStart >= parentPositionStart && childPositionEnd <= parentPositionEnd)
             );
+        }
+
+        public static Position CreatePosition(long start, long end)
+        {
+            if (start < 0 || end < 0)
+            {
+                throw new ArgumentException("Negative position values are not supported");
+            }
+
+            return new Position
+            {
+                Line = start,
+                Character = end
+            };
+        }
+
+        public static Range CreateRange(long line, long chr, long length)
+        {
+            if (length < 0)
+            {
+                length = Math.Abs(length);
+                chr -= length;
+            }
+
+            Position start = CreatePosition(line, chr);
+            Position end = CreatePosition(line, chr + length);
+            return new Range(start, end);
         }
     }
 }

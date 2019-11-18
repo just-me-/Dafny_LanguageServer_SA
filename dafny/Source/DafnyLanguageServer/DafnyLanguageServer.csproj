@@ -177,7 +177,7 @@
     <Compile Include="DafnyAdapter\Utilities.cs" />
     <Compile Include="ContentManager\DafnyFile.cs" />
     <Compile Include="DefinitionHandler.cs" />
-    <Compile Include="FileHelper.cs" />
+    <Compile Include="ContentManager\FileHelper.cs" />
     <Compile Include="FileSymboltable.cs" />
     <Compile Include="ContentManager\IBufferManager.cs" />
     <Compile Include="Program.cs" />
