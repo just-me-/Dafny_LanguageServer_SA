@@ -136,4 +136,17 @@ namespace CompletionHandlerTest
             Assert.Throws<ArgumentException>(() => FileHelper.CreateRange(line, chr1, len));
         }
     }
+
+    internal class LineLengthTests
+    {
+        [Test]
+        public void SimpleTest1()
+        {
+            const string s = "a\nabc\a";
+            const int    l = 2;
+
+            int result = FileHelper.GetLineLength(s, l);
+            Assert.Throws<ArgumentException>(() => FileHelper.CreateRange(line, chr1, len));
+        }
+    }
 }
