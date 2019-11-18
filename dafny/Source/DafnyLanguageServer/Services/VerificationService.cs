@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using DafnyLanguageServer.DafnyAdapter;
 using Microsoft.Boogie;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
@@ -11,6 +12,21 @@ namespace DafnyLanguageServer
     public class VerificationService
     {
         private readonly ILanguageServer _router;
+        private IDafnyHelper _dafnyHelper;
+
+        public void SetDafnyHelper(IDafnyHelper helper)
+        {
+            _dafnyHelper = helper;
+        }
+
+        private void SetDefaultDafnyHelper(DafnyFile file)
+        {
+            if (_dafnyHelper is null)
+            {
+                _dafnyHelper = new DafnyHelper(new string[]{}, file.Filepath, file.Sourcecode);
+            }
+           
+        }
 
         public VerificationService(ILanguageServer router)
         {
@@ -19,6 +35,8 @@ namespace DafnyLanguageServer
 
         public void Verify(DafnyFile file)
         {
+            SetDefaultDafnyHelper(file);
+
             // im Plugin das aktuelle Dokument setzen für die Statusbar
             _router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
 
@@ -31,7 +49,7 @@ namespace DafnyLanguageServer
                 Diagnostics = new Container<Diagnostic>(diagnostics)
             };
             _router.Document.PublishDiagnostics(p);
-            SendErrornumberToClient(diagnostics.Count); 
+            SendErrornumberToClient(diagnostics.Count);
         }
 
         private void SendErrornumberToClient(int counted)
@@ -39,15 +57,13 @@ namespace DafnyLanguageServer
             _router.Window.SendNotification("updateStatusbar", counted);
         }
 
-        public DafnyHelper DafnyVerify(DafnyFile file)
+        public IDafnyHelper DafnyVerify(DafnyFile file)
         {
-            string[] args = new string[] { };
-            DafnyHelper helper = new DafnyHelper(args, file.Filepath, file.Sourcecode);
-            if (!helper.Verify())
+            if (!_dafnyHelper.Verify())
             {
                 throw new ArgumentException("Failed to verify document."); // 2do: Während des schreibens ist das doc immer wieder invalid... exception ist etwas zu krass imho
             }
-            return helper; 
+            return _dafnyHelper;
         }
 
         public Collection<Diagnostic> CreateDafnyDiagnostics(IEnumerable<ErrorInformation> errors, string filepath, string sourcecode)
@@ -87,7 +103,7 @@ namespace DafnyLanguageServer
                 diagnostics.Add(d);
             }
 
-            return diagnostics; 
+            return diagnostics;
         }
     }
 }

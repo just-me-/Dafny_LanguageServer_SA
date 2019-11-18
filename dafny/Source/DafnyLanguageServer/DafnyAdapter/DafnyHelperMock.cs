@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Boogie;
 
 namespace DafnyLanguageServer.DafnyAdapter
 {
@@ -15,6 +16,9 @@ namespace DafnyLanguageServer.DafnyAdapter
         {
             IsNice = isnice;
         }
+
+        public List<ErrorInformation> Errors { get; } = new List<ErrorInformation>();
+
 
         public bool Verify()
         {

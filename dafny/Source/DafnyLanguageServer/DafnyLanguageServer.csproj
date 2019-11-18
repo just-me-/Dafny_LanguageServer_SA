@@ -165,26 +165,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManager\BufferManager.cs" />
-    <Compile Include="CodeLensHandler.cs" />
-    <Compile Include="CompilationService.cs" />
-    <Compile Include="CompletionHandler.cs" />
-    <Compile Include="CounterExampleHandler.cs" />
-    <Compile Include="CounterExampleService.cs" />
+    <Compile Include="DafnyAdapter\DafnyHelperMock.cs" />
+    <Compile Include="Handler\CodeLensHandler.cs" />
+    <Compile Include="Services\CompilationService.cs" />
+    <Compile Include="Handler\CompletionHandler.cs" />
+    <Compile Include="Handler\CounterExampleHandler.cs" />
+    <Compile Include="Services\CounterExampleService.cs" />
     <Compile Include="DafnyAdapter\CounterExampleProvider.cs" />
     <Compile Include="DafnyAdapter\DafnyHelper.cs" />
     <Compile Include="DafnyAdapter\IDafnyHelper.cs" />
     <Compile Include="DafnyAdapter\SymbolTable.cs" />
     <Compile Include="DafnyAdapter\Utilities.cs" />
     <Compile Include="ContentManager\DafnyFile.cs" />
-    <Compile Include="DefinitionHandler.cs" />
+    <Compile Include="Handler\DefinitionHandler.cs" />
     <Compile Include="ContentManager\FileHelper.cs" />
-    <Compile Include="FileSymboltable.cs" />
+    <Compile Include="ContentManager\FileSymboltable.cs" />
     <Compile Include="ContentManager\IBufferManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CompileHandler.cs" />
-    <Compile Include="TextDocumentSyncHandler.cs" />
-    <Compile Include="VerificationService.cs" />
+    <Compile Include="Handler\CompileHandler.cs" />
+    <Compile Include="Handler\TextDocumentSyncHandler.cs" />
+    <Compile Include="Services\VerificationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
