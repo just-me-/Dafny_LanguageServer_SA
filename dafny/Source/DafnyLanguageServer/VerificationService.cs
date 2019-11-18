@@ -10,7 +10,6 @@ namespace DafnyLanguageServer
 {
     public class VerificationService
     {
-        private readonly int MAGICLINEENDING = 100; // 2Do evt dynamisch anpassen an jeweilige Zeilenlänge 
         private readonly ILanguageServer _router;
 
         public VerificationService(ILanguageServer router)
@@ -24,7 +23,7 @@ namespace DafnyLanguageServer
             _router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
 
             var helper = DafnyVerify(file);
-            var diagnostics = CreateDafnyDiagnostics(helper.Errors, file.Filepath);
+            var diagnostics = CreateDafnyDiagnostics(helper.Errors, file.Filepath, file.Sourcecode);
 
             PublishDiagnosticsParams p = new PublishDiagnosticsParams
             {
@@ -52,44 +51,38 @@ namespace DafnyLanguageServer
             return helper; 
         }
 
-        public Collection<Diagnostic> CreateDafnyDiagnostics(IEnumerable<ErrorInformation> errors, String filepath)
+        public Collection<Diagnostic> CreateDafnyDiagnostics(IEnumerable<ErrorInformation> errors, string filepath, string sourcecode)
         {
             Collection<Diagnostic> diagnostics = new Collection<Diagnostic>();
 
             foreach (ErrorInformation e in errors)
             {
-                Diagnostic d = new Diagnostic();
-                d.Message = e.Msg + " - Hint: " + e.Tok.val;
-                d.Range = new Range(
-                    new Position
-                    {
-                        Line = e.Tok.line - 1,
-                        Character = e.Tok.col - 1
-                    }, new Position
-                    {
-                        Line = e.Tok.line - 1,
-                        Character = e.Tok.col + MAGICLINEENDING
-                    });
+                int line = e.Tok.line - 1;
+                int col = e.Tok.col - 1;
+                int length = FileHelper.GetLineLength(sourcecode, line) - col;
 
-                d.Severity = DiagnosticSeverity.Error;
-                d.Source = filepath;
+                Diagnostic d = new Diagnostic
+                {
+                    Message = e.Msg + " - Hint: " + e.Tok.val,
+                    Range = FileHelper.CreateRange(line, col, length),
+                    Severity = DiagnosticSeverity.Error,
+                    Source = filepath
+                };
 
                 for (int i = 0; i < e.Aux.Count - 1; i++) //ignore last element (trace)
                 {
-                    Diagnostic relatedDiagnostic = new Diagnostic();
-                    relatedDiagnostic.Message = e.Aux[i].Msg;
-                    relatedDiagnostic.Range = new Range(
-                        new Position
-                        {
-                            Line = e.Aux[i].Tok.line - 1,
-                            Character = e.Aux[i].Tok.col - 1
-                        }, new Position
-                        {
-                            Line = e.Aux[i].Tok.line - 1,
-                            Character = e.Aux[i].Tok.col + MAGICLINEENDING
-                        });
-                    relatedDiagnostic.Severity = DiagnosticSeverity.Warning;
-                    relatedDiagnostic.Source = "The error: " + d.Message + " is the source of this warning!";
+                    int auxline = e.Aux[i].Tok.line - 1;
+                    int auxcol = e.Aux[i].Tok.col - 1;
+                    int auxlength = FileHelper.GetLineLength(sourcecode, auxline) - auxcol;
+
+                    Diagnostic relatedDiagnostic = new Diagnostic
+                    {
+                        Message = e.Aux[i].Msg,
+                        Range = FileHelper.CreateRange(auxline, auxcol, auxlength),
+                        Severity = DiagnosticSeverity.Warning,
+                        Source = "The error: " + d.Message + " is the source of this warning!"
+                    };
+
                     diagnostics.Add(relatedDiagnostic);
                 }
                 diagnostics.Add(d);

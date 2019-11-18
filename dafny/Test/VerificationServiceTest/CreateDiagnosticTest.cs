@@ -9,6 +9,7 @@ namespace VerificationServiceTest
 
     public class CreateDiagnosticTest
     {
+        private static readonly string randomFakeSource = "aa\naa\naa\naa\n";
         private static VerificationService verificationService = new DafnyLanguageServer.VerificationService(null);
         private Token token;
 
@@ -25,7 +26,7 @@ namespace VerificationServiceTest
         public void TestDiagnosticNoErrors()
         {
             var errors = new List<FakeErrorObject>();
-            var diagnostics = verificationService.CreateDafnyDiagnostics(errors, "NotExistingFile");
+            var diagnostics = verificationService.CreateDafnyDiagnostics(errors, "NotExistingFile", randomFakeSource);
             Assert.AreEqual(0, diagnostics.Count);
         }
 
@@ -36,7 +37,7 @@ namespace VerificationServiceTest
             var info = new FakeErrorObject(token, "Msg");
             errors.Add(info); 
 
-            var diagnostics = verificationService.CreateDafnyDiagnostics(errors, token.filename);
+            var diagnostics = verificationService.CreateDafnyDiagnostics(errors, token.filename, randomFakeSource);
 
             Assert.AreEqual(1, diagnostics.Count);
             Assert.AreEqual(token.filename, diagnostics[0].Source);
@@ -51,7 +52,7 @@ namespace VerificationServiceTest
             info.AddAuxInfo(token, "TraceData");
             errors.Add(info);
 
-            var diagnostics = verificationService.CreateDafnyDiagnostics(errors, token.filename);
+            var diagnostics = verificationService.CreateDafnyDiagnostics(errors, token.filename, randomFakeSource);
 
             Assert.AreEqual(2, diagnostics.Count);
         }

@@ -63,7 +63,7 @@ namespace CompletionHandlerTest
             const int chr1 = 10;
 
             var pos = FileHelper.CreatePosition(line, chr1);
-            Assert.AreEqual(pos, new Position(line, chr1));
+            Assert.AreEqual(new Position(line, chr1), pos);
         }
 
         [Test]
@@ -95,8 +95,8 @@ namespace CompletionHandlerTest
             const int len = chr2 - chr1;
 
             var range = FileHelper.CreateRange(line, chr1, len);
-            Assert.AreEqual(range.Start, new Position(line, chr1));
-            Assert.AreEqual(range.End, new Position(line, chr2));
+            Assert.AreEqual(new Position(line, chr1), range.Start);
+            Assert.AreEqual(new Position(line, chr2), range.End);
         }
 
         [Test]
@@ -108,8 +108,8 @@ namespace CompletionHandlerTest
             const int len = chr2 - chr1;
 
             var range = FileHelper.CreateRange(line, chr1, len);
-            Assert.AreEqual(range.Start, new Position(line, chr2));
-            Assert.AreEqual(range.End, new Position(line, chr1));
+            Assert.AreEqual( new Position(line, chr2), range.Start);
+            Assert.AreEqual(new Position(line, chr1), range.End);
 
         }
 
@@ -142,11 +142,41 @@ namespace CompletionHandlerTest
         [Test]
         public void SimpleTest1()
         {
-            const string s = "a\nabc\a";
-            const int    l = 2;
+            const string s = "a\nabc\na";
+            const int l = 1;
 
             int result = FileHelper.GetLineLength(s, l);
-            Assert.Throws<ArgumentException>(() => FileHelper.CreateRange(line, chr1, len));
+
+            Assert.AreEqual(3, result);
+        }
+
+        [Test]
+        public void SimpleTest2()
+        {
+            const string s = "a\nabc\na";
+            const int l = 0;
+
+            int result = FileHelper.GetLineLength(s, l);
+
+            Assert.AreEqual(1, result);
+        }
+
+        [Test]
+        public void LineTooLarge()
+        {
+            const string s = "a\nabc\na";
+            const int l = 3;
+
+            Assert.Throws<ArgumentException>(() => FileHelper.GetLineLength(s, l));
+        }
+
+        [Test]
+        public void LineNegativeThrows()
+        {
+            const string s = "a\nabc\na";
+            const int l = -1;
+
+            Assert.Throws<ArgumentException>(() => FileHelper.GetLineLength(s, l));
         }
     }
 }
