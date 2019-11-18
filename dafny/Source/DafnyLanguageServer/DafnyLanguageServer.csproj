@@ -172,6 +172,7 @@
     <Compile Include="CounterExampleService.cs" />
     <Compile Include="DafnyAdapter\CounterExampleProvider.cs" />
     <Compile Include="DafnyAdapter\DafnyHelper.cs" />
+    <Compile Include="DafnyAdapter\IDafnyHelper.cs" />
     <Compile Include="DafnyAdapter\SymbolTable.cs" />
     <Compile Include="DafnyAdapter\Utilities.cs" />
     <Compile Include="ContentManager\DafnyFile.cs" />

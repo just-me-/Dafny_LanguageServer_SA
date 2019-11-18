@@ -31,13 +31,13 @@ namespace DafnyLanguageServer.DafnyAdapter
         }
     }
 
-    public class DafnyHelper
+    public class DafnyHelper : IDafnyHelper
     {
         private string fname;
         private string source;
         private string[] args;
 
-        private readonly Microsoft.Dafny.ErrorReporter reporter;
+        private readonly ErrorReporter reporter;
         private Microsoft.Dafny.Program dafnyProgram;
         private IEnumerable<Tuple<string, Bpl.Program>> boogiePrograms;
 
@@ -47,22 +47,12 @@ namespace DafnyLanguageServer.DafnyAdapter
         {
             Errors.Add(e);
         }
-        
+
         public DafnyHelper(string[] args, string fname, string source)
         {
             this.args = args;
             this.fname = fname;
             this.source = source;
-            this.reporter = new Microsoft.Dafny.ConsoleErrorReporter();
-        }
-
-        //Note: Diesen CTOR hat Tom hinzugef�gt, brauchen wir wahrscheinlich gar net mehr.
-        public DafnyHelper(string[] args, string fname, string source, ErrorReporter reporter)
-        {
-            this.args = args;
-            this.fname = fname;
-            this.source = source;
-            this.reporter = reporter;
         }
 
         public bool Verify()
@@ -73,15 +63,14 @@ namespace DafnyLanguageServer.DafnyAdapter
 
         private bool Parse()
         {
-            Microsoft.Dafny.ModuleDecl module = new Microsoft.Dafny.LiteralModuleDecl(new Microsoft.Dafny.DefaultModuleDecl(), null);
-            Microsoft.Dafny.BuiltIns builtIns = new Microsoft.Dafny.BuiltIns();
+            ModuleDecl module = new LiteralModuleDecl(new Microsoft.Dafny.DefaultModuleDecl(), null);
+            BuiltIns builtIns = new BuiltIns();
             var success = (Microsoft.Dafny.Parser.Parse(source, fname, fname, null, module, builtIns, new Microsoft.Dafny.Errors(reporter)) == 0 &&
                            Microsoft.Dafny.Main.ParseIncludes(module, builtIns, new List<string>(), new Microsoft.Dafny.Errors(reporter)) == null);
             if (success)
             {
                 dafnyProgram = new Microsoft.Dafny.Program(fname, module, builtIns, reporter);
             }
-            //Console.WriteLine("Parsed");
             return success;
         }
 
@@ -89,7 +78,6 @@ namespace DafnyLanguageServer.DafnyAdapter
         {
             var resolver = new Microsoft.Dafny.Resolver(dafnyProgram);
             resolver.ResolveProgram(dafnyProgram);
-            //Console.WriteLine("Resolved");
             return reporter.Count(ErrorLevel.Error) == 0;
         }
 
@@ -97,7 +85,6 @@ namespace DafnyLanguageServer.DafnyAdapter
         {
             boogiePrograms = Translator.Translate(dafnyProgram, reporter,
                 new Translator.TranslatorFlags() { InsertChecksums = true, UniqueIdPrefix = fname }); // FIXME how are translation errors reported?
-            //Console.WriteLine("Translated");
             return true;
         }
 
@@ -120,7 +107,6 @@ namespace DafnyLanguageServer.DafnyAdapter
                 {
                     case PipelineOutcome.Done:
                     case PipelineOutcome.VerificationCompleted:
-                        //Console.WriteLine("BoogieOnced");
                         return true;
                 }
             }
