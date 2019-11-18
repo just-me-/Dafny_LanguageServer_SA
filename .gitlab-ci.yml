@@ -57,7 +57,7 @@ build_vscode_extension:
     paths:
       - VSCodePlugin/out/
   cache: 
-    key: ${CI_COMMIT_REF_SLUG}
+    key: node_modules
     paths:
       - VSCodePlugin/node_modules/
 
