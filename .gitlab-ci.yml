@@ -56,10 +56,11 @@ build_vscode_extension:
   artifacts:
     paths:
       - VSCodePlugin/out/
-  cache: 
-    key: node_modules
-    paths:
       - VSCodePlugin/node_modules/
+#  cache: 
+#    key: ${CI_COMMIT_REF_SLUG}
+#    paths:
+#      - VSCodePlugin/node_modules/
 
 test_nunit:
   stage: test
