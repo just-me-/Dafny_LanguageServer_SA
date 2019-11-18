@@ -99,5 +99,5 @@ test_dafny:
     - pushd Binaries; ln -s /opt/z3; popd
     - npm install bignumber.js #TODO: Should this be global or in build dependency? Else package.json with fixed versions!
     - cd Test
-    - "find . -name '*.dfy' -exec sed -i 's!/optimize !!g' {} +"
+    - "find . -type d \( -path compileHandlerFiles -o -path CounterExampleFiles -o \) -prune -o -name '*.dfy' -exec sed -i 's!/optimize !!g' {} +"
     - lit --time-tests -v .
