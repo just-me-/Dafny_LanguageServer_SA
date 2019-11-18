@@ -165,7 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManager\BufferManager.cs" />
-    <Compile Include="ContentManager\BufferManagerMock.cs" />
     <Compile Include="CodeLensHandler.cs" />
     <Compile Include="CompilationService.cs" />
     <Compile Include="CompletionHandler.cs" />
