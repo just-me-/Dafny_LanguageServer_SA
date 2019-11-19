@@ -37,7 +37,7 @@ namespace DafnyLanguageServer.DafnyAdapter
         private string source;
         private string[] args;
 
-        private readonly ErrorReporter reporter;
+        private readonly ErrorReporter reporter = new Microsoft.Dafny.ConsoleErrorReporter();
         private Microsoft.Dafny.Program dafnyProgram;
         private IEnumerable<Tuple<string, Bpl.Program>> boogiePrograms;
 
