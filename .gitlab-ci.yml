@@ -1,7 +1,5 @@
 variables:
   BUILD_IMAGE: $CI_REGISTRY_IMAGE/dafny-linux-mono-build
-  NUnitRunner: NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe
-  NUnitNugetPackage: nunit.consolerunner
 
 stages:
   - prebuild
@@ -36,15 +34,12 @@ build_dafny:
   artifacts:
     paths:
       - dafny/Binaries/
-      - dafny/Test/TestBinaries/
-
+      
 sonar_test:
   stage: sonar
   image: $BUILD_IMAGE:latest
-  only:
-    - master@dafny-sa/dafny-server-redesign
   script:
-    - sonar-scanner
+    - if [ -n "${SONAR_TOKEN}" ]; then sonar-scanner; fi
 
 build_vscode_extension:
   stage: build
@@ -56,28 +51,15 @@ build_vscode_extension:
   artifacts:
     paths:
       - VSCodePlugin/out/
-      #- VSCodePlugin/node_modules/
-  cache: 
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - VSCodePlugin/node_modules/
-
-test_nunit:
+      
+test_mstest:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
-    - pushd dafny/Binaries; ln -s /opt/z3; popd
-    - cd dafny/Binaries/
-    - nuget install nunit.consolerunner
-    - mono ./$NUnitRunner CompletionHandlerTest.dll
-    - mono ./$NUnitRunner VerificationServiceTest.dll
-    - mono ./$NUnitRunner CompileHandlerTest.dll
-    - mono ./$NUnitRunner CounterExampleTest.dll
-  artifacts:
-    reports:
-      junit: dafny/Binaries/TestResult.xml
+    - "dotnet test dafny/Source/Dafny.sln"
+    
 
-test_vscode_xvfb:
+test_vscode:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
@@ -94,7 +76,7 @@ test_vscode_xvfb:
     - cd VSCodePlugin
     - npm install
     - npm run test
-
+    
 test_dafny:
   stage: test
   image: $BUILD_IMAGE:latest
@@ -103,6 +85,5 @@ test_dafny:
     - pushd Binaries; ln -s /opt/z3; popd
     - npm install bignumber.js #TODO: Should this be global or in build dependency? Else package.json with fixed versions!
     - cd Test
-#    - "find . -name '*.dfy' -not -path './compileHandlerFiles/*' -not -path './CounterExampleFiles/*' -exec sed -i 's!/optimize !!g' {} +"
-#    - lit --time-tests -v .
-# tmp auskommentiert dass die pipeline mal grün wird 
+    - "find . -name '*.dfy' -exec sed -i 's!/optimize !!g' {} +"
+    - lit --time-tests -v .
