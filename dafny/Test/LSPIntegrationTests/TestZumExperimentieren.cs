@@ -18,7 +18,7 @@ namespace LSPIntegrationTests
 
 
         public static readonly ILoggerFactory LoggerFactory = new LoggerFactory();
-            //.AddConsole()  //nur core? müsst eerilog blabla nutzen
+            //.AddConsole()  //nur core? 
             //.AddDeub();
 
         static readonly ILogger Log = LoggerFactory.CreateLogger(typeof(Tests));
