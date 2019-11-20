@@ -8,6 +8,12 @@ stages:
   - build
   - test
   - sonar
+    
+  
+cache: 
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - VSCodePlugin/node_modules/
 
 build_image:
   stage: prebuild
@@ -57,10 +63,6 @@ build_vscode_extension:
     paths:
       - VSCodePlugin/out/
       #- VSCodePlugin/node_modules/
-  cache: 
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - VSCodePlugin/node_modules/
 
 test_nunit:
   stage: test
