@@ -45,7 +45,7 @@ namespace LSPIntegrationTests
 
                 var cancellationSource = new CancellationTokenSource();
                 cancellationSource.CancelAfter(
-                    TimeSpan.FromSeconds(30)
+                    TimeSpan.FromSeconds(300)
                 );
 
 
@@ -73,7 +73,7 @@ namespace LSPIntegrationTests
                     //    DafnyFile = aDfyFile
                     //};  //can we do sth with this?
 
-                    //client.TextDocument.DidOpen(aDfyFile, "dfy");
+                    client.TextDocument.DidOpen(aDfyFile, "dfy");
 
                     //CounterExampleResult res = client.SendRequest<CounterExampleResult>("counterExample", counterExampleParam, cancellationSource.Token).Result;
 
