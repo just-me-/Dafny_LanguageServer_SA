@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DafnyLanguageServer.DafnyAdapter;
+using System;
 using System.Collections.Concurrent;
 
 namespace DafnyLanguageServer
@@ -10,10 +11,12 @@ namespace DafnyLanguageServer
         public void UpdateBuffer(Uri documentPath, string content)
         {
             DafnyFile file = GetOrCreateFileBuffer(documentPath);
-            file.Sourcecode = content; 
+            file.Sourcecode = content;
+            // 2do... helper in den buffer rein hauen? 
 
             // do not update symboltable if current file state is invalid 
-            var symboltable = new FileSymboltable(documentPath.ToString(), content);
+            var helper = new DafnyHelper(file.Filepath, file.Sourcecode); 
+            var symboltable = new FileSymboltable(documentPath.ToString(), content, helper);
             if(symboltable.HasEntries)
             {
                 file.Symboltable = symboltable;

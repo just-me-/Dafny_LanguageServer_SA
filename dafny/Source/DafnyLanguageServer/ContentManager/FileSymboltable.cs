@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DafnyLanguageServer.DafnyAdapter;
+using System.Collections.Generic;
 using System.Linq;
 using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyHelper;
 using SymbolTable = DafnyLanguageServer.DafnyAdapter.SymbolTable;
@@ -9,9 +10,11 @@ namespace DafnyLanguageServer
     {
         private List<SymbolTable.SymbolInformation> _symbolTable;
         public bool HasEntries => (_symbolTable.Count > 0);
+        private IDafnyHelper _helper; 
 
-        public FileSymboltable(string uri, string content)
+        public FileSymboltable(string uri, string content, IDafnyHelper helper)
         {
+            _helper = new DafnyHelper(uri, content);
             _symbolTable = GetSymbolList(uri, content);
         }
 
@@ -55,8 +58,7 @@ namespace DafnyLanguageServer
 
         private List<SymbolTable.SymbolInformation> GetSymbolList(string documentPath, string code)
         {
-            DafnyHelper helper = new DafnyHelper(documentPath, code);
-            return helper.Symbols();
+            return _helper.Symbols();
         }
 
         private List<SymbolTable.SymbolInformation> RemoveDuplicates(List<SymbolTable.SymbolInformation> list)
