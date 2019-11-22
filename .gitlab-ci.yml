@@ -8,7 +8,6 @@ stages:
   - build
   - test
   - sonar
-    
   
 cache: 
   key: ${CI_COMMIT_REF_SLUG}
@@ -42,7 +41,6 @@ build_dafny:
   artifacts:
     paths:
       - dafny/Binaries/
-      - dafny/Test/TestBinaries/
 
 sonar_test:
   stage: sonar
@@ -62,7 +60,6 @@ build_vscode_extension:
   artifacts:
     paths:
       - VSCodePlugin/out/
-      #- VSCodePlugin/node_modules/
 
 test_nunit:
   stage: test
