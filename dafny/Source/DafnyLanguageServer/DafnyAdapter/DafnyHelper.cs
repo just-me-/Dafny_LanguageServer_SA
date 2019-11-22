@@ -10,7 +10,7 @@ using Bpl = Microsoft.Boogie;
 
 namespace DafnyLanguageServer.DafnyAdapter
 {
-    // FIXME: This should not be duplicated here
+    // needed cuz boogie needs an output stream - must not be null 
     public class DafnyConsolePrinter : ConsolePrinter
     {
         public override void ReportBplError(IToken tok, string message, bool error, TextWriter tw, string category = null)
@@ -48,10 +48,7 @@ namespace DafnyLanguageServer.DafnyAdapter
             Errors.Add(e);
         }
 
-        public DafnyHelper(string fname, string source) : this(fname, source, new string[] { })
-        {
-        }
-
+        public DafnyHelper(string fname, string source) : this(fname, source, new string[] { }) {}
         public DafnyHelper(string fname, string source, string[] args)
         {
             this.fname = fname;
@@ -88,20 +85,30 @@ namespace DafnyLanguageServer.DafnyAdapter
         private bool Translate()
         {
             boogiePrograms = Translator.Translate(dafnyProgram, reporter,
-                new Translator.TranslatorFlags() { InsertChecksums = true, UniqueIdPrefix = fname }); // FIXME how are translation errors reported?
+                new Translator.TranslatorFlags() { InsertChecksums = true, UniqueIdPrefix = fname });
+            return true;
+        }
+
+        private bool Boogie()
+        {
+            foreach (var boogieProgram in boogiePrograms)
+            {
+                if (!BoogieOnce(boogieProgram.Item1, boogieProgram.Item2))
+                {
+                    return false;
+                }
+            }
             return true;
         }
 
         private bool BoogieOnce(string moduleName, Bpl.Program boogieProgram)
         {
             if (boogieProgram.Resolve() == 0 && boogieProgram.Typecheck() == 0)
-            { //FIXME ResolveAndTypecheck?
+            { 
                 ExecutionEngine.EliminateDeadVariables(boogieProgram);
                 ExecutionEngine.CollectModSets(boogieProgram);
                 ExecutionEngine.CoalesceBlocks(boogieProgram);
                 ExecutionEngine.Inline(boogieProgram);
-
-                //NOTE: We could capture errors instead of printing them(pass a delegate instead of null)
 
                 var ps = new PipelineStatistics();
                 var stringteil = "ServerProgram_" + moduleName;
@@ -114,19 +121,7 @@ namespace DafnyLanguageServer.DafnyAdapter
                         return true;
                 }
             }
-
             return false;
-        }
-
-        private bool Boogie()
-        {
-            foreach (var boogieProgram in boogiePrograms)
-            {
-                if (!BoogieOnce(boogieProgram.Item1, boogieProgram.Item2)) {
-                    return false;
-                }
-            }
-            return true;
         }
 
         public List<SymbolTable.SymbolInformation> Symbols()
@@ -163,9 +158,6 @@ namespace DafnyLanguageServer.DafnyAdapter
                     }
                     return counterExamples;
                 }
-
-                
-                
             }
            
             catch (Exception e)
