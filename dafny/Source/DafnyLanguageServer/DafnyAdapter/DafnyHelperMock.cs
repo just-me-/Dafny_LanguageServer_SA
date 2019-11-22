@@ -9,7 +9,6 @@ namespace DafnyLanguageServer.DafnyAdapter
 {
     class DafnyHelperMock : IDafnyHelper
     {
-
         public bool IsNice = true;
 
         public DafnyHelperMock(bool isnice)
