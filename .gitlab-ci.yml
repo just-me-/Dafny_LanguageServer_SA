@@ -95,7 +95,7 @@ test_vscode_xvfb:
       done
     - cd VSCodePlugin
     - npm install
-    - npm run test --no-sandbox
+    - npm run test
 
 test_dafny:
   stage: test
