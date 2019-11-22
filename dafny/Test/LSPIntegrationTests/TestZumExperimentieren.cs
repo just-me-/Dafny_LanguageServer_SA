@@ -2,11 +2,14 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+//using DafnyLanguageServer;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using OmniSharp.Extensions.LanguageServer.Client;
 using OmniSharp.Extensions.LanguageServer.Client.Processes;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
+using Serilog;
+using Serilog.Extensions.Logging;
 
 namespace LSPIntegrationTests
 {
@@ -15,22 +18,31 @@ namespace LSPIntegrationTests
 
         private static readonly string assemblyPath = Path.GetDirectoryName(typeof(Tests).Assembly.Location);
         internal static readonly string serverExe = Path.GetFullPath(Path.Combine(assemblyPath, "../Binaries/DafnyLanguageServer.exe"));
+        internal static readonly string aDfyFile = Path.GetFullPath(Path.Combine(assemblyPath, "../Test/CounterExampleFiles/ok.dfy"));
+        internal static readonly string workspaceDir = Path.GetFullPath(Path.Combine(assemblyPath, "../Test/CounterExampleFiles/"));
 
-
-        public static readonly ILoggerFactory LoggerFactory = new LoggerFactory();
-            //.AddConsole()  //nur core? 
-            //.AddDeub();
-
-        static readonly ILogger Log = LoggerFactory.CreateLogger(typeof(Tests));
 
 
 
         [Test]
-        public void Ratata()
+        public void DemoTest()
         {
             try
             {
-                
+
+                LoggerProviderCollection providers = new LoggerProviderCollection();
+
+                Log.Logger = new LoggerConfiguration()
+                    .MinimumLevel.Debug()
+                    .WriteTo.Console()
+                    .WriteTo.Providers(providers)
+                    .CreateLogger();
+
+                ILoggerFactory LoggerFactory = new SerilogLoggerFactory(Log.Logger);
+
+
+
+
                 var cancellationSource = new CancellationTokenSource();
                 cancellationSource.CancelAfter(
                     TimeSpan.FromSeconds(30)
@@ -38,57 +50,63 @@ namespace LSPIntegrationTests
 
 
 
-                // Tell the client how to start and connect to the server. In this case, we're using STDIO (but you can also use named pipes or build your own transport).
                 ServerProcess serverProcess = new StdioServerProcess(LoggerFactory, new ProcessStartInfo(serverExe)
                 {
-                    Arguments = "" // you may or may not need to pass any command-line arguments to the server
+                    Arguments = "" // command-line arguments here
                 });
 
                 using (var client = new LanguageClient(LoggerFactory, serverProcess))
                 {
-                    Log.LogInformation("Initialising language server...");
+                    Serilog.Log.Information("Initialising language server...");
 
                     // Tell the client to connect to the server and initialise it so it's ready to handle requests.
                     client.Initialize(
-                        workspaceRoot: @"D:\jogl",
+                        workspaceRoot: workspaceDir,
                         initializationOptions: new { }, // If the server requires initialisation options, you pass them here.
                         cancellationToken: cancellationSource.Token
                     ).Wait();
 
-                    Log.LogInformation("Language server has been successfully initialised.");
+                    Log.Information("Language server has been successfully initialised.");
 
-                    // Make a request to the client.
+                    //var counterExampleParam = new CounterExampleParams
+                    //{
+                    //    DafnyFile = aDfyFile
+                    //};  //can we do sth with this?
+
+                    //client.TextDocument.DidOpen(aDfyFile, "dfy");
+
+                    //CounterExampleResult res = client.SendRequest<CounterExampleResult>("counterExample", counterExampleParam, cancellationSource.Token).Result;
+
+                    //Test result here for correctness
+
+                    // Make a default LSP request to the client.
                     // Note that, in LSP, line and column are 0-based.
-                    Hover hover = client.TextDocument.Hover(
-                        filePath: @"C:\\MyFile.xml",
-                        line: 7,
-                        column: 3,
+                    var completions = client.TextDocument.Completions(
+                        filePath: aDfyFile,
+                        line: 2,
+                        column: 2,
                         cancellationToken: cancellationSource.Token
                     ).Result;
 
-                    if (hover != null)
+                    if (completions != null)
                     {
-                        Log.LogInformation("Got hover info at ({StartPosition})-({EndPosition}): {HoverContent}",
-                            $"{hover.Range.Start.Line},{hover.Range.Start.Character}",
-                            $"{hover.Range.End.Line},{hover.Range.End.Character}",
-                            hover.Contents
-                        );
+                        Log.Information("Got completion list" + completions);
                     }
                     else
-                        Log.LogWarning("No hover info available at ({Line}, {Column}).", 7, 3);
+                        Log.Warning("No hover info available at ({Line}, {Column}).", 7, 3);
 
-                    Log.LogInformation("Shutting down server...");
+                    Log.Information("Shutting down server...");
                     client.Shutdown().Wait();
 
-                    Log.LogInformation("Waiting for server shutdown to complete...");
+                    Log.Information("Waiting for server shutdown to complete...");
                     client.HasShutdown.Wait();
 
-                    Log.LogInformation("Server shutdown is complete.");
+                    Log.Information("Server shutdown is complete.");
                 }
             }
             catch (Exception unexpectedError)
             {
-                Log.LogError(unexpectedError, "Unexpected error: {ErrorMessage}", unexpectedError.Message);
+                Log.Error(unexpectedError, "Unexpected error: {ErrorMessage}", unexpectedError.Message);
             }
         }
     }
