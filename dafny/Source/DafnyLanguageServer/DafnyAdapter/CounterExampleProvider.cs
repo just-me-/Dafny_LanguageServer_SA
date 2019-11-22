@@ -23,7 +23,6 @@ namespace DafnyLanguageServer.DafnyAdapter
             {
                 var models = LoadModelFromFile();
                 return ConvertModels(models);
-                
             }
             catch (Exception)
             {
@@ -209,6 +208,4 @@ namespace DafnyLanguageServer.DafnyAdapter
             public string CanonicalName { get; set; }
         }
     }
-
-
 }

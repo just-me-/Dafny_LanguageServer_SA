@@ -55,8 +55,7 @@ namespace DafnyLanguageServer
 
         private List<SymbolTable.SymbolInformation> GetSymbolList(string documentPath, string code)
         {
-            string[] args = { };
-            DafnyHelper helper = new DafnyHelper(args, documentPath, code);
+            DafnyHelper helper = new DafnyHelper(documentPath, code);
             return helper.Symbols();
         }
 

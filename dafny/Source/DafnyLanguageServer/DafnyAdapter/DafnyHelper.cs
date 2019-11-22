@@ -48,11 +48,15 @@ namespace DafnyLanguageServer.DafnyAdapter
             Errors.Add(e);
         }
 
-        public DafnyHelper(string[] args, string fname, string source)
+        public DafnyHelper(string fname, string source) : this(fname, source, new string[] { })
         {
-            this.args = args;
+        }
+
+        public DafnyHelper(string fname, string source, string[] args)
+        {
             this.fname = fname;
             this.source = source;
+            this.args = args;
         }
 
         public bool Verify()

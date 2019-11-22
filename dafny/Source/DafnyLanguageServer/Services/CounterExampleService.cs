@@ -1,36 +1,24 @@
-﻿using System.Threading.Tasks;
+﻿using DafnyLanguageServer.DafnyAdapter;
+using System.Threading.Tasks;
 using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyHelper;
 
 namespace DafnyLanguageServer
 {
     public class CounterExampleService
     {
-        public string Filename { get; }
-        public string[] Args { get; } = { };
+        private IDafnyHelper _helper; 
 
-        public string ProgramSource { get; }
-    
-
-
-
-        public CounterExampleService(string filename, string programSource)
-
+        public CounterExampleService(IDafnyHelper helper)
         {
-            ProgramSource = programSource;
-            Filename = filename;
+            _helper = helper;
         }
-
 
         public Task < CounterExampleResults> ProvideCounterExamples()
         {
             return Task.Run(() =>
             {
-
                 var allCounterExamplesReturnContainer = new CounterExampleResults();
-
-
-                var helper = new DafnyHelper(Args, Filename, ProgramSource);
-                var models = helper.CounterExample();
+                var models = _helper.CounterExample();
 
                 if (models.Count == 0)
                 {
@@ -55,14 +43,9 @@ namespace DafnyLanguageServer
                     }
 
                     allCounterExamplesReturnContainer.CounterExamples.Add(currentCounterExample);
-
                 }
-
                 return allCounterExamplesReturnContainer;
-
             });
-
-
         }
     }
 }

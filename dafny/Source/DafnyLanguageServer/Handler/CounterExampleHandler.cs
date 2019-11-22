@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using OmniSharp.Extensions.Embedded.MediatR;
 using OmniSharp.Extensions.JsonRpc;
 using System.Collections.Generic;
+using DafnyLanguageServer.DafnyAdapter;
 
 namespace DafnyLanguageServer
 {
@@ -44,8 +45,9 @@ namespace DafnyLanguageServer
 
         public async Task<CounterExampleResults> Handle(CounterExampleParams request, CancellationToken cancellationToken)
         {
-            string programSource = _bufferManager.GetTextFromBuffer(new Uri(request.DafnyFile));
-            var service = new CounterExampleService(request.DafnyFile, programSource);
+            string code = _bufferManager.GetTextFromBuffer(new Uri(request.DafnyFile));
+            var helper = new DafnyHelper(request.DafnyFile, code); 
+            var service = new CounterExampleService(helper);
             return await service.ProvideCounterExamples();
         }
 

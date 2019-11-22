@@ -53,7 +53,7 @@ namespace DafnyLanguageServer
             }; 
             _bufferManager.UpdateBuffer(file);
 
-            var dafnyHelper = new DafnyHelper(new string[] { }, file.Filepath, file.Sourcecode);
+            var dafnyHelper = new DafnyHelper(file.Filepath, file.Sourcecode);
             var verificationService = new VerificationService(_router, dafnyHelper);
             verificationService.Verify(file);
         }

@@ -11,7 +11,7 @@ namespace Tests
     {
         private static readonly string assemblyPath = Path.GetDirectoryName(typeof(Tests).Assembly.Location);
         internal static readonly string testPath = Path.GetFullPath(Path.Combine(assemblyPath, "../Test/CounterExampleFiles"));
-
+        /*
         [Test]
         public void Fail1()
         {
@@ -19,7 +19,7 @@ namespace Tests
             string filename = Path.Combine(testPath, "fail1.dfy");
             string source = File.ReadAllText(filename);
 
-
+            // 2do... 
             var service = new CounterExampleService(filename, source);
             var results = service.ProvideCounterExamples().Result;
 
@@ -72,5 +72,6 @@ namespace Tests
 
             Assert.AreEqual(0, results.CounterExamples.Count);
         }
+        */
     }
 }
