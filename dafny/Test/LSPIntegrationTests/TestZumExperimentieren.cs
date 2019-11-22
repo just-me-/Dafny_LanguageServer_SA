@@ -25,7 +25,7 @@ namespace LSPIntegrationTests
 
 
         [Test]
-        public void Ratata()
+        public void DemoTest()
         {
             try
             {
