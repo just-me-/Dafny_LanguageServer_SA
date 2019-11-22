@@ -14,29 +14,14 @@ namespace DafnyLanguageServer
         private readonly ILanguageServer _router;
         private IDafnyHelper _dafnyHelper;
 
-        public void SetDafnyHelper(IDafnyHelper helper)
-        {
-            _dafnyHelper = helper;
-        }
-
-        private void SetDefaultDafnyHelper(DafnyFile file)
-        {
-            if (_dafnyHelper is null)
-            {
-                _dafnyHelper = new DafnyHelper(new string[]{}, file.Filepath, file.Sourcecode);
-            }
-           
-        }
-
-        public VerificationService(ILanguageServer router)
+        public VerificationService(ILanguageServer router, IDafnyHelper helper)
         {
             _router = router;
+            _dafnyHelper = helper;
         }
 
         public void Verify(DafnyFile file)
         {
-            SetDefaultDafnyHelper(file);
-
             // im Plugin das aktuelle Dokument setzen für die Statusbar
             _router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
             try
@@ -53,7 +38,7 @@ namespace DafnyLanguageServer
                 SendErrornumberToClient(diagnostics.Count);
             } catch (ArgumentException e)
             {
-                // 2do
+                // 2do ...
             }
             
         }

@@ -10,7 +10,7 @@ namespace VerificationServiceTest
     public class CreateDiagnosticTest
     {
         private static readonly string randomFakeSource = "aa\naa\naa\naa\n";
-        private static VerificationService verificationService = new DafnyLanguageServer.VerificationService(null);
+        private static VerificationService verificationService = new DafnyLanguageServer.VerificationService(null, null); //2do
         private Token token;
 
         [SetUp]

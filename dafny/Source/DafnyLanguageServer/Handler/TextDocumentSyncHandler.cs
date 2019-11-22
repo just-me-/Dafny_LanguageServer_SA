@@ -16,7 +16,6 @@ namespace DafnyLanguageServer
     {
         private readonly ILanguageServer _router;
         private readonly BufferManager _bufferManager;
-        private readonly VerificationService _verificationService;
         private SynchronizationCapability _capability;
         private readonly DocumentSelector _documentSelector = new DocumentSelector(
             new DocumentFilter()
@@ -24,13 +23,12 @@ namespace DafnyLanguageServer
                 Pattern = "**/*.dfy"
             }
         );
-        public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full; //2do: Incremental damit nicht immer alles geschickt wird
+        public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Incremental; //2do: Incremental damit nicht immer alles geschickt wird
 
         public TextDocumentSyncHandler(ILanguageServer router, BufferManager bufferManager)
         {
             _router = router;
             _bufferManager = bufferManager;
-            _verificationService = new VerificationService(router); 
         }
 
         public TextDocumentChangeRegistrationOptions GetRegistrationOptions()
@@ -55,7 +53,9 @@ namespace DafnyLanguageServer
             }; 
             _bufferManager.UpdateBuffer(file);
 
-            _verificationService.Verify(file);
+            var dafnyHelper = new DafnyHelper(new string[] { }, file.Filepath, file.Sourcecode);
+            var verificationService = new VerificationService(_router, dafnyHelper);
+            verificationService.Verify(file);
         }
         public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
