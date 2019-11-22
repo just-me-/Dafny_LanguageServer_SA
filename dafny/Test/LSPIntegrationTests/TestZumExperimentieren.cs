@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using DafnyLanguageServer;
+//using DafnyLanguageServer;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using OmniSharp.Extensions.LanguageServer.Client;
@@ -68,15 +68,15 @@ namespace LSPIntegrationTests
 
                     Log.Information("Language server has been successfully initialised.");
 
-                    var counterExampleParam = new CounterExampleParams
-                    {
-                        DafnyFile = aDfyFile
-                    };  //can we do sth with this?
+                    //var counterExampleParam = new CounterExampleParams
+                    //{
+                    //    DafnyFile = aDfyFile
+                    //};  //can we do sth with this?
 
-                    client.TextDocument.DidOpen(aDfyFile, "dfy");
+                    //client.TextDocument.DidOpen(aDfyFile, "dfy");
 
-                    CounterExampleResult res = client.SendRequest<CounterExampleResult>("counterExample", counterExampleParam, cancellationSource.Token).Result;
-                    
+                    //CounterExampleResult res = client.SendRequest<CounterExampleResult>("counterExample", counterExampleParam, cancellationSource.Token).Result;
+
                     //Test result here for correctness
 
                     // Make a default LSP request to the client.
