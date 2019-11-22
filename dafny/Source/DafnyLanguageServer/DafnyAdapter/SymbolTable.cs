@@ -36,7 +36,6 @@ namespace DafnyLanguageServer.DafnyAdapter
                 var clbl in
                 ModuleDefinition.AllCallables(module.TopLevelDecls).Where(e => e != null && !(e.Tok is IncludeToken)))
             {
-
                 if (clbl is Predicate)
                 {
                     var predicate = clbl as Predicate;
@@ -50,7 +49,6 @@ namespace DafnyLanguageServer.DafnyAdapter
                         EndToken = predicate.BodyEndTok
                     };
                     information.Add(predicateSymbol);
-
                 }
                 else if (clbl is Function)
                 {
