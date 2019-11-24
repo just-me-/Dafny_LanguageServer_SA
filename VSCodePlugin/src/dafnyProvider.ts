@@ -21,13 +21,13 @@ export class DafnyClientProvider {
     constructor(public vsCodeContext: vscode.ExtensionContext, public languageServer: LanguageClient) {
         this.loadConfig();
         this.context = new Context();
-        this.dafnyStatusbar = new Statusbar(this.languageServer, this.context);
+        this.dafnyStatusbar = new Statusbar(this.languageServer);
         this.counterModelProvider = new CounterModelProvider();
 
         languageServer.onNotification(LanguageServerNotification.UpdateStatusbar,
             (counter: number) => {
                this.dafnyStatusbar.update();
-               this.dafnyStatusbar.forceText(counter);
+               this.dafnyStatusbar.updateStatusbarText(counter);
             });
     }
 

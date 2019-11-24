@@ -2,14 +2,9 @@
 import * as vscode from "vscode";
 import { LanguageClient } from "vscode-languageclient";
 
-import { Context } from "./context";
-import { IVerificationResult } from "./IVerificationResult";
 import { StatusbarPriority } from "./StatusbarPriority";
 import { EnvironmentConfig, LanguageServerNotification, StatusString } from "./stringRessources";
 
-
-// 2Do... was verwenden wir hier überhaupt noch? 
-// evt besser doch hier noch was verwenden? Sonst unseres Zeugs umschreiben 
 export class Statusbar {
     public serverStatus: string | undefined;
     public queueSize: number = 0;
@@ -20,7 +15,7 @@ export class Statusbar {
     private progressBar: vscode.StatusBarItem;
     private currentDocumentStatucBar: vscode.StatusBarItem;
 
-    constructor(languageServer: LanguageClient, private context: Context) {
+    constructor(languageServer: LanguageClient) {
         this.currentDocumentStatucBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, StatusbarPriority.high);
         this.progressBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, StatusbarPriority.high);
         this.serverStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, StatusbarPriority.high);
@@ -79,10 +74,14 @@ export class Statusbar {
         this.currentDocumentStatucBar.hide();
     }
 
-    public forceText(errors: number) {
-        this.currentDocumentStatucBar.text = (errors > 0) ? "Errors: "+errors : "Valid. Tiptop :-)";
+    // This update gets called by server-side events when new error informations are available 
+    public updateStatusbarText(errors: number) {
+        this.currentDocumentStatucBar.text = (errors > 0) 
+            ? StatusString.NotVerified + ' Counted Errors: ' + errors 
+            : StatusString.Verified;
     }
 
+    // This update will be triggered in the internal plugin flow 
     public update(): void {
         const editor = vscode.window.activeTextEditor;
         const editorsOpen: number = vscode.window.visibleTextEditors.length;
@@ -99,48 +98,11 @@ export class Statusbar {
             this.serverStatusBar.text = StatusString.ServerDown;
         }
 
-        const documentURI = editor.document.uri.toString().replace('\%3A', ':'); // 2do notfall regex... xD
         if (!this.serverpid) {
             this.currentDocumentStatucBar.text = StatusString.Pending;
-        } else if (this.activeDocument && documentURI === this.activeDocument.toString()) {
-            this.currentDocumentStatucBar.text = StatusString.Verifying; // bis hier mal gekommen
-        } else if (this.queueContains(documentURI)) {
-            this.currentDocumentStatucBar.text = StatusString.Queued;
-        } else {
-            const res: undefined | IVerificationResult = this.context.verificationResults[documentURI];
-            if (res !== undefined) {
-                // hier müssten wir rein ... aber das verwenden wir mit dem neuen LSP gar ned mehr :/
-                // sollen wir das neu verwenden oder sollen wir den client umbauen? 
-                // 2DO  ... 
-                const displayText: string = this.verificationResultToString(res);
-                this.currentDocumentStatucBar.text = displayText;
-            } else {
-                this.currentDocumentStatucBar.text = "unknown";
-            }
-        }
+        } 
 
         this.serverStatusBar.show();
         this.currentDocumentStatucBar.show();
-    }
-
-    private verificationResultToString(result: IVerificationResult): string {
-        let response: string = "";
-
-        if (result.crashed) {
-            return StatusString.Crashed;
-        }
-
-        if (result.errorCount === 0) {
-            response = StatusString.Verified;
-        } else {
-            response = StatusString.NotVerified;
-        }
-        response += " | Proof Obligations: " + result.proofObligations + " | Errors: " + result.errorCount;
-
-        return response;
-    }
-
-    private queueContains(filename: string): boolean {
-        return this.context.localQueue.contains(filename);
     }
 }

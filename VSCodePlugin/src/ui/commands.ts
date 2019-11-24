@@ -48,19 +48,15 @@ export default class Commands {
         {
             name: CommandStrings.Compile,
             callback: () => {
-                if (!vscode.window.activeTextEditor) {
-                    return; // The window was closed before compilation was executed
-                }
-                return this.compile(vscode.window.activeTextEditor.document);
+                return vscode.window.activeTextEditor && 
+                    this.compile(vscode.window.activeTextEditor.document);
             },
         },
         {
             name: CommandStrings.CompileAndRun,
             callback: () => {
-                if (!vscode.window.activeTextEditor) {
-                    return; // The window was closed before compilation was executed
-                }
-                return this.compile(vscode.window.activeTextEditor.document, true);
+                return vscode.window.activeTextEditor && 
+                    this.compile(vscode.window.activeTextEditor.document, true);
             },
         },
         {
@@ -68,22 +64,7 @@ export default class Commands {
             // tslint:disable-next-line:object-literal-sort-keys
             callback: (uri: string, version: number, edits: vscode.TextEdit[]) => this.applyTextEdits(uri, version, edits),
         },
-        { 
-            name: CommandStrings.ShowCounterExample, callback: () => {
-                if (!vscode.window.activeTextEditor) {
-                    return;
-                }
-
-                // 2Do auch ne Subfunktion 
-                vscode.window.activeTextEditor.document.save(); 
-                const arg = { DafnyFile: vscode.window.activeTextEditor.document.fileName}
-
-                this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
-                .then((allCounterExamples: any) => {
-                    this.provider.getCounterModelProvider().showCounterModel(allCounterExamples);
-                })
-            }
-        },
+        { name: CommandStrings.ShowCounterExample, callback: () => this.showCounterExample() },
         { 
             name: CommandStrings.HideCounterExample, callback: () => {
                 this.provider.getCounterModelProvider().hideCounterModel()
@@ -147,6 +128,19 @@ export default class Commands {
         });
     }
 
+    public showCounterExample() {
+        if (!vscode.window.activeTextEditor) {
+            return;
+        }
+        vscode.window.activeTextEditor.document.save(); 
+        const arg = { DafnyFile: vscode.window.activeTextEditor.document.fileName}
+
+        this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
+        .then((allCounterExamples: any) => {
+            this.provider.getCounterModelProvider().showCounterModel(allCounterExamples);
+        })
+    }
+
     public compile(document: vscode.TextDocument | undefined, run: boolean = false): void {
         if (!document) {
             return; // Skip if user closed everything in the meantime
@@ -154,7 +148,7 @@ export default class Commands {
         document.save();
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
-        //2Do: Production Folder Structure may be different. Sollte man auch auslagern.
+        //2Do: Production Folder Structure may be different. Sollte man auch auslagern. Ticket #45
         const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")   
         const arg = {
             DafnyFilePath: document.fileName,
