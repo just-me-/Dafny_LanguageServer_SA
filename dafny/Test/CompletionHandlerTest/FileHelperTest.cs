@@ -31,8 +31,6 @@ namespace CompletionHandlerTest
             Assert.IsFalse(FileHelper.ChildIsContainedByParent(0, 0, 1, 2, 0, 0, 3, 4));
         }
 
-        //FileHandler.GetCurrentWord(); 
-
         [Test]
         public void GetWord()
         {
@@ -75,7 +73,6 @@ namespace CompletionHandlerTest
             Assert.Throws<ArgumentException>(() => FileHelper.CreatePosition(line, chr));
         }
 
-
         [Test]
         public void GetInvalidPosition2()
         {
@@ -84,7 +81,6 @@ namespace CompletionHandlerTest
 
             Assert.Throws<ArgumentException>(() => FileHelper.CreatePosition(line, chr));
         }
-
 
         [Test]
         public void GetAValidRange()
@@ -110,9 +106,7 @@ namespace CompletionHandlerTest
             var range = FileHelper.CreateRange(line, chr1, len);
             Assert.AreEqual( new Position(line, chr2), range.Start);
             Assert.AreEqual(new Position(line, chr1), range.End);
-
         }
-
 
         [Test]
         public void GetAnInvalidRange1()
