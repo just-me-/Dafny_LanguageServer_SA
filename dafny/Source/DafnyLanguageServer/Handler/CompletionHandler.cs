@@ -62,7 +62,6 @@ namespace DafnyLanguageServer
                 CompletionItemKind kind = CompletionItemKind.Reference;
                 Enum.TryParse(symbol.SymbolType.ToString(), true, out kind);
 
-
                 Range range = FileHelper.CreateRange(request.Position.Line, request.Position.Character, symbol.Name.Length);
                 TextEdit textEdit = new TextEdit
                 {

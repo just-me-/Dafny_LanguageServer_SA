@@ -23,7 +23,7 @@ namespace DafnyLanguageServer
                 Pattern = "**/*.dfy"
             }
         );
-        public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Incremental; //2do: Incremental damit nicht immer alles geschickt wird
+        public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full; // Incremental is not yet supported by the buffer 
 
         public TextDocumentSyncHandler(ILanguageServer router, BufferManager bufferManager)
         {
@@ -45,21 +45,20 @@ namespace DafnyLanguageServer
             return new TextDocumentAttributes(uri, "");
         }
 
-        private void updateBuffer(Uri uri, string text)
+        private void UpdateBuffer(Uri uri, string text)
         {
             var file = new DafnyFile {
                 Uri = uri, 
                 Sourcecode = text
             }; 
             _bufferManager.UpdateBuffer(file);
-
-            var dafnyHelper = new DafnyHelper(file.Filepath, file.Sourcecode);
-            var verificationService = new VerificationService(_router, dafnyHelper);
+            file = _bufferManager.GetFileFromBuffer(uri); 
+            var verificationService = new VerificationService(_router, file.DafnyHelper);
             verificationService.Verify(file);
         }
         public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
-            updateBuffer(request.TextDocument.Uri, request.ContentChanges.FirstOrDefault()?.Text);
+            UpdateBuffer(request.TextDocument.Uri, request.ContentChanges.FirstOrDefault()?.Text);
             return Unit.Task;
         }
 
@@ -67,7 +66,7 @@ namespace DafnyLanguageServer
         {
             // Falls wir doch die alte Pluginstruktur nuten wollen, brauchts folgende Zeile: 
             // _router.Window.SendNotification("serverStarted", new { serverpid = 1, serverversion = "0.01" });
-            updateBuffer(request.TextDocument.Uri, request.TextDocument.Text);
+            UpdateBuffer(request.TextDocument.Uri, request.TextDocument.Text);
             return Unit.Task;
         }
 

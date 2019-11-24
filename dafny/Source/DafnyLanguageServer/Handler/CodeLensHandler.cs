@@ -64,12 +64,6 @@ namespace DafnyLanguageServer
 
                     items.Add(new CodeLens { Data = request.TextDocument.Uri, Range = range, Command = command });
                 }
-
-                // filter "needsCodeLens"  .... fiield or method ... not constructor method
-                    // => btw: 
-                        //public static DefaultModuleName: string = "_default";
-                        //public static ConstructorMethod: string = "_ctor";
-                
                 return new CodeLensContainer(items); 
             });
         }

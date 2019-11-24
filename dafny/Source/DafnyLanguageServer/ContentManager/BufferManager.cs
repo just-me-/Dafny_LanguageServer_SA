@@ -12,11 +12,10 @@ namespace DafnyLanguageServer
         {
             DafnyFile file = GetOrCreateFileBuffer(documentPath);
             file.Sourcecode = content;
-            // 2do... helper in den buffer rein hauen? 
+            file.DafnyHelper = new DafnyHelper(file.Filepath, file.Sourcecode);
 
             // do not update symboltable if current file state is invalid 
-            var helper = new DafnyHelper(file.Filepath, file.Sourcecode); 
-            var symboltable = new FileSymboltable(documentPath.ToString(), content, helper);
+            var symboltable = new FileSymboltable(file.DafnyHelper);
             if(symboltable.HasEntries)
             {
                 file.Symboltable = symboltable;
@@ -33,6 +32,15 @@ namespace DafnyLanguageServer
         private DafnyFile GetOrCreateFileBuffer(Uri documentPath)
         {
             return _buffers.TryGetValue(documentPath, out var buffer) ? buffer : new DafnyFile { Uri = documentPath };
+        }
+
+        public DafnyFile GetFileFromBuffer(Uri documentPath)
+        {
+            return GetOrCreateFileBuffer(documentPath); 
+        }
+        public DafnyFile GetFileFromBuffer(string documentPath)
+        {
+            return GetFileFromBuffer(new Uri(documentPath));
         }
 
         public string GetTextFromBuffer(Uri documentPath)

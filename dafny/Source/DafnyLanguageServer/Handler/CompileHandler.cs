@@ -30,19 +30,3 @@ namespace DafnyLanguageServer
         }
     }
 }
-
-/*
- * Example Konsolenout
- * 
-    Dafny program verifier finished with 1 verified, 0 errors
-Compiled assembly into _dfy.dll
-
-********************************************************
-_dfy_error.dfy(1,24): Error: assertion violation
-Execution trace:
-    (0,0): anon0
-
-Dafny program verifier finished with 0 verified, 1 error
-
-G:\Dokumente\VisualStudio\SA\dafny-server-redesign\dafny\Binaries>
-    */

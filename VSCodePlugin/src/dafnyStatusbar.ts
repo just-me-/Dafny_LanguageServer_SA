@@ -77,7 +77,7 @@ export class Statusbar {
     // This update gets called by server-side events when new error informations are available 
     public updateStatusbarText(errors: number) {
         this.currentDocumentStatucBar.text = (errors > 0) 
-            ? StatusString.NotVerified + ' Counted Errors: ' + errors 
+            ? StatusString.NotVerified + ' - counted Errors: ' + errors 
             : StatusString.Verified;
     }
 

@@ -18,7 +18,6 @@ namespace DafnyLanguageServer
         public int Line { get; set; }
         public int Col { get; set; }
         public Dictionary<string, string> Variables { get; } = new Dictionary<string, string>();
-
     }
 
     public class CounterExampleResults
@@ -26,7 +25,6 @@ namespace DafnyLanguageServer
         public List<CounterExampleResult> CounterExamples { get; } = new List<CounterExampleResult>();
 
     }
-
 
     [Serial, Method("counterExample")]
     public interface ICounterExample : IJsonRpcRequestHandler<CounterExampleParams, CounterExampleResults>
@@ -45,9 +43,8 @@ namespace DafnyLanguageServer
 
         public async Task<CounterExampleResults> Handle(CounterExampleParams request, CancellationToken cancellationToken)
         {
-            string code = _bufferManager.GetTextFromBuffer(new Uri(request.DafnyFile));
-            var helper = new DafnyHelper(request.DafnyFile, code); 
-            var service = new CounterExampleService(helper);
+            var file = _bufferManager.GetFileFromBuffer(request.DafnyFile);
+            var service = new CounterExampleService(file.DafnyHelper);
             return await service.ProvideCounterExamples();
         }
 

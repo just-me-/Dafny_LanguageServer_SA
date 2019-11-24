@@ -22,7 +22,7 @@ namespace DafnyLanguageServer
 
         public void Verify(DafnyFile file)
         {
-            // im Plugin das aktuelle Dokument setzen für die Statusbar
+            // inform plugin that current document is in progress - for statusbar
             _router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
             try
             {
@@ -38,9 +38,9 @@ namespace DafnyLanguageServer
                 SendErrornumberToClient(diagnostics.Count);
             } catch (ArgumentException e)
             {
-                // 2do ...
+                // Verify is often invalid. Therefore it should not be thrown an error every time to the client. 
+                Console.WriteLine("Following Exception was thrown: " + e);
             }
-            
         }
 
         private void SendErrornumberToClient(int counted)

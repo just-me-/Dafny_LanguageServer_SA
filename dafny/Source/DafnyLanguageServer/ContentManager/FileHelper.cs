@@ -10,18 +10,28 @@ namespace DafnyLanguageServer
     {
         public static string GetCurrentWord(string code, int line, int character)
         {
-            var codeLines = Regex.Split(code, "\r\n|\r|\n");
-            var selectedLine = codeLines[line].Substring(0, character);
+            var selectedLine = SaveLineGetter(code, line, character);
             var match = Regex.Match(selectedLine, @"(\S+)\.$");
             return (match.Success) ? (match.Groups[1].Value) : null;
         }
 
         public static string GetFollowingWord(string code, int line, int character)
         {
-            var codeLines = Regex.Split(code, "\r\n|\r|\n");
-            var selectedLine = codeLines[line].Substring(character);
+            var selectedLine = SaveLineGetter(code, line, character, false);
             var match = Regex.Match(selectedLine, @"^([a-zA-Z0-9-_]+).*");
             return (match.Success) ? (match.Groups[1].Value) : null;
+        }
+
+        private static string SaveLineGetter(string code, int line, int character, bool front = true)
+        {
+            var codeLines = Regex.Split(code, "\r\n|\r|\n");
+            // avoid out of bounce exceptions 
+            return (codeLines.Length >= line && codeLines[line].Length >= character) 
+                ?
+                    (front 
+                    ? codeLines[line].Substring(0, character) 
+                    : codeLines[line].Substring(character))
+                : "";
         }
 
         public static bool ChildIsContainedByParent(
@@ -32,7 +42,7 @@ namespace DafnyLanguageServer
         {
             return (
                 (childLineStart >= parentLineStart && childLineEnd <= parentLineEnd && parentLineStart != parentLineEnd) ||
-                // if it is an one liner check position 
+                // if it is an one liner - check position 
                 (parentLineStart == parentLineEnd && childLineStart == childLineEnd  && parentLineStart == childLineStart
                  && childPositionStart >= parentPositionStart && childPositionEnd <= parentPositionEnd)
             );
@@ -67,19 +77,15 @@ namespace DafnyLanguageServer
 
         public static int GetLineLength(string source, int line)
         {
-            
             string[] lines = Regex.Split(source, "\r\n|\r|\n");
-
             if (line < 0)
             {
                 throw new ArgumentException("Line-Index must not be negative");
             }
-
             if (line >= lines.Length)
             {
                 throw new ArgumentException($"There are not enogh lines ({line}) in the given source!");
             }
-
             return lines[line].Length;
         }
     }

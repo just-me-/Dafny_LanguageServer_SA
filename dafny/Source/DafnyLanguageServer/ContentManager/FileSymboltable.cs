@@ -12,30 +12,30 @@ namespace DafnyLanguageServer
         public bool HasEntries => (_symbolTable.Count > 0);
         private IDafnyHelper _helper; 
 
-        public FileSymboltable(string uri, string content, IDafnyHelper helper)
+        public FileSymboltable(IDafnyHelper helper)
         {
-            _helper = new DafnyHelper(uri, content);
-            _symbolTable = GetSymbolList(uri, content);
+            _helper = helper;
+            _symbolTable = GetSymbolList();
         }
 
         public List<SymbolTable.SymbolInformation> GetFullList()
         {
             return RemoveConstructorSymbols(_symbolTable);
-
         }
+
         public List<SymbolTable.SymbolInformation> GetList()
         {
             return RemoveDuplicates(_symbolTable);
         }
 
-        public List<SymbolTable.SymbolInformation> GetList(string specificWord) //identifier
+        public List<SymbolTable.SymbolInformation> GetList(string identifier)
         {
-            if (specificWord is null)
+            if (identifier is null)
             {
                 return GetList();
             }
-            var parentSymbol = GetSymbolByName(specificWord);
-            return RemoveDuplicates(_symbolTable.Where(x => (x.ParentClass == specificWord  && SymbolIsInRangeOf(x, parentSymbol))).ToList());
+            var parentSymbol = GetSymbolByName(identifier);
+            return RemoveDuplicates(_symbolTable.Where(x => (x.ParentClass == identifier && SymbolIsInRangeOf(x, parentSymbol))).ToList());
         }
 
         private SymbolTable.SymbolInformation GetSymbolByName(string name)
@@ -56,7 +56,7 @@ namespace DafnyLanguageServer
             return word is null ? null : _symbolTable.FirstOrDefault(x => x.Name == word)?.ParentClass;
         }
 
-        private List<SymbolTable.SymbolInformation> GetSymbolList(string documentPath, string code)
+        private List<SymbolTable.SymbolInformation> GetSymbolList()
         {
             return _helper.Symbols();
         }
