@@ -181,7 +181,7 @@ export default class Commands {
                     vscode.window.showInformationMessage(ErrorMsg.NoMainMethod);
                 }
             }
-            return true;
+            return false;
         }, (error: any) => {
             vscode.window.showErrorMessage("Can't compile: " + error.message);
         });
