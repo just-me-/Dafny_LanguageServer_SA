@@ -45,14 +45,11 @@ export function activate(extensionContext: vscode.ExtensionContext) {
             }
         });
         return;
-        
     }
 
-    const languageServer = new DafnyLanguageClient(extensionContext);
+    const languageServer = new DafnyLanguageClient();
+    languageServer.trace = Trace.Verbose; 
 
-    languageServer.trace = Trace.Verbose; // aus dem tutorial
-
-    // 1:1 aus dem node... irgend welches Registrierungszeugs/Prep... sollte weiterhin gehen
     languageServer.onReady().then(() => {
         provider = new DafnyClientProvider(extensionContext, languageServer);
 

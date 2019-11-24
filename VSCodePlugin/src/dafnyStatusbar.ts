@@ -7,6 +7,9 @@ import { IVerificationResult } from "./IVerificationResult";
 import { StatusbarPriority } from "./StatusbarPriority";
 import { EnvironmentConfig, LanguageServerNotification, StatusString } from "./stringRessources";
 
+
+// 2Do... was verwenden wir hier überhaupt noch? 
+// evt besser doch hier noch was verwenden? Sonst unseres Zeugs umschreiben 
 export class Statusbar {
     public serverStatus: string | undefined;
     public queueSize: number = 0;
@@ -96,7 +99,7 @@ export class Statusbar {
             this.serverStatusBar.text = StatusString.ServerDown;
         }
 
-        const documentURI = editor.document.uri.toString().replace('\%3A', ':'); // notfall regex... xD
+        const documentURI = editor.document.uri.toString().replace('\%3A', ':'); // 2do notfall regex... xD
         if (!this.serverpid) {
             this.currentDocumentStatucBar.text = StatusString.Pending;
         } else if (this.activeDocument && documentURI === this.activeDocument.toString()) {

@@ -6,7 +6,6 @@
 // the module 'assert' provides assertion methods from node
 import * as path from "path";
 import * as vscode from "vscode";
-// import { VerificationResult } from "../src/verificationResult";
 import { Context } from "../src/context";
 
 const extensionID = "correctnessLab.dafny-vscode";
@@ -15,7 +14,7 @@ const samplesFolder = vscode.extensions.getExtension(extensionID)!.extensionPath
 export class UnitTestCallback {
     // tslint:disable:no-empty
     public backendStarted = () => { };
-    public verificationComplete = (/*verificationResult: VerificationResult*/) => {  };
+    public verificationComplete = () => {  };
     public ideIsIdle = () => { };
     public activated = () => { };
     public viperUpdateComplete = () => { };
@@ -28,14 +27,6 @@ Context.unitTest = new UnitTestCallback();
 function log(msg: string) {
     console.log("[UnitTest] " + msg);
 }
-
-/*function wait(timeout): Promise<boolean> {
-    return new Promise((resolve) => {
-        setTimeout(function () {
-            resolve(true);
-        }, timeout);
-    });
-}*/
 
 function waitForBackendStarted(): Promise<boolean> {
     return new Promise((resolve) => {
@@ -55,10 +46,6 @@ function waitForVerification(fileName: string): Promise<boolean> {
     });
 }
 
-/*function checkAssert(seen, expected, message: string) {
-    assert(expected === seen, message + ": Expected: " + expected + " Seen: " + seen);
-}*/
-
 function openFile(fileName: string): Promise<vscode.TextDocument> {
     return new Promise((resolve) => {
         const filePath = path.join(samplesFolder, fileName);
@@ -70,12 +57,6 @@ function openFile(fileName: string): Promise<vscode.TextDocument> {
         });
     });
 }
-
-/*function closeFile(): Thenable<{}> {
-    let filePath = path.join(samplesFolder, vscode.window.activeTextEditor.document.fileName);
-    log("close " + filePath);
-    return vscode.commands.executeCommand("workbench.action.closeActiveEditor");
-}*/
 
 function StartViperIdeTests() {
     describe("ViperIDE Startup tests:", function() {
@@ -90,9 +71,6 @@ function StartViperIdeTests() {
                 }
                 return waitForBackendStarted();
             }).then(() => {
-                //     selectBackend(CARBON);
-                //     return waitForBackendStarted(CARBON);
-                // }).then(() => {
                 // backend ready
                 done();
             });

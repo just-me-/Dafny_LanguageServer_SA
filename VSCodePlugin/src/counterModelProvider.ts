@@ -62,7 +62,6 @@ export class CounterModelProvider {
                     color: "#cccccc",
                 },
             },
-
         })
     }
 

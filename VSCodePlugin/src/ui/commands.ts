@@ -40,8 +40,6 @@ export default class Commands {
     public provider: DafnyClientProvider;
     public runner: DafnyRunner;
 
-    
-
     public commands = [
         { name: CommandStrings.ShowReferences, callback: Commands.showReferences, doNotDispose: true },
         { name: CommandStrings.RestartServer, callback: () => this.restartServer() },
@@ -70,15 +68,13 @@ export default class Commands {
             // tslint:disable-next-line:object-literal-sort-keys
             callback: (uri: string, version: number, edits: vscode.TextEdit[]) => this.applyTextEdits(uri, version, edits),
         },
-
         { 
             name: CommandStrings.ShowCounterExample, callback: () => {
                 if (!vscode.window.activeTextEditor) {
                     return;
                 }
 
-                // 2Do ab hier in eigene sub funktion reintun... 
-
+                // 2Do auch ne Subfunktion 
                 vscode.window.activeTextEditor.document.save(); 
                 const arg = { DafnyFile: vscode.window.activeTextEditor.document.fileName}
 
@@ -87,9 +83,7 @@ export default class Commands {
                     this.provider.getCounterModelProvider().showCounterModel(allCounterExamples);
                 })
             }
-            
         },
-    
         { 
             name: CommandStrings.HideCounterExample, callback: () => {
                 this.provider.getCounterModelProvider().hideCounterModel()
@@ -160,7 +154,8 @@ export default class Commands {
         document.save();
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
-        const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")   //TODO: Production Folder Structure may be different. Sollte man auch auslagern.
+        //2Do: Production Folder Structure may be different. Sollte man auch auslagern.
+        const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")   
         const arg = {
             DafnyFilePath: document.fileName,
             DafnyExePath: dafnyExe

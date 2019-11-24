@@ -1,12 +1,10 @@
 "use strict";
 import * as vscode from "vscode";
-//import * as path from 'path';
 import { LanguageClient } from "vscode-languageclient";
 import { TextDocumentItem } from "vscode-languageserver-types";
 import { Context } from "./context";
 import { CounterModelProvider } from "./counterModelProvider";
 import { Statusbar } from "./dafnyStatusbar";
-//import { IVerificationResult } from "./IVerificationResult";
 import { Config, EnvironmentConfig, LanguageServerNotification } from "./stringRessources";
 
 export class DafnyClientProvider {
@@ -37,8 +35,6 @@ export class DafnyClientProvider {
         vscode.window.onDidChangeActiveTextEditor((editor) => {
             if (editor) {
                 this.dafnyStatusbar.update();
-                // 2do... was machen wir hier. 
-                // this.counterModelProvider.showCounterModel();
             }
         }, this);
         this.subscriptions = subs;
@@ -71,7 +67,6 @@ export class DafnyClientProvider {
         this.automaticShowCounterExample = config.get<boolean>(Config.AutomaticShowCounterExample)!;
     }
 
-    // 2DO; auch raus? 
     private doVerify(textDocument: vscode.TextDocument): void {
         this.counterModelProvider.hideCounterModel();
         console.log("Try to verify... ")
@@ -98,13 +93,10 @@ export class DafnyClientProvider {
 
     private docChanged(change: vscode.TextDocumentChangeEvent): void {
         if (change !== null && change.document !== null && change.document.languageId === EnvironmentConfig.Dafny) {
-
             const docName: string = change.document.fileName;
-
             if (this.docChangeTimers[docName]) {
                 clearTimeout(this.docChangeTimers[docName]);
             }
-
             this.docChangeTimers[docName] = setTimeout(() => {
                 this.doVerify(change.document);
             }, this.docChangeDelay);

@@ -104,7 +104,6 @@ export class LanguageServerRequest {
     public static CounterExample: string = "counterExample";
     public static Install: string = "install";
     public static Uninstall: string = "uninstall";
-    //public static SayHello: string = "sayhello";
 }
 
 export class LanguageServerNotification {
@@ -121,7 +120,5 @@ export class LanguageServerNotification {
     public static Ready: string = "ready";
     public static Progress: string = "progress";
     public static CounterExample: string = "counterExample";
-
     public static UpdateStatusbar: string = "updateStatusbar";
-    
 }
