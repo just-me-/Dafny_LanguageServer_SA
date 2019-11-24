@@ -76,7 +76,7 @@ export class Statusbar {
         this.currentDocumentStatucBar.hide();
     }
 
-    public forceText(errors: Number) {
+    public forceText(errors: number) {
         this.currentDocumentStatucBar.text = (errors > 0) ? "Errors: "+errors : "Valid. Tiptop :-)";
     }
 
