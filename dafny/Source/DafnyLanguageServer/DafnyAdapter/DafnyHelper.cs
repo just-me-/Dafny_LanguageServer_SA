@@ -41,7 +41,7 @@ namespace DafnyLanguageServer.DafnyAdapter
         private Microsoft.Dafny.Program dafnyProgram;
         private IEnumerable<Tuple<string, Bpl.Program>> boogiePrograms;
 
-        private List<ErrorInformation> _errors;
+        private List<ErrorInformation> _errors = new List<ErrorInformation>();
 
         private void AddErrorToList(ErrorInformation e)
         {
