@@ -3,9 +3,9 @@ using DafnyLanguageServer;
 using NUnit.Framework;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 
-namespace CompletionHandlerTest
+namespace FileHelperTest
 {
-    internal class FileHelperTestsParentChildTests
+    internal class ParentChildTests
     {
         [Test]
         public void IsInRange()
@@ -39,7 +39,7 @@ namespace CompletionHandlerTest
                         var acc2 := new C();
                         var acc3.             
             }";
-            var acc3 = FileHelper.GetCurrentWord(code, 4-1, 33);
+            var acc3 = FileHelper.GetCurrentWord(code, 4 - 1, 33);
             Assert.AreEqual("acc3", acc3);
         }
 
@@ -52,7 +52,7 @@ namespace CompletionHandlerTest
         }
     }
 
-    internal class FileHelperPositionalTests
+    internal class PositionalTests
     {
         [Test]
         public void GetAValidPosition1()
@@ -104,7 +104,7 @@ namespace CompletionHandlerTest
             const int len = chr2 - chr1;
 
             var range = FileHelper.CreateRange(line, chr1, len);
-            Assert.AreEqual( new Position(line, chr2), range.Start);
+            Assert.AreEqual(new Position(line, chr2), range.Start);
             Assert.AreEqual(new Position(line, chr1), range.End);
         }
 
@@ -173,4 +173,69 @@ namespace CompletionHandlerTest
             Assert.Throws<ArgumentException>(() => FileHelper.GetLineLength(s, l));
         }
     }
+
+
+    internal class PathEscapeTests
+    {
+        [Test]
+        public void SimplePath()
+        {
+            const string input = @"C:\a.dfy";
+            const string expected = input;
+
+            var output = FileHelper.EscapeFilePath(input);
+
+            Assert.AreEqual(expected, output);
+        }
+
+
+        [Test]
+        public void SpacedPath()
+        {
+            const string input = @"C:\some folder\a.dfy";
+            const string expected = "\"" + input + "\"";
+
+            var output = FileHelper.EscapeFilePath(input);
+
+            Assert.AreEqual(expected, output);
+        }
+
+        [Test]
+        public void MultipleSpacedPath()
+        {
+            const string input = @"C:\some folder\here is my file.dfy";
+            const string expected = "\"" + input + "\"";
+
+            var output = FileHelper.EscapeFilePath(input);
+
+            Assert.AreEqual(expected, output);
+        }
+
+        [Test]
+        public void PreEscapedPath()
+        {
+            const string input = @"""C:\some folder\a.dfy""";
+            const string expected = input;
+
+            var output = FileHelper.EscapeFilePath(input);
+
+            Assert.AreEqual(expected, output);
+        }
+
+        [Test]
+        public void PathWithQuoteWithSpaceThrows()
+        {
+            const string input = @"C:\some fol""der\a.dfy";
+            Assert.Throws<NotSupportedException>(() => FileHelper.EscapeFilePath(input));
+        }
+
+        [Test]
+        public void PathWithQuoteWithoutSpaceThrows()
+        {
+            const string input = @"C:\ba""ba\a.dfy";
+            Assert.Throws<NotSupportedException>(() => FileHelper.EscapeFilePath(input));
+        }
+
+    }
+
 }

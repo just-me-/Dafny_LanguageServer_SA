@@ -19,14 +19,9 @@ namespace DafnyLanguageServer
         {
             string escapeCharacter = "\"";
 
-            if (!path.Contains(" "))
-            {
-                return path;
-            }
-
             if (path.StartsWith(escapeCharacter) && path.EndsWith(escapeCharacter))
             {
-                return path;
+                path = path.Substring(1, path.Length - 2);
             }
 
             if (path.Contains(escapeCharacter))
@@ -34,7 +29,16 @@ namespace DafnyLanguageServer
                 throw new NotSupportedException("Filename with Quote is not supported.");
             }
 
-            return escapeCharacter + path + escapeCharacter;
+            if (path.Contains(" "))
+            {
+                return escapeCharacter + path + escapeCharacter;
+            }
+            else
+            {
+                return path;
+            }
+
+            
         }
 
         public static string GetFollowingWord(string code, int line, int character)
