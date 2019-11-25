@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Microsoft.Boogie.Houdini;
-using Newtonsoft.Json.Linq;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 
 namespace DafnyLanguageServer
