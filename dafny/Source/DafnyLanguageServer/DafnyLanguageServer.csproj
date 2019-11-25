@@ -130,7 +130,7 @@
       <HintPath>..\packages\OmniSharp.Extensions.LanguageProtocol.0.13.1\lib\netstandard2.0\OmniSharp.Extensions.LanguageProtocol.dll</HintPath>
     </Reference>
     <Reference Include="OmniSharp.Extensions.LanguageServer, Version=0.13.0.0, Culture=neutral, PublicKeyToken=6d868dff454e6022, processorArchitecture=MSIL">
-      <HintPath>..\packages\OmniSharp.Extensions.LanguageServer.0.13.0\lib\netstandard2.0\OmniSharp.Extensions.LanguageServer.dll</HintPath>
+      <HintPath>..\packages\OmniSharp.Extensions.LanguageServer.0.13.1\lib\netstandard2.0\OmniSharp.Extensions.LanguageServer.dll</HintPath>
     </Reference>
     <Reference Include="Provers.SMTLib, Version=2.4.1.10503, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

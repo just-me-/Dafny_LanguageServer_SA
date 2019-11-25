@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using DafnyLanguageServer;
 //using DafnyLanguageServer;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
@@ -22,8 +23,6 @@ namespace LSPIntegrationTests
         internal static readonly string workspaceDir = Path.GetFullPath(Path.Combine(assemblyPath, "../Test/CounterExampleFiles/"));
 
 
-
-
         [Test]
         public void DemoTest()
         {
@@ -40,47 +39,46 @@ namespace LSPIntegrationTests
 
                 ILoggerFactory LoggerFactory = new SerilogLoggerFactory(Log.Logger);
 
-
-
-
                 var cancellationSource = new CancellationTokenSource();
                 cancellationSource.CancelAfter(
-                    TimeSpan.FromSeconds(300)
+                    TimeSpan.FromSeconds(30)
                 );
-
-
 
                 ServerProcess serverProcess = new StdioServerProcess(LoggerFactory, new ProcessStartInfo(serverExe)
                 {
-                    Arguments = "" // command-line arguments here
+                    Arguments = ""
                 });
 
                 using (var client = new LanguageClient(LoggerFactory, serverProcess))
                 {
-                    Serilog.Log.Information("Initialising language server...");
-
-                    // Tell the client to connect to the server and initialise it so it's ready to handle requests.
+                    Log.Information("Initialising language server...");
+                  
                     client.Initialize(
                         workspaceRoot: workspaceDir,
-                        initializationOptions: new { }, // If the server requires initialisation options, you pass them here.
+                        initializationOptions: new { },
                         cancellationToken: cancellationSource.Token
                     ).Wait();
 
                     Log.Information("Language server has been successfully initialised.");
 
-                    //var counterExampleParam = new CounterExampleParams
-                    //{
-                    //    DafnyFile = aDfyFile
-                    //};  //can we do sth with this?
+                    var counterExampleParam = new CounterExampleParams
+                    {
+                        DafnyFile = aDfyFile
+                    };
 
+
+                    Log.Information("Sending DidOpen.....");
                     client.TextDocument.DidOpen(aDfyFile, "dfy");
 
-                    //CounterExampleResult res = client.SendRequest<CounterExampleResult>("counterExample", counterExampleParam, cancellationSource.Token).Result;
+                    Log.Information("Sending counterExample.....");
+                    CounterExampleResult res = client.SendRequest<CounterExampleResult>("counterExample", counterExampleParam, cancellationSource.Token).Result;
 
                     //Test result here for correctness
 
                     // Make a default LSP request to the client.
                     // Note that, in LSP, line and column are 0-based.
+
+                    Log.Information("Sending Completions.....");
                     var completions = client.TextDocument.Completions(
                         filePath: aDfyFile,
                         line: 2,
@@ -88,12 +86,16 @@ namespace LSPIntegrationTests
                         cancellationToken: cancellationSource.Token
                     ).Result;
 
+                    //Test completions for correctness here
+
                     if (completions != null)
                     {
                         Log.Information("Got completion list" + completions);
                     }
                     else
+                    {
                         Log.Warning("No hover info available at ({Line}, {Column}).", 7, 3);
+                    }
 
                     Log.Information("Shutting down server...");
                     client.Shutdown().Wait();
@@ -104,9 +106,9 @@ namespace LSPIntegrationTests
                     Log.Information("Server shutdown is complete.");
                 }
             }
-            catch (Exception unexpectedError)
+            catch (Exception e)
             {
-                Log.Error(unexpectedError, "Unexpected error: {ErrorMessage}", unexpectedError.Message);
+                Log.Error(e, "Error Msg:", e.Message);
             }
         }
     }
