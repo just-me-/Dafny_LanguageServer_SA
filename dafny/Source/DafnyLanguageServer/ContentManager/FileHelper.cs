@@ -37,8 +37,6 @@ namespace DafnyLanguageServer
             {
                 return path;
             }
-
-            
         }
 
         public static string GetFollowingWord(string code, int line, int character)
