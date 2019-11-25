@@ -13,30 +13,6 @@ namespace DafnyLanguageServer
             return (match.Success) ? (match.Groups[1].Value) : null;
         }
 
-        public static string EscapeFilePath(string path)
-        {
-            string escapeCharacter = "\"";
-
-            if (path.StartsWith(escapeCharacter) && path.EndsWith(escapeCharacter))
-            {
-                path = path.Substring(1, path.Length - 2);
-            }
-
-            if (path.Contains(escapeCharacter))
-            {
-                throw new NotSupportedException("Filename with Quote is not supported.");
-            }
-
-            if (path.Contains(" "))
-            {
-                return escapeCharacter + path + escapeCharacter;
-            }
-            else
-            {
-                return path;
-            }
-        }
-
         public static string GetFollowingWord(string code, int line, int character)
         {
             var selectedLine = SaveLineGetter(code, line, character, false);
@@ -68,6 +44,30 @@ namespace DafnyLanguageServer
                 (parentLineStart == parentLineEnd && childLineStart == childLineEnd && parentLineStart == childLineStart
                  && childPositionStart >= parentPositionStart && childPositionEnd <= parentPositionEnd)
             );
+        }
+
+        public static string EscapeFilePath(string path)
+        {
+            string escapeCharacter = "\"";
+
+            if (path.StartsWith(escapeCharacter) && path.EndsWith(escapeCharacter))
+            {
+                path = path.Substring(1, path.Length - 2);
+            }
+
+            if (path.Contains(escapeCharacter))
+            {
+                throw new NotSupportedException("Filename with Quote is not supported.");
+            }
+
+            if (path.Contains(" "))
+            {
+                return escapeCharacter + path + escapeCharacter;
+            }
+            else
+            {
+                return path;
+            }
         }
 
         public static Position CreatePosition(long start, long end)

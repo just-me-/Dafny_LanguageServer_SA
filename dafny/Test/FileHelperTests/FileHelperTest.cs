@@ -30,7 +30,10 @@ namespace FileHelperTest
         {
             Assert.IsFalse(FileHelper.ChildIsContainedByParent(0, 0, 1, 2, 0, 0, 3, 4));
         }
+    }
 
+    internal class WordGetterTests
+    {
         [Test]
         public void GetWord()
         {
@@ -44,11 +47,35 @@ namespace FileHelperTest
         }
 
         [Test]
-        public void getWordOfSimpleLine()
+        public void GetWordOfSimpleLine()
         {
             var code = "myWord.";
             var myWord = FileHelper.GetCurrentWord(code, 0, 7);
             Assert.AreEqual("myWord", myWord);
+        }
+
+        [Test]
+        public void GetWordOfOutOfBounce()
+        {
+            var code = "hi";
+            var myWord = FileHelper.GetCurrentWord(code, 0, 50);
+            Assert.AreEqual(null, myWord);
+        }
+
+        [Test]
+        public void GetFollowingWord()
+        {
+            var code = "hello world";
+            var myWord = FileHelper.GetFollowingWord(code, 0, 6);
+            Assert.AreEqual("world", myWord);
+        }
+
+        [Test]
+        public void GetFollowingWordOutOfBounce()
+        {
+            var code = "hello";
+            var myWord = FileHelper.GetFollowingWord(code, 0, 50);
+            Assert.AreEqual(null, myWord);
         }
     }
 
@@ -174,7 +201,6 @@ namespace FileHelperTest
         }
     }
 
-
     internal class PathEscapeTests
     {
         [Test]
@@ -235,7 +261,5 @@ namespace FileHelperTest
             const string input = @"C:\ba""ba\a.dfy";
             Assert.Throws<NotSupportedException>(() => FileHelper.EscapeFilePath(input));
         }
-
     }
-
 }
