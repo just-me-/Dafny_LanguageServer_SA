@@ -7,28 +7,31 @@ namespace DafnyLanguageServer
 {
     public class CompilationService
     {
-        private string DafnyExe { get; }
-        private string DafnyFile { get; set; }
+        private string PathToDafnyDotExe { get; }
+        private string _pathToDfy;
+        private string PathToDfy
+        {
+            get => FileHelper.EscapeFilePath(_pathToDfy);
+            set => _pathToDfy = value;
+        }
 
         public CompilationService(string exe, string file)
         {
-            DafnyExe = exe;
-            DafnyFile = file;
+            PathToDafnyDotExe = exe;
+            PathToDfy = file;
         }
 
         public async Task<CompilerResults> Compile()
         {
             return await Task.Run(() =>
             {
-                // 2do: To support spaces in path: 
-                DafnyFile = '\"' + DafnyFile + '\"'; //Todo systemmethode  Ticket #43
-
+   
                 Process process = new Process
                 {
                     StartInfo =
                     {
-                        FileName = DafnyExe,
-                        Arguments = "/compile:1 /nologo " + DafnyFile,
+                        FileName = PathToDafnyDotExe,
+                        Arguments = "/compile:1 /nologo " + PathToDfy,
                         UseShellExecute = false,
                         RedirectStandardError = true,
                         RedirectStandardOutput = true

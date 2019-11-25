@@ -15,6 +15,28 @@ namespace DafnyLanguageServer
             return (match.Success) ? (match.Groups[1].Value) : null;
         }
 
+        public static string EscapeFilePath(string path)
+        {
+            string escapeCharacter = "\"";
+
+            if (!path.Contains(" "))
+            {
+                return path;
+            }
+
+            if (path.StartsWith(escapeCharacter) && path.EndsWith(escapeCharacter))
+            {
+                return path;
+            }
+
+            if (path.Contains(escapeCharacter))
+            {
+                throw new NotSupportedException("Filename with Quote is not supported.");
+            }
+
+            return escapeCharacter + path + escapeCharacter;
+        }
+
         public static string GetFollowingWord(string code, int line, int character)
         {
             var selectedLine = SaveLineGetter(code, line, character, false);
@@ -26,10 +48,10 @@ namespace DafnyLanguageServer
         {
             var codeLines = Regex.Split(code, "\r\n|\r|\n");
             // avoid out of bounce exceptions 
-            return (codeLines.Length >= line && codeLines[line].Length >= character) 
+            return (codeLines.Length >= line && codeLines[line].Length >= character)
                 ?
-                    (front 
-                    ? codeLines[line].Substring(0, character) 
+                    (front
+                    ? codeLines[line].Substring(0, character)
                     : codeLines[line].Substring(character))
                 : "";
         }
@@ -43,7 +65,7 @@ namespace DafnyLanguageServer
             return (
                 (childLineStart >= parentLineStart && childLineEnd <= parentLineEnd && parentLineStart != parentLineEnd) ||
                 // if it is an one liner - check position 
-                (parentLineStart == parentLineEnd && childLineStart == childLineEnd  && parentLineStart == childLineStart
+                (parentLineStart == parentLineEnd && childLineStart == childLineEnd && parentLineStart == childLineStart
                  && childPositionStart >= parentPositionStart && childPositionEnd <= parentPositionEnd)
             );
         }
