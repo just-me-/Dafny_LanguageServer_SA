@@ -36,10 +36,9 @@ namespace DafnyLanguageServer
                 };
                 _router.Document.PublishDiagnostics(p);
                 SendErrornumberToClient(diagnostics.Count);
-            } catch (ArgumentException e)
+            } catch (Exception e)
             {
-                // Verify is often invalid. Therefore it should not be thrown an error every time to the client. 
-                Console.WriteLine("Following Exception was thrown: " + e);
+                Console.WriteLine("There was an error: " + e);
             }
         }
 
