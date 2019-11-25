@@ -46,7 +46,7 @@ namespace DafnyLanguageServer
             var file = _bufferManager.GetFile(request.DafnyFile);
 
             string code = _bufferManager.GetSourceCodeAsText(new Uri(request.DafnyFile));
-            var helper = new DafnyHelper(request.DafnyFile, code);
+            var helper = new DafnyHelper(request.DafnyFile, file.Sourcecode);
 
             // var helper = new DafnyHelper(file.Filepath, file.Sourcecode);
             // var woudHelper = file.DafnyHelper;
