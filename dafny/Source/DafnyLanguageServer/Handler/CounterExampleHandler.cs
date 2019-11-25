@@ -44,18 +44,10 @@ namespace DafnyLanguageServer
         public async Task<CounterExampleResults> Handle(CounterExampleParams request, CancellationToken cancellationToken)
         {
             var file = _bufferManager.GetFile(request.DafnyFile);
-
-            var name1 = file.Filepath;
-            var name2 = request.DafnyFile;
-            var helper = new DafnyHelper(file.Filepath, file.Sourcecode);
-
-            // var helper = new DafnyHelper(file.Filepath, file.Sourcecode);
-            // var woudHelper = file.DafnyHelper;
+            // Counterexample needs a DafnyHelper with this current request DafnyFile path
+            // therefore do not use file.DafnyHelper
+            var helper = new DafnyHelper(request.DafnyFile, file.Sourcecode);
             var service = new CounterExampleService(helper);
-
-
-            //var file = _bufferManager.GetFile(request.DafnyFile);
-            //var service = new CounterExampleService(file.DafnyHelper);
             return await service.ProvideCounterExamples();
         }
 
