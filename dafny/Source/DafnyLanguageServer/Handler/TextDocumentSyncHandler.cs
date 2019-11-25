@@ -45,16 +45,28 @@ namespace DafnyLanguageServer
             return new TextDocumentAttributes(uri, "");
         }
 
-        private void UpdateBuffer(Uri uri, string text)
+        private DafnyFile UpdateBuffer(Uri uri, string text)
         {
-            var file = _bufferManager.UpdateBuffer(uri, text);
+            DafnyFile file = _bufferManager.UpdateBuffer(uri, text);
+            return file;
+        }
+
+        private void Verify(DafnyFile file)
+        {
             var verificationService = new VerificationService(_router, file.DafnyHelper);
             verificationService.Verify(file);
         }
 
+        private void UpdateBufferAndVerifyFile(Uri uri, string text)
+        {
+            var file = UpdateBuffer(uri, text);
+            Verify(file);
+        }
+
+
         public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
-            UpdateBuffer(request.TextDocument.Uri, request.ContentChanges.FirstOrDefault()?.Text);
+            UpdateBufferAndVerifyFile(request.TextDocument.Uri, request.ContentChanges.FirstOrDefault()?.Text);
             return Unit.Task;
         }
 
@@ -62,7 +74,7 @@ namespace DafnyLanguageServer
         {
             // Falls wir doch die alte Pluginstruktur nuten wollen, brauchts folgende Zeile: 
             // _router.Window.SendNotification("serverStarted", new { serverpid = 1, serverversion = "0.01" });
-            UpdateBuffer(request.TextDocument.Uri, request.TextDocument.Text);
+            UpdateBufferAndVerifyFile(request.TextDocument.Uri, request.TextDocument.Text);
             return Unit.Task;
         }
 
