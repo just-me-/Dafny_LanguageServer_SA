@@ -47,15 +47,11 @@ namespace DafnyLanguageServer
 
         private void UpdateBuffer(Uri uri, string text)
         {
-            var file = new DafnyFile {
-                Uri = uri, 
-                Sourcecode = text
-            }; 
-            _bufferManager.UpdateBuffer(file);
-            file = _bufferManager.GetFileFromBuffer(uri); 
+            var file = _bufferManager.UpdateBuffer(uri, text);
             var verificationService = new VerificationService(_router, file.DafnyHelper);
             verificationService.Verify(file);
         }
+
         public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
             UpdateBuffer(request.TextDocument.Uri, request.ContentChanges.FirstOrDefault()?.Text);

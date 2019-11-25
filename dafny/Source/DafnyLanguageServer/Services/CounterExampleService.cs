@@ -13,7 +13,7 @@ namespace DafnyLanguageServer
             _helper = helper;
         }
 
-        public Task < CounterExampleResults> ProvideCounterExamples()
+        public Task <CounterExampleResults> ProvideCounterExamples()
         {
             return Task.Run(() =>
             {

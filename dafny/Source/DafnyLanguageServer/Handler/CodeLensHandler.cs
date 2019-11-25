@@ -41,7 +41,7 @@ namespace DafnyLanguageServer
             {
                 List<CodeLens> items = new List<CodeLens>();
 
-                var fileSymboltable = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri);
+                var fileSymboltable = _bufferManager.GetSymboltable(request.TextDocument.Uri);
                 // die laufzeit ist grottig husthust
                 foreach (var symbol in fileSymboltable.GetFullList())
                 {

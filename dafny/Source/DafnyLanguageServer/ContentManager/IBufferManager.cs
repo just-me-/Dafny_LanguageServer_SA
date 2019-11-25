@@ -9,10 +9,11 @@ namespace DafnyLanguageServer
 {
     public interface IBufferManager
     {
-        void UpdateBuffer(Uri documentPath, string content);
-        void UpdateBuffer(DafnyFile file);
-        string GetTextFromBuffer(Uri documentPath);
-        FileSymboltable GetSymboltableForFile(Uri documentPath);
+        DafnyFile UpdateBuffer(Uri documentPath, string sourceCodeOfFile);
+        DafnyFile GetFile(Uri documentPath);
+        DafnyFile GetFile(string documentPath);
+        string GetSourceCodeAsText(Uri documentPath);
+        FileSymboltable GetSymboltable(Uri documentPath);
         ConcurrentDictionary<Uri, DafnyFile> GetAllFiles();
     }
 }

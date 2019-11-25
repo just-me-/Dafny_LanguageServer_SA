@@ -41,9 +41,9 @@ namespace DafnyLanguageServer
         {
             return await Task.Run(() =>
             {
-                var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri);
+                var symbols = _bufferManager.GetSymboltable(request.TextDocument.Uri);
                 var word = FileHelper.GetCurrentWord(
-                    _bufferManager.GetTextFromBuffer(request.TextDocument.Uri),
+                    _bufferManager.GetSourceCodeAsText(request.TextDocument.Uri),
                     (int)request.Position.Line,
                     (int)request.Position.Character
                 );

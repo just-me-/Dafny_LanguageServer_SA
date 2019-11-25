@@ -45,10 +45,10 @@ namespace DafnyLanguageServer
                 // quiick n dirty annahme für v1: 
                 // das erste vorkommen des symbols muss die definition sein 
 
-                var symbols = _bufferManager.GetSymboltableForFile(request.TextDocument.Uri);
+                var symbols = _bufferManager.GetSymboltable(request.TextDocument.Uri);
 
                 var word = FileHelper.GetFollowingWord(
-                    _bufferManager.GetTextFromBuffer(request.TextDocument.Uri),
+                    _bufferManager.GetSourceCodeAsText(request.TextDocument.Uri),
                     (int)request.Position.Line,
                     (int)request.Position.Character
                 );

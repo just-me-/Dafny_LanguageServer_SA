@@ -8,10 +8,10 @@ namespace DafnyLanguageServer
     {
         private ConcurrentDictionary<Uri, DafnyFile> _buffers = new ConcurrentDictionary<Uri, DafnyFile>();
 
-        public void UpdateBuffer(Uri documentPath, string content)
+        public DafnyFile UpdateBuffer(Uri documentPath, string sourceCodeOfFile)
         {
-            DafnyFile file = GetOrCreateFileBuffer(documentPath);
-            file.Sourcecode = content;
+            DafnyFile file = GetOrCreateDafnyfileInstance(documentPath);
+            file.Sourcecode = sourceCodeOfFile;
             file.DafnyHelper = new DafnyHelper(file.Filepath, file.Sourcecode);
 
             // do not update symboltable if current file state is invalid 
@@ -22,33 +22,31 @@ namespace DafnyLanguageServer
             }
 
             _buffers.AddOrUpdate(documentPath, file, (k, v) => file);
+            return file;
         }
 
-        public void UpdateBuffer(DafnyFile file)
+        private DafnyFile GetOrCreateDafnyfileInstance(Uri documentPath)
         {
-            UpdateBuffer(file.Uri, file.Sourcecode);
+            return _buffers.TryGetValue(documentPath, out var bufferedFile) ? bufferedFile : new DafnyFile { Uri = documentPath };
         }
 
-        private DafnyFile GetOrCreateFileBuffer(Uri documentPath)
+
+        public DafnyFile GetFile(Uri documentPath)
         {
-            return _buffers.TryGetValue(documentPath, out var buffer) ? buffer : new DafnyFile { Uri = documentPath };
+            return GetOrCreateDafnyfileInstance(documentPath); 
         }
 
-        public DafnyFile GetFileFromBuffer(Uri documentPath)
+        public DafnyFile GetFile(string documentPath)
         {
-            return GetOrCreateFileBuffer(documentPath); 
-        }
-        public DafnyFile GetFileFromBuffer(string documentPath)
-        {
-            return GetFileFromBuffer(new Uri(documentPath));
+            return GetFile(new Uri(documentPath));
         }
 
-        public string GetTextFromBuffer(Uri documentPath)
+        public string GetSourceCodeAsText(Uri documentPath)
         {
             return _buffers.TryGetValue(documentPath, out var buffer) ? buffer.Sourcecode : null;
         }
 
-        public FileSymboltable GetSymboltableForFile(Uri documentPath)
+        public FileSymboltable GetSymboltable(Uri documentPath)
         {
             return _buffers.TryGetValue(documentPath, out var buffer) ? buffer.Symboltable : null;
         }
