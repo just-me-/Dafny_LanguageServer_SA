@@ -11,8 +11,14 @@ namespace DafnyLanguageServer
         private string _pathToDfy;
         private string PathToDfy
         {
-            get => FileHelper.EscapeFilePath(_pathToDfy);
-            set => _pathToDfy = value;
+            get
+            {
+                return FileHelper.EscapeFilePath(_pathToDfy);
+            }
+            set
+            {
+                _pathToDfy = value;
+            }
         }
 
         public CompilationService(string exe, string file)
@@ -25,7 +31,7 @@ namespace DafnyLanguageServer
         {
             return await Task.Run(() =>
             {
-   
+
                 Process process = new Process
                 {
                     StartInfo =
@@ -39,15 +45,11 @@ namespace DafnyLanguageServer
                     EnableRaisingEvents = true
                 };
 
-                string processOut = "";
-                process.OutputDataReceived += (sender, args) => processOut += args.Data + "\n";
+                string processOut;
 
                 try
                 {
-                    process.Start();
-                    process.BeginErrorReadLine();
-                    process.BeginOutputReadLine();
-                    process.WaitForExit();
+                    processOut = new ProcessRunner(process).Run();
                 }
                 catch (Exception e)
                 {
@@ -93,4 +95,34 @@ namespace DafnyLanguageServer
         }
 
     }
+
+
+    public class ProcessRunner
+    {
+        public Process Process { get; private set; }
+        public bool IsRunning { get; private set; } = false;
+        public bool IsFinished { get; private set; } = false;
+
+        public ProcessRunner(Process p)
+        {
+            Process = p;
+        }
+
+        public string Run()
+        {
+            string processOut = "";
+            Process.OutputDataReceived += (sender, args) => processOut += args.Data + "\n";
+
+            Process.Start();
+            IsRunning = true;
+            Process.BeginErrorReadLine();
+            Process.BeginOutputReadLine();
+            Process.WaitForExit();
+            IsFinished = true;
+            IsRunning = false;
+            return processOut;
+
+        }
+    }
+
 }
