@@ -41,11 +41,11 @@ namespace DafnyLanguageServer.DafnyAdapter
         private Microsoft.Dafny.Program dafnyProgram;
         private IEnumerable<Tuple<string, Bpl.Program>> boogiePrograms;
 
-        public List<ErrorInformation> Errors { get; } = new List<ErrorInformation>();
+        private List<ErrorInformation> _errors;
 
-        private void addErrorToList(ErrorInformation e)
+        private void AddErrorToList(ErrorInformation e)
         {
-            Errors.Add(e);
+            _errors.Add(e);
         }
 
         public DafnyHelper(string fname, string source) : this(fname, source, new string[] { }) {}
@@ -60,6 +60,13 @@ namespace DafnyLanguageServer.DafnyAdapter
         {
             ServerUtils.ApplyArgs(args, reporter);
             return Parse() && Resolve() && Translate() && Boogie();
+        }
+
+        public List<ErrorInformation> GetErrors()
+        {
+            _errors = new List<ErrorInformation>();
+            Verify();
+            return _errors;
         }
 
         private bool Parse()
@@ -113,7 +120,7 @@ namespace DafnyLanguageServer.DafnyAdapter
                 var ps = new PipelineStatistics();
                 var stringteil = "ServerProgram_" + moduleName;
                 var time = DateTime.UtcNow.Ticks.ToString();
-                var a = ExecutionEngine.InferAndVerify(boogieProgram, ps, stringteil, addErrorToList, time);
+                var a = ExecutionEngine.InferAndVerify(boogieProgram, ps, stringteil, AddErrorToList, time);
                 switch (a)
                 {
                     case PipelineOutcome.Done:

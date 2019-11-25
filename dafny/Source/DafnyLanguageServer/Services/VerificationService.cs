@@ -26,8 +26,8 @@ namespace DafnyLanguageServer
             _router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
             try
             {
-                var helper = DafnyVerify(file);
-                var diagnostics = CreateDafnyDiagnostics(helper.Errors, file.Filepath, file.Sourcecode);
+                var errors = file.DafnyHelper.GetErrors();
+                var diagnostics = CreateDafnyDiagnostics(errors, file.Filepath, file.Sourcecode);
 
                 PublishDiagnosticsParams p = new PublishDiagnosticsParams
                 {
@@ -48,14 +48,6 @@ namespace DafnyLanguageServer
             _router.Window.SendNotification("updateStatusbar", counted);
         }
 
-        public IDafnyHelper DafnyVerify(DafnyFile file)
-        {
-            if (!_dafnyHelper.Verify())
-            {
-                throw new ArgumentException("Failed to verify document.");
-            }
-            return _dafnyHelper;
-        }
 
         public Collection<Diagnostic> CreateDafnyDiagnostics(IEnumerable<ErrorInformation> errors, string filepath, string sourcecode)
         {

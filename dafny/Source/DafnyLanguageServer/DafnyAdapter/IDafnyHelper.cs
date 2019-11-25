@@ -9,9 +9,8 @@ namespace DafnyLanguageServer.DafnyAdapter
 {
     public interface IDafnyHelper
     {
-        List<ErrorInformation> Errors { get; }
-
         bool Verify();
+        List<ErrorInformation> GetErrors();
         List<SymbolTable.SymbolInformation> Symbols();
         List<CounterExampleProvider.CounterExample> CounterExample();
         void DotGraph();

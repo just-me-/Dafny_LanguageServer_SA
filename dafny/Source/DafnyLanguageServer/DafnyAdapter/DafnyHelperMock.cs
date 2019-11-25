@@ -45,5 +45,10 @@ namespace DafnyLanguageServer.DafnyAdapter
         {
             throw new NotImplementedException();
         }
+
+        public List<ErrorInformation> GetErrors()
+        {
+            return null;
+        }
     }
 }
