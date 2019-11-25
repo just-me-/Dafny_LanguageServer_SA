@@ -8,34 +8,35 @@ namespace CompletionHandlerTest
 {
     public class CompletionTests
     {
-        private static CompletionHandler completionHandler = new CompletionHandler(null, null);
+        private FileSymboltable symbolTable = new FileSymboltable(new DafnyHelperMock());
 
-        [SetUp]
-        public void Setup()
+        [Test]
+        public void FullList()
         {
+            var list = symbolTable.GetFullList();
+            Assert.AreEqual(7, list.Count);
         }
 
         [Test]
-        public void GeneratesCorrectCompletionResponse()
+        public void ListWithoutDuplicates()
         {
-            List<SymbolTable.SymbolInformation> symbols = new List<SymbolTable.SymbolInformation>();
-            symbols.Add(new SymbolTable.SymbolInformation{ Name = "myFunction", Position = 0 });
-            
-            CompletionParams request = new CompletionParams { Position = { Line = 0, Character = 0 } };
-
-            var result = completionHandler.ConvertListToCompletionresponse(symbols, request);
-
-            Assert.AreEqual(result, null);
-            
+            var list = symbolTable.GetList();
+            Assert.AreEqual(6, list.Count);
         }
 
+        [Test]
+        public void ListForIdentifier()
+        {
+            var list = symbolTable.GetList("ClassA");
+            Assert.AreEqual(1, list.Count);
+            Assert.AreEqual("aFunctionInClassA", list[0].Name);
+        }
 
         [Test]
-        public void FileSymboltable()
+        public void GetParentForWord()
         {
-            // parentClass = symbols.GetParentForWord(word);
-            //..
-            Assert.Pass();
+            var parent = symbolTable.GetParentForWord("aFunctionInClassA");
+            Assert.AreEqual("ClassA", parent);
         }
 
     }

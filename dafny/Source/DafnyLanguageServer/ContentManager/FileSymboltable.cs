@@ -72,6 +72,5 @@ namespace DafnyLanguageServer
             list?.RemoveAll(x => ignoredSymbols.Any(x.Name.Contains));
             return list;
         }
-
     }
 }
