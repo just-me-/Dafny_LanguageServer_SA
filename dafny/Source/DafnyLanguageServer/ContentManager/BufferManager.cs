@@ -30,7 +30,6 @@ namespace DafnyLanguageServer
             return _buffers.TryGetValue(documentPath, out var bufferedFile) ? bufferedFile : new DafnyFile { Uri = documentPath };
         }
 
-
         public DafnyFile GetFile(Uri documentPath)
         {
             return GetOrCreateDafnyfileInstance(documentPath); 
