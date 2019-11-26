@@ -22,6 +22,19 @@ namespace LSPIntegrationTests
         internal static readonly string aDfyFile = Path.GetFullPath(Path.Combine(assemblyPath, "../Test/CounterExampleFiles/ok.dfy"));
         internal static readonly string workspaceDir = Path.GetFullPath(Path.Combine(assemblyPath, "../Test/CounterExampleFiles/"));
 
+        [SetUp]
+        public void CheckFiles()
+        {
+            if (!File.Exists(serverExe))
+            {
+                throw new AssertionException("File not existing: Server Exe");
+            }
+
+            if (!File.Exists(aDfyFile))
+            {
+                throw new AssertionException("File not existing: a Dfy File");
+            }
+        }
 
         [Test]
         public void DemoTest()

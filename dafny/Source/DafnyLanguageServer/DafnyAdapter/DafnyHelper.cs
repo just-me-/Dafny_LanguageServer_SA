@@ -147,6 +147,10 @@ namespace DafnyLanguageServer.DafnyAdapter
 
         public List<CounterExampleProvider.CounterExample> CounterExample()
         {
+            if (!File.Exists(fname))
+            {
+                throw new FileNotFoundException("CounterExample requires a valid filename");
+            }
             var listArgs = args.ToList();
             listArgs.Add("/mv:" + CounterExampleProvider.ModelBvd);
             ServerUtils.ApplyArgs(listArgs.ToArray(), reporter);

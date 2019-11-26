@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using DafnyLanguageServer;
 using DafnyLanguageServer.DafnyAdapter;
@@ -49,6 +50,21 @@ namespace Tests
         {
             var results = ProvideCounterExamples("ok.dfy");
             Assert.AreEqual(0, results.CounterExamples.Count);
+        }
+
+        [Test]
+        public void InvalidFileName()
+        {
+            var ex = Assert.Throws<AggregateException>(() =>
+            {
+                ExecutionEngine.printer = new DafnyConsolePrinter();
+                string fullFilePath = Path.Combine(testPath, "idonotexist.dfy");
+                string source = "method a(){}";
+                DafnyHelper h = new DafnyHelper(fullFilePath, source);
+                var service = new CounterExampleService(h);
+                var _ = service.ProvideCounterExamples().Result;
+            });
+            Assert.That(ex.InnerException, Is.TypeOf(typeof(FileNotFoundException)));
         }
     }
 }
