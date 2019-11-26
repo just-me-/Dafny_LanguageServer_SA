@@ -10,6 +10,7 @@ namespace DafnyLanguageServer
 
         public DafnyFile UpdateBuffer(Uri documentPath, string sourceCodeOfFile)
         {
+            
             DafnyFile file = GetOrCreateDafnyfileInstance(documentPath);
             file.Sourcecode = sourceCodeOfFile;
             file.DafnyHelper = new DafnyHelper(file.Filepath, file.Sourcecode);
