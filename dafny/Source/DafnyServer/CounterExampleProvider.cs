@@ -13,9 +13,7 @@ namespace DafnyServer
     public class CounterExampleProvider
     {
         private List<ILanguageSpecificModel> _languageSpecificModels;
-
-        public static readonly string ModelBvd = Path.Combine(Path.GetTempPath(), $"Dafny{Path.DirectorySeparatorChar}model.bvd");
-        
+        public static readonly string ModelBvd = "./model.bvd";
 
         public CounterExample LoadCounterModel()
         {
@@ -23,7 +21,6 @@ namespace DafnyServer
             {
                 var models = LoadModelFromFile();
                 return ConvertModels(models);
-                
             }
             catch (Exception)
             {
