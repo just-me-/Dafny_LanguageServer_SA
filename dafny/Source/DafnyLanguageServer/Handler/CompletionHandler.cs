@@ -36,7 +36,7 @@ namespace DafnyLanguageServer
                 ResolveProvider = false
             };
         }
-
+        
         public async Task<CompletionList> Handle(CompletionParams request, CancellationToken cancellationToken)
         {
             return await Task.Run(() =>
