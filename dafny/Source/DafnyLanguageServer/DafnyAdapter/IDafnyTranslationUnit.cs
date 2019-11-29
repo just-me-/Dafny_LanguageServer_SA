@@ -7,7 +7,7 @@ using Microsoft.Boogie;
 
 namespace DafnyLanguageServer.DafnyAdapter
 {
-    public interface IDafnyHelper
+    public interface IDafnyTranslationUnit
     {
         bool Verify();
         List<ErrorInformation> GetErrors();

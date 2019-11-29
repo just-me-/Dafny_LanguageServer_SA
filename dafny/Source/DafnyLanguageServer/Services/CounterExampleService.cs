@@ -1,14 +1,14 @@
 ﻿using DafnyLanguageServer.DafnyAdapter;
 using System.Threading.Tasks;
-using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyHelper;
+using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyTranslationUnit;
 
 namespace DafnyLanguageServer
 {
     public class CounterExampleService
     {
-        private IDafnyHelper _helper; 
+        private IDafnyTranslationUnit _helper; 
 
-        public CounterExampleService(IDafnyHelper helper)
+        public CounterExampleService(IDafnyTranslationUnit helper)
         {
             _helper = helper;
         }

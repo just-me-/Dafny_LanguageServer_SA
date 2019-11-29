@@ -7,11 +7,11 @@ using Microsoft.Boogie;
 
 namespace DafnyLanguageServer.DafnyAdapter
 {
-    public class DafnyHelperMock : IDafnyHelper
+    public class DafnyTranslationUnitMock : IDafnyTranslationUnit
     {
         public bool IsNice;
 
-        public DafnyHelperMock(bool isnice = true)
+        public DafnyTranslationUnitMock(bool isnice = true)
         {
             IsNice = isnice;
         }

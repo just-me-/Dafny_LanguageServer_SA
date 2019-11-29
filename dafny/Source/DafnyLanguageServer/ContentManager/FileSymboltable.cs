@@ -1,7 +1,7 @@
 ﻿using DafnyLanguageServer.DafnyAdapter;
 using System.Collections.Generic;
 using System.Linq;
-using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyHelper;
+using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyTranslationUnit;
 using SymbolTable = DafnyLanguageServer.DafnyAdapter.SymbolTable;
 
 namespace DafnyLanguageServer
@@ -10,9 +10,9 @@ namespace DafnyLanguageServer
     {
         private List<SymbolTable.SymbolInformation> _symbolTable;
         public bool HasEntries => (_symbolTable.Count > 0);
-        private IDafnyHelper _helper; 
+        private IDafnyTranslationUnit _helper; 
 
-        public FileSymboltable(IDafnyHelper helper)
+        public FileSymboltable(IDafnyTranslationUnit helper)
         {
             _helper = helper;
             _symbolTable = GetSymbolList();

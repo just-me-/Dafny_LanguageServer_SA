@@ -165,15 +165,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManager\BufferManager.cs" />
-    <Compile Include="DafnyAdapter\DafnyHelperMock.cs" />
+    <Compile Include="DafnyAdapter\DafnyTranslationUnitMock.cs" />
     <Compile Include="Handler\CodeLensHandler.cs" />
     <Compile Include="Services\CompilationService.cs" />
     <Compile Include="Handler\CompletionHandler.cs" />
     <Compile Include="Handler\CounterExampleHandler.cs" />
     <Compile Include="Services\CounterExampleService.cs" />
     <Compile Include="DafnyAdapter\CounterExampleProvider.cs" />
-    <Compile Include="DafnyAdapter\DafnyHelper.cs" />
-    <Compile Include="DafnyAdapter\IDafnyHelper.cs" />
+    <Compile Include="DafnyAdapter\DafnyTranslationUnit.cs" />
+    <Compile Include="DafnyAdapter\IDafnyTranslationUnit.cs" />
     <Compile Include="DafnyAdapter\SymbolTable.cs" />
     <Compile Include="DafnyAdapter\Utilities.cs" />
     <Compile Include="ContentManager\DafnyFile.cs" />

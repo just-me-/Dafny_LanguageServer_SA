@@ -12,7 +12,7 @@ namespace DafnyLanguageServer
         {
             DafnyFile file = GetOrCreateDafnyfileInstance(documentPath);
             file.Sourcecode = sourceCodeOfFile;
-            file.DafnyHelper = new DafnyHelper(file.Filepath, file.Sourcecode);
+            file.DafnyHelper = new DafnyTranslationUnit(file.Filepath, file.Sourcecode);
 
             // do not update symboltable if current file state is invalid 
             var symboltable = new FileSymboltable(file.DafnyHelper);

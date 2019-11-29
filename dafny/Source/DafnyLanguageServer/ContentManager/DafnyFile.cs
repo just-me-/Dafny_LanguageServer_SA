@@ -9,6 +9,6 @@ namespace DafnyLanguageServer
         public string Filepath => Uri.ToString();
         public string Sourcecode { get; set; }
         public FileSymboltable Symboltable { get; set; }
-        public IDafnyHelper DafnyHelper { get; set; }
+        public IDafnyTranslationUnit DafnyHelper { get; set; }
     }
 }

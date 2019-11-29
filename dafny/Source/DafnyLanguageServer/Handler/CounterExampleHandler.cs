@@ -46,7 +46,7 @@ namespace DafnyLanguageServer
             var file = _bufferManager.GetFile(request.DafnyFile);
             // Counterexample needs a DafnyHelper with this current request DafnyFile path
             // therefore do not use file.DafnyHelper
-            var helper = new DafnyHelper(request.DafnyFile, file.Sourcecode);
+            var helper = new DafnyTranslationUnit(request.DafnyFile, file.Sourcecode);
             var service = new CounterExampleService(helper);
             return await service.ProvideCounterExamples();
         }

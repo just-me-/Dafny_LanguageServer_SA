@@ -19,7 +19,7 @@ namespace Tests
             ExecutionEngine.printer = new DafnyConsolePrinter();
             string fullFilePath = Path.Combine(testPath, filename);
             string source = File.ReadAllText(fullFilePath);
-            DafnyHelper h = new DafnyHelper(fullFilePath, source);
+            DafnyTranslationUnit h = new DafnyTranslationUnit(fullFilePath, source);
             var service = new CounterExampleService(h);
             return service.ProvideCounterExamples().Result;
         }
@@ -60,7 +60,7 @@ namespace Tests
                 ExecutionEngine.printer = new DafnyConsolePrinter();
                 string fullFilePath = Path.Combine(testPath, "idonotexist.dfy");
                 string source = "method a(){}";
-                DafnyHelper h = new DafnyHelper(fullFilePath, source);
+                DafnyTranslationUnit h = new DafnyTranslationUnit(fullFilePath, source);
                 var service = new CounterExampleService(h);
                 var _ = service.ProvideCounterExamples().Result;
             });

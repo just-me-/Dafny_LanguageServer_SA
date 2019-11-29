@@ -31,7 +31,7 @@ namespace DafnyLanguageServer.DafnyAdapter
         }
     }
 
-    public class DafnyHelper : IDafnyHelper
+    public class DafnyTranslationUnit : IDafnyTranslationUnit
     {
         private string fname;
         private string source;
@@ -48,8 +48,8 @@ namespace DafnyLanguageServer.DafnyAdapter
             _errors.Add(e);
         }
 
-        public DafnyHelper(string fname, string source) : this(fname, source, new string[] { }) {}
-        public DafnyHelper(string fname, string source, string[] args)
+        public DafnyTranslationUnit(string fname, string source) : this(fname, source, new string[] { }) {}
+        public DafnyTranslationUnit(string fname, string source, string[] args)
         {
             this.fname = fname;
             this.source = source;

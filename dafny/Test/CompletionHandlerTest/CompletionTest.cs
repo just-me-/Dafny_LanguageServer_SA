@@ -8,7 +8,7 @@ namespace CompletionHandlerTest
 {
     public class CompletionTests
     {
-        private FileSymboltable symbolTable = new FileSymboltable(new DafnyHelperMock());
+        private FileSymboltable symbolTable = new FileSymboltable(new DafnyTranslationUnitMock());
 
         [Test]
         public void FullList()

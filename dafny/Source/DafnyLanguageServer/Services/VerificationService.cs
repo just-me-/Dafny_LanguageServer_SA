@@ -5,16 +5,16 @@ using DafnyLanguageServer.DafnyAdapter;
 using Microsoft.Boogie;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
-using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyHelper;
+using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyTranslationUnit;
 
 namespace DafnyLanguageServer
 {
     public class VerificationService
     {
         private readonly ILanguageServer _router;
-        private IDafnyHelper _dafnyHelper;
+        private IDafnyTranslationUnit _dafnyHelper;
 
-        public VerificationService(ILanguageServer router, IDafnyHelper helper)
+        public VerificationService(ILanguageServer router, IDafnyTranslationUnit helper)
         {
             _router = router;
             _dafnyHelper = helper;
