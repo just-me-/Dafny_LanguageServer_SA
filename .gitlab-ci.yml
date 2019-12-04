@@ -28,7 +28,18 @@ build_image:
     - docker build --tag $BUILD_IMAGE:latest - < Dockerfile.build
     - docker push $BUILD_IMAGE:latest
 
-build_dafny:
+build_client:
+  stage: build
+  image: $BUILD_IMAGE:latest
+  script:
+    - cd VSCodePlugin
+    - npm install
+    - npm run vscode:prepublish
+  artifacts:
+    paths:
+      - VSCodePlugin/out/
+
+build_server:
   stage: build
   image: $BUILD_IMAGE:latest
   script:
@@ -41,25 +52,6 @@ build_dafny:
   artifacts:
     paths:
       - dafny/Binaries/
-
-sonar_test:
-  stage: sonar
-  image: $BUILD_IMAGE:latest
-  only:
-    - master@dafny-sa/dafny-server-redesign
-  script:
-    - sonar-scanner
-
-build_vscode_extension:
-  stage: build
-  image: $BUILD_IMAGE:latest
-  script:
-    - cd VSCodePlugin
-    - npm install
-    - npm run vscode:prepublish
-  artifacts:
-    paths:
-      - VSCodePlugin/out/
 
 test_nunit:
   stage: test
@@ -77,7 +69,7 @@ test_nunit:
     reports:
       junit: dafny/Binaries/TestResult.xml
 
-test_vscode_xvfb:
+test_e2e_with_vscode_instance:
   stage: test
   image: $BUILD_IMAGE:latest
   script:
@@ -101,8 +93,16 @@ test_dafny:
   script:
     - cd dafny
     - pushd Binaries; ln -s /opt/z3; popd
-    - npm install bignumber.js #TODO: Should this be global or in build dependency? Else package.json with fixed versions! Ticekt #73
+    - npm install bignumber.js
     - cd Test
     - "find . -name '*.dfy' -not -path './compileHandlerFiles/*' -not -path './CounterExampleFiles/*' -exec sed -i 's!/optimize !!g' {} +"
     - lit --time-tests -v .
-# tmp auskommentiert dass die pipeline mal grün wird 
+
+
+sonar_scanner:
+  stage: sonar
+  image: $BUILD_IMAGE:latest
+  only:
+    - master@dafny-sa/dafny-server-redesign
+  script:
+    - sonar-scanner
