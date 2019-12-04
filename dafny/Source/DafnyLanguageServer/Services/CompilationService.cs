@@ -81,7 +81,7 @@ namespace DafnyLanguageServer
                 }
                 else
                 {
-                    const string pattern = "Error:? .*\n";
+                    const string pattern = "(\\d.\\)dError:? .*\n";
                     Match m = Regex.Match(processOut, pattern);
 
                     return new CompilerResults

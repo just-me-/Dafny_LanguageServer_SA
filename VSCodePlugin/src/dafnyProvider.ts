@@ -45,7 +45,6 @@ export class DafnyClientProvider {
         }
         vscode.workspace.onDidSaveTextDocument(this.doVerify, this);
         vscode.workspace.onDidCloseTextDocument(this.counterModelProvider.hideCounterModel, this);
-
         vscode.workspace.onDidChangeConfiguration(this.loadConfig, this);
 
         if (Context.unitTest) { Context.unitTest.activated(); }
