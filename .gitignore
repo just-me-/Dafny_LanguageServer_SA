@@ -20,6 +20,7 @@ _ReSharper.*/
 *.exe
 *.pdb
 /TestResults/c76f461e-8e6f-46bb-904a-b1f7ae6b1613
+dafny/model.bvd
 
 ## mh
 MsgLogger.txt

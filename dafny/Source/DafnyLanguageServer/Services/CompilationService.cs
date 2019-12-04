@@ -81,13 +81,19 @@ namespace DafnyLanguageServer
                 }
                 else
                 {
-                    const string pattern = "(\\d.\\)dError:? .*\n";
+                    const string pattern = "\\((\\d+),(\\d+)\\): Error:? (.*)\n";
                     Match m = Regex.Match(processOut, pattern);
+
+                    int.TryParse(m.Groups[1].Value, out int line);
+                    line--;
+                    int.TryParse(m.Groups[2].Value, out int col);
+                    col--;
+                    string error = m.Groups[3].ToString();
 
                     return new CompilerResults
                     {
                         Error = true,
-                        Message = "Compilation failed: " + m.Value,
+                        Message = $"Compilation failed: \"{error}\" at Line {line} Colum {col}.",
                         Executable = false
                     };
                 }
