@@ -76,7 +76,7 @@ namespace DafnyLanguageServer
                         Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Parent: {symbol.ParentClass})",
                         #else
                         Label = $"{symbol.Name}", 
-                         #endif
+                        #endif
                         Kind = kind,
                         TextEdit = textEdit
                     });

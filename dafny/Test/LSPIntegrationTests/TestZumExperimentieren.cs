@@ -65,7 +65,7 @@ namespace LSPIntegrationTests
             LoggerProviderCollection providers = new LoggerProviderCollection();
 
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()   //set to debug here for full information
+                .MinimumLevel.Debug()   //set to debug here for full information
                 .WriteTo.Console()
                 .WriteTo.Providers(providers)
                 .CreateLogger();
