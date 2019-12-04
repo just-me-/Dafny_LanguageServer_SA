@@ -63,6 +63,7 @@ namespace CompileHandlerTest
             Assert.IsTrue(r.Error);
             Assert.IsFalse(r.Executable ?? true);
             Assert.IsTrue(r.Message.Contains("assertion"));
+            Assert.IsTrue(r.Message.Contains("line 7"));
 
         }
 
@@ -76,6 +77,7 @@ namespace CompileHandlerTest
             Assert.IsTrue(r.Error);
             Assert.IsFalse(r.Executable ?? true);
             Assert.IsTrue(r.Message.Contains("unresolved identifier"));
+            Assert.IsTrue(r.Message.Contains("line 8"));
 
         }
 
@@ -89,6 +91,7 @@ namespace CompileHandlerTest
             Assert.IsTrue(r.Error);
             Assert.IsFalse(r.Executable ?? true);
             Assert.IsTrue(r.Message.Contains("postcondition might not hold"));
+            Assert.IsTrue(r.Message.Contains("line 4"));
 
         }
 
