@@ -85,15 +85,13 @@ namespace DafnyLanguageServer
                     Match m = Regex.Match(processOut, pattern);
 
                     int.TryParse(m.Groups[1].Value, out int line);
-                    line--;
                     int.TryParse(m.Groups[2].Value, out int col);
-                    col--;
                     string error = m.Groups[3].ToString();
 
                     return new CompilerResults
                     {
                         Error = true,
-                        Message = $"Compilation failed: \"{error}\" at Line {line} Colum {col}.",
+                        Message = $"Compilation failed: \"{error}\" in line {line}.",
                         Executable = false
                     };
                 }
