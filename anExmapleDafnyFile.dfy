@@ -3,6 +3,7 @@ method Demo(x: int, y: int) returns (more: int, less: int)
    ensures less < x < more
 {
    more := x + y;
-   less := x - y
-   assert 1 == 2;
+   less := x - y;
+   assert x == 1;
 }
+
