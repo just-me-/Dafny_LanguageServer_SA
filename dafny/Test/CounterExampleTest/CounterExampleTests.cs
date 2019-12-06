@@ -8,46 +8,50 @@ using Microsoft.Boogie;
 using Microsoft.Dafny;
 using NUnit.Framework;
 using CounterExamples = System.Collections.Generic.List<DafnyLanguageServer.DafnyAdapter.CounterExampleProvider.CounterExample>;
+using CounterExample = DafnyLanguageServer.DafnyAdapter.CounterExampleProvider.CounterExample;
+using CounterExampleState = DafnyLanguageServer.DafnyAdapter.CounterExampleProvider.CounterExampleState;
+using CounterExampleVariable = DafnyLanguageServer.DafnyAdapter.CounterExampleProvider.CounterExampleVariable;
 using DafnyConsolePrinter = DafnyLanguageServer.DafnyAdapter.DafnyConsolePrinter;
 
 namespace Tests
 {
 
-    class FakeTUForCounterExamples : IDafnyTranslationUnit
+    class FakeDafnyTranslationUnitForCounterExamples : IDafnyTranslationUnit
     {
-        private CounterExamples counterExamples;
-        public FakeTUForCounterExamples(CounterExamples counterExamples) => this.counterExamples = counterExamples;
-        public FakeTUForCounterExamples(int col, int row, string[] vars, string[] vals)
+        private readonly CounterExamples counterExamples = new CounterExamples();
+        public CounterExamples CounterExample() => counterExamples;
+
+        public FakeDafnyTranslationUnitForCounterExamples()
         {
-            CounterExamples fakeData = new CounterExamples();
-            fakeData.Add(new CounterExampleProvider.CounterExample());
-            var states = fakeData[0].States;
-            //first two states are ignored
-            states.Add(new CounterExampleProvider.CounterExampleState());
-            states.Add(new CounterExampleProvider.CounterExampleState());
+            counterExamples.Add(new CounterExample());
+            var states = counterExamples[0].States;
+            //first two states are ignored as-is by Dafny Provider
+            states.Add(new CounterExampleState());
+            states.Add(new CounterExampleState());
+        }
 
+        public void AddCounterExampleToFake(int col, int row, string[] vars, string[] vals)
+        {
+            var states = counterExamples[0].States;
 
-            states.Add(new CounterExampleProvider.CounterExampleState()); //Option: Support multiple states. Statt im CTOR ne methode machen "add CE mti diesen params"
-            var state = fakeData[0].States[2];
+            states.Add(new CounterExampleState());
+            var state = counterExamples[0].States.Last();
             state.Column = col;
             state.Line = row;
-            state.Variables = new List<CounterExampleProvider.CounterExampleVariable>();
+            state.Variables = new List<CounterExampleVariable>();
 
             for (int i = 0; i < vars.Length; i++)
             {
-                state.Variables.Add(new CounterExampleProvider.CounterExampleVariable
+                state.Variables.Add(new CounterExampleVariable
                 {
-                    //CanonicalName = "a",
+                    //CanonicalName = "a",  //Field not used, add here if used in future tests
                     Name = vars[i],
-                    //RealName = "c",
+                    //RealName = "c",       //Field not used, add here if used in future tests
                     Value = vals[i]
                 });
             }
 
-            counterExamples = fakeData;
         }
-
-        public CounterExamples CounterExample() => counterExamples;
 
         public bool Verify() { throw new NotImplementedException(); }
         public List<ErrorInformation> GetErrors() { throw new NotImplementedException(); }
@@ -57,45 +61,71 @@ namespace Tests
 
     public class UnitTests
     {
-
-
         [Test]
-        public void FakeDataTestYaaay()
+        public void SingleCounterExample()
         {
-            int col = 2;
-            int row = 2;
-            string[] vars = {"myVar"};
+            const int col = 2;
+            const int row = 2;
+            string[] vars = { "myVar" };
             string[] vals = { "myVal" };
 
-            FakeTUForCounterExamples fakeTU = new FakeTUForCounterExamples(col, row, vars, vals);
+            FakeDafnyTranslationUnitForCounterExamples fake = new FakeDafnyTranslationUnitForCounterExamples();
+            fake.AddCounterExampleToFake(col, row, vars, vals);
 
-            var service = new CounterExampleService(fakeTU);
+            var service = new CounterExampleService(fake);
             CounterExampleResults results = service.ProvideCounterExamples().Result;
 
-            Assert.AreEqual(1, results.CounterExamples.Count);
+            Assert.AreEqual(1, results.CounterExamples.Count, $"Counter Example should only contain 1 counter examples.");
 
-            foreach (CounterExampleResult r in results.CounterExamples)
-            {
-                Assert.AreEqual(col, r.Col);
-                Assert.AreEqual(row, r.Line);
-
-
-                foreach (string var in vars)
-                {
-                    Assert.Contains(var, r.Variables.Keys);
-                }
-
-                for (int i = 0; i < r.Variables.Count; i++)
-                {
-                    Assert.AreEqual(vars[i], r.Variables.Keys.ToList()[i]);
-                    Assert.AreEqual(vals[i], r.Variables[vars[i]]);
-                }
-
-            }
+            CompareCounterExampleWithExpectation(results.CounterExamples[0], col, row, vars, vals);
         }
 
 
+        [Test]
+        public void TwoCounterExample()
+        {
+            const int col1 = 2;
+            const int row1 = 2;
+            string[] vars1 = { "myVar" };
+            string[] vals1 = { "myVal" };
 
+
+            const int col2 = 2;
+            const int row2 = 2;
+            string[] vars2 = { "myVar" };
+            string[] vals2 = { "myVal" };
+
+            FakeDafnyTranslationUnitForCounterExamples fake = new FakeDafnyTranslationUnitForCounterExamples();
+            fake.AddCounterExampleToFake(col1, row1, vars1, vals1);
+            fake.AddCounterExampleToFake(col2, row2, vars2, vals2);
+
+            var service = new CounterExampleService(fake);
+            CounterExampleResults results = service.ProvideCounterExamples().Result;
+
+            Assert.AreEqual(2, results.CounterExamples.Count, $"Counter Example should only contain 2 counter examples.");
+
+            CompareCounterExampleWithExpectation(results.CounterExamples[0], col1, row1, vars1, vals1);
+            CompareCounterExampleWithExpectation(results.CounterExamples[1], col2, row2, vars2, vals2);
+        }
+
+        private static void CompareCounterExampleWithExpectation(CounterExampleResult r, int col, int row, string[] vars, string[] vals)
+        {
+            Assert.AreEqual(col, r.Col, "A column index is wrong in the provided counter example");
+            Assert.AreEqual(row, r.Line, "A line (row) index is wrong in the provided counter example");
+
+            foreach (string var in vars)
+            {
+                Assert.Contains(var, r.Variables.Keys, $"The key {var} is not provided in the counter examples.");
+            }
+
+            //TODO Dict order is non deterministic. Cant test like this.
+            var resultKeys = r.Variables.Keys.ToList();
+            for (int i = 0; i < r.Variables.Count; i++)
+            {
+                Assert.AreEqual(vars[i], resultKeys[i], $"The provided counter example is not containing key {vars[i]} at the expected position.");
+                Assert.AreEqual(vals[i], r.Variables[vars[i]], $"Value to Key {vars[i]} is not as expected.");
+            }
+        }
     }
     public class IntegrationTests
     {
