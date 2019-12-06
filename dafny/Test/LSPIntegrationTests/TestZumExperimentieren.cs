@@ -21,8 +21,12 @@ using Serilog.Extensions.Logging;
 namespace LSPIntegrationTests
 {
 
-    internal class DiagHandler : IPublishDiagnosticsHandler
+    internal class DiagHandler : IPublishDiagnosticsHandler, IHandler
     {
+        public string Method => "diagnostics";
+
+        public Type PayloadType => typeof(PublishDiagnosticsParams);
+
         private List<Diagnostic> Diagnostics { get; } = new List<Diagnostic>();
 
         public Task<Unit> Handle(PublishDiagnosticsParams request, CancellationToken cancellationToken)
@@ -84,6 +88,7 @@ namespace LSPIntegrationTests
             LanguageClient client = new LanguageClient(LoggerFactory, server);
             //IHandler h = new DiagHandler();
             //client.RegisterHandler(h)
+            
 
             try
             {
@@ -116,12 +121,16 @@ namespace LSPIntegrationTests
                 
 
                 Log.Information("\\nn*** Sending Completions.....\n");
-                var completions = client.TextDocument.Completions(
+                var c = client.TextDocument.Completions(
                     filePath: aDfyFile,
                     line: 2,
                     column: 5,
                     cancellationToken: cancellationSource.Token
-                ).Result;
+                );
+
+                c.Wait();
+
+                var completions = c.Result;
 
                 //Test completions for correctness here
 

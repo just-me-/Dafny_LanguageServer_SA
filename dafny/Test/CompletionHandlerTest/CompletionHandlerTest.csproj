@@ -19,4 +19,10 @@
     <ProjectReference Include="..\..\Source\DafnyLanguageServer\DafnyLanguageServer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="BoogieExecutionEngine">
+      <HintPath>..\..\..\boogie\Binaries\BoogieExecutionEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

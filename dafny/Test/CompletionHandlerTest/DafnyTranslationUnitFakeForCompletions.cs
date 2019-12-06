@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DafnyLanguageServer.DafnyAdapter;
 using Microsoft.Boogie;
 
-namespace DafnyLanguageServer.DafnyAdapter
+namespace CompletionHandlerTest
 {
-    public class DafnyTranslationUnitMock : IDafnyTranslationUnit
+    public class DafnyTranslationUnitFakeForCompletions : IDafnyTranslationUnit
     {
         public bool IsNice;
 
-        public DafnyTranslationUnitMock(bool isnice = true)
+        public DafnyTranslationUnitFakeForCompletions(bool isnice = true)
         {
             IsNice = isnice;
         }
@@ -65,7 +66,7 @@ namespace DafnyLanguageServer.DafnyAdapter
 
         public List<ErrorInformation> GetErrors()
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }
