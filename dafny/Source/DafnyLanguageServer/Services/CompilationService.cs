@@ -2,8 +2,10 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using DafnyLanguageServer.ContentManager;
+using DafnyLanguageServer.Handler;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServer.Services
 {
     public class CompilationService
     {

@@ -1,8 +1,8 @@
-﻿using DafnyLanguageServer.DafnyAdapter;
-using System.Threading.Tasks;
-using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyTranslationUnit;
+﻿using System.Threading.Tasks;
+using DafnyLanguageServer.DafnyAccess;
+using DafnyLanguageServer.Handler;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServer.Services
 {
     public class CounterExampleService
     {

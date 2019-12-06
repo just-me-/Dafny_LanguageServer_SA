@@ -8,7 +8,7 @@ using Microsoft.Boogie;
 using Microsoft.Boogie.ModelViewer;
 using Microsoft.Boogie.ModelViewer.Dafny;
 
-namespace DafnyLanguageServer.DafnyAdapter
+namespace DafnyLanguageServer.DafnyAccess
 {
     public class CounterExampleProvider
     {

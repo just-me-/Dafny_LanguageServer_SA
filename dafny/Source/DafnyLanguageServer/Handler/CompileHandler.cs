@@ -1,9 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using DafnyLanguageServer.Services;
 using OmniSharp.Extensions.Embedded.MediatR;
 using OmniSharp.Extensions.JsonRpc;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServer.Handler
 {
     public class CompilerParams : IRequest<CompilerResults>
     {

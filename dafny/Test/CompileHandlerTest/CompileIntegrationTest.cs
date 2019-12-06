@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
 using DafnyLanguageServer;
+using DafnyLanguageServer.Handler;
+using DafnyLanguageServer.Services;
 using NUnit.Framework;
 
 namespace CompileHandlerTest

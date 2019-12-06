@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using DafnyLanguageServer.ContentManager;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
-using SymbolTable = DafnyLanguageServer.DafnyAdapter.SymbolTable;
+using SymbolTable = DafnyLanguageServer.DafnyAccess.SymbolTable;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServer.Handler
 {
     public class CompletionHandler : ICompletionHandler
     {

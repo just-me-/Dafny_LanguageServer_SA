@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DafnyLanguageServer;
+using DafnyLanguageServer.Services;
 using Microsoft.Boogie;
 using NUnit.Framework;
 
@@ -10,7 +11,7 @@ namespace VerificationServiceTest
     public class CreateDiagnosticTest
     {
         private static readonly string randomFakeSource = "aa\naa\naa\naa\n";
-        private static VerificationService verificationService = new DafnyLanguageServer.VerificationService(null, null); //2do
+        private static VerificationService verificationService = new VerificationService(null, null); //2do
         private Token token;
 
         [SetUp]

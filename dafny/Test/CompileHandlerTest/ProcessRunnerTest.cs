@@ -8,6 +8,7 @@ using System.IO;
 using DafnyLanguageServer;
 using NUnit.Framework;
 using System.Diagnostics;
+using DafnyLanguageServer.Services;
 
 namespace CompileHandlerTest
 {

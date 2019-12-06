@@ -1,7 +1,7 @@
-﻿using DafnyLanguageServer.DafnyAdapter;
-using System;
+﻿using System;
+using DafnyLanguageServer.DafnyAccess;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServer.ContentManager
 {
     public class DafnyFile
     {

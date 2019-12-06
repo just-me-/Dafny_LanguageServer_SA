@@ -7,7 +7,7 @@ using Microsoft.Dafny;
 using Type = Microsoft.Dafny.Type;
 using Function = Microsoft.Dafny.Function;
 
-namespace DafnyLanguageServer.DafnyAdapter
+namespace DafnyLanguageServer.DafnyAccess
 {
     public class SymbolTable
     {

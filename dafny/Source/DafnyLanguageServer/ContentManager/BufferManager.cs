@@ -1,8 +1,8 @@
-﻿using DafnyLanguageServer.DafnyAdapter;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
+using DafnyLanguageServer.DafnyAccess;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServer.ContentManager
 {
     public class BufferManager : IBufferManager
     {

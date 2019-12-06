@@ -1,10 +1,9 @@
-﻿using DafnyLanguageServer.DafnyAdapter;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyTranslationUnit;
-using SymbolTable = DafnyLanguageServer.DafnyAdapter.SymbolTable;
+using DafnyLanguageServer.DafnyAccess;
+using SymbolTable = DafnyLanguageServer.DafnyAccess.SymbolTable;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServer.ContentManager
 {
     public class FileSymboltable
     {

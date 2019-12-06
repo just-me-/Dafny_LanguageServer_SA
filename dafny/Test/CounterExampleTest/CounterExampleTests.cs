@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DafnyLanguageServer;
-using DafnyLanguageServer.DafnyAdapter;
+using DafnyLanguageServer.DafnyAccess;
+using DafnyLanguageServer.Handler;
+using DafnyLanguageServer.Services;
 using Microsoft.Boogie;
 using Microsoft.Dafny;
 using NUnit.Framework;
-using CounterExamples = System.Collections.Generic.List<DafnyLanguageServer.DafnyAdapter.CounterExampleProvider.CounterExample>;
-using CounterExample = DafnyLanguageServer.DafnyAdapter.CounterExampleProvider.CounterExample;
-using CounterExampleState = DafnyLanguageServer.DafnyAdapter.CounterExampleProvider.CounterExampleState;
-using CounterExampleVariable = DafnyLanguageServer.DafnyAdapter.CounterExampleProvider.CounterExampleVariable;
-using DafnyConsolePrinter = DafnyLanguageServer.DafnyAdapter.DafnyConsolePrinter;
+using CounterExamples = System.Collections.Generic.List<DafnyLanguageServer.DafnyAccess.CounterExampleProvider.CounterExample>;
+using CounterExample = DafnyLanguageServer.DafnyAccess.CounterExampleProvider.CounterExample;
+using CounterExampleState = DafnyLanguageServer.DafnyAccess.CounterExampleProvider.CounterExampleState;
+using CounterExampleVariable = DafnyLanguageServer.DafnyAccess.CounterExampleProvider.CounterExampleVariable;
+using DafnyConsolePrinter = DafnyLanguageServer.DafnyAccess.DafnyConsolePrinter;
 
 namespace Tests
 {

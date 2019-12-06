@@ -2,7 +2,7 @@ using System;
 using Microsoft.Boogie;
 using Microsoft.Dafny;
 
-namespace DafnyLanguageServer.DafnyAdapter
+namespace DafnyLanguageServer.DafnyAccess
 {
     class Interaction
     {

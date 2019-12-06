@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DafnyLanguageServer.DafnyAdapter;
+using DafnyLanguageServer.ContentManager;
+using DafnyLanguageServer.Services;
 using OmniSharp.Extensions.Embedded.MediatR;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
@@ -10,7 +11,7 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server.Capabilities;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServer.Handler
 {
     internal class TextDocumentSyncHandler : ITextDocumentSyncHandler
     {

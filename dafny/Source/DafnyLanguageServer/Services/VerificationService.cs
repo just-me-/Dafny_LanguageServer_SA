@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using DafnyLanguageServer.DafnyAdapter;
+using DafnyLanguageServer.ContentManager;
+using DafnyLanguageServer.DafnyAccess;
 using Microsoft.Boogie;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
-using DafnyHelper = DafnyLanguageServer.DafnyAdapter.DafnyTranslationUnit;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServer.Services
 {
     public class VerificationService
     {

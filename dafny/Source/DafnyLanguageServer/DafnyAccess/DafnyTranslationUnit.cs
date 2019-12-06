@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Json;
-using System.Text;
 using Microsoft.Boogie;
 using Microsoft.Dafny;
 using Bpl = Microsoft.Boogie;
 
-namespace DafnyLanguageServer.DafnyAdapter
+namespace DafnyLanguageServer.DafnyAccess
 {
     // needed cuz boogie needs an output stream - must not be null 
     public class DafnyConsolePrinter : ConsolePrinter

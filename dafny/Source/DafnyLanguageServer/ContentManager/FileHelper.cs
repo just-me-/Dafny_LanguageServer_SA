@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 
-namespace DafnyLanguageServer
+namespace DafnyLanguageServer.ContentManager
 {
     public class FileHelper
     {
