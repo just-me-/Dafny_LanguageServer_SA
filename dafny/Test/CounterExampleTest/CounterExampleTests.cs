@@ -75,7 +75,8 @@ namespace Tests
             var service = new CounterExampleService(fake);
             CounterExampleResults results = service.ProvideCounterExamples().Result;
 
-            Assert.AreEqual(1, results.CounterExamples.Count, $"Counter Example should only contain 1 counter examples.");
+            Assert.AreEqual(1, results.CounterExamples.Count,
+                $"Counter Example should only contain 1 counter examples.");
 
             CompareCounterExampleWithExpectation(results.CounterExamples[0], col, row, vars, vals);
         }
@@ -90,10 +91,10 @@ namespace Tests
             string[] vals1 = { "myVal" };
 
 
-            const int col2 = 2;
-            const int row2 = 2;
-            string[] vars2 = { "myVar" };
-            string[] vals2 = { "myVal" };
+            const int col2 = 3;
+            const int row2 = 3;
+            string[] vars2 = { "myVar2" };
+            string[] vals2 = { "myVal2" };
 
             FakeDafnyTranslationUnitForCounterExamples fake = new FakeDafnyTranslationUnitForCounterExamples();
             fake.AddCounterExampleToFake(col1, row1, vars1, vals1);
@@ -102,7 +103,8 @@ namespace Tests
             var service = new CounterExampleService(fake);
             CounterExampleResults results = service.ProvideCounterExamples().Result;
 
-            Assert.AreEqual(2, results.CounterExamples.Count, $"Counter Example should only contain 2 counter examples.");
+            Assert.AreEqual(2, results.CounterExamples.Count,
+                $"Counter Example should only contain 2 counter examples.");
 
             CompareCounterExampleWithExpectation(results.CounterExamples[0], col1, row1, vars1, vals1);
             CompareCounterExampleWithExpectation(results.CounterExamples[1], col2, row2, vars2, vals2);
@@ -110,21 +112,29 @@ namespace Tests
 
         private static void CompareCounterExampleWithExpectation(CounterExampleResult r, int col, int row, string[] vars, string[] vals)
         {
-            Assert.AreEqual(col, r.Col, "A column index is wrong in the provided counter example");
-            Assert.AreEqual(row, r.Line, "A line (row) index is wrong in the provided counter example");
+            Assert.AreEqual(col, r.Col,
+                "A column index is wrong in the provided counter example");
+            Assert.AreEqual(row, r.Line,
+                "A line (row) index is wrong in the provided counter example");
 
             foreach (string var in vars)
             {
-                Assert.Contains(var, r.Variables.Keys, $"The key {var} is not provided in the counter examples.");
+                Assert.Contains(var, r.Variables.Keys,
+                    $"The key {var} is not provided in the counter examples.");
             }
 
-            //TODO Dict order is non deterministic. Cant test like this.
-            var resultKeys = r.Variables.Keys.ToList();
-            for (int i = 0; i < r.Variables.Count; i++)
+            Dictionary<string, string> expected = new Dictionary<string, string>();
+            for (int i = 0; i < vars.Length; i++)
             {
-                Assert.AreEqual(vars[i], resultKeys[i], $"The provided counter example is not containing key {vars[i]} at the expected position.");
-                Assert.AreEqual(vals[i], r.Variables[vars[i]], $"Value to Key {vars[i]} is not as expected.");
+                expected.Add(vars[i], vals[i]);
             }
+
+            CollectionAssert.AreEqual(
+                expected.OrderBy(kv => kv.Key).ToList(),
+                r.Variables.OrderBy(kv => kv.Key).ToList(),
+                "The Key-Value-Pairs 'variable: value' are not equal"
+            );
+
         }
     }
     public class IntegrationTests
