@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Microsoft.Boogie;
+﻿using Microsoft.Boogie;
+using System.Collections.Generic;
 
 namespace DafnyLanguageServer.DafnyAccess
 {

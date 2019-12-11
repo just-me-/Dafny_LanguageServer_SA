@@ -1,10 +1,3 @@
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using DafnyLanguageServer.Handler;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
@@ -16,6 +9,12 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Client;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using Serilog;
 using Serilog.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace LSPIntegrationTests
 {
@@ -87,7 +86,7 @@ namespace LSPIntegrationTests
             LanguageClient client = new LanguageClient(LoggerFactory, server);
             //IHandler h = new DiagHandler();
             //client.RegisterHandler(h)
-            
+
 
             try
             {
@@ -102,8 +101,8 @@ namespace LSPIntegrationTests
 
                 //var myDiagHandler = new DiagHandler();
                 //client.RegisterHandler(myDiagHandler);  //todo
-                
-                
+
+
                 Log.Information("\n\n*** Language server has been successfully initialised. \n");
 
                 Log.Information("\n\n*** Sending DidOpen.....\n");
@@ -117,7 +116,7 @@ namespace LSPIntegrationTests
 
                 //es kommt an:
                 //[{"label":"a (Type: Method) (Parent: _default)","kind":2,"deprecated":false,"preselect":false,"insertTextFormat":0,"textEdit":{"range":{"start":{"line":2,"character":5},"end":{"line":2,"character":6}},"newText":"a"}}]
-                
+
 
                 Log.Information("\\nn*** Sending Completions.....\n");
                 var c = client.TextDocument.Completions(
@@ -177,7 +176,7 @@ namespace LSPIntegrationTests
                     Log.Warning("\n\n***No counter Examples available");
 
                 }
-         
+
 
 
 

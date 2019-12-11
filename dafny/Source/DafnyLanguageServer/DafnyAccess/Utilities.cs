@@ -1,6 +1,6 @@
-using System;
 using Microsoft.Boogie;
 using Microsoft.Dafny;
+using System;
 
 namespace DafnyLanguageServer.DafnyAccess
 {

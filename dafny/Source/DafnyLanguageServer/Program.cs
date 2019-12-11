@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using DafnyLanguageServer.ContentManager;
+﻿using DafnyLanguageServer.ContentManager;
 using DafnyLanguageServer.Handler;
 using Microsoft.Boogie;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OmniSharp.Extensions.LanguageServer.Server;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using DafnyConsolePrinter = DafnyLanguageServer.DafnyAccess.DafnyConsolePrinter;
 
 namespace DafnyLanguageServer
@@ -16,7 +16,7 @@ namespace DafnyLanguageServer
         static async Task Main(string[] args)
         {
             ExecutionEngine.printer = new DafnyConsolePrinter();
-            
+
             var server = await LanguageServer.From(options =>
                 options
                     .WithInput(Console.OpenStandardInput())

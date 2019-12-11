@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using DafnyLanguageServer.ContentManager;
+﻿using DafnyLanguageServer.ContentManager;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DafnyLanguageServer.Handler
 {
@@ -39,8 +39,8 @@ namespace DafnyLanguageServer.Handler
         {
             return await Task.Run(() =>
             {
-            List<LocationOrLocationLink> links = new List<LocationOrLocationLink>();
-                
+                List<LocationOrLocationLink> links = new List<LocationOrLocationLink>();
+
                 // function? definition... variable? declaration 
 
                 // quiick n dirty annahme für v1: 
@@ -55,14 +55,14 @@ namespace DafnyLanguageServer.Handler
                 );
                 foreach (var symbol in symbols.GetFullList())
                 {
-                    if(word == symbol.Name)
+                    if (word == symbol.Name)
                     {
-                        Position position = new Position((long)symbol.Line-1, (long)symbol.Column);
+                        Position position = new Position((long)symbol.Line - 1, (long)symbol.Column);
                         Range range = new Range { Start = position, End = position };
                         var location = new Location { Uri = request.TextDocument.Uri, Range = range };
 
                         links.Add(new LocationOrLocationLink(location));
-                        break; 
+                        break;
                     }
                 }
                 return new LocationOrLocationLinks(links);

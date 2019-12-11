@@ -1,9 +1,9 @@
+using Microsoft.Boogie;
+using Microsoft.Dafny;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.Boogie;
-using Microsoft.Dafny;
 using Bpl = Microsoft.Boogie;
 
 namespace DafnyLanguageServer.DafnyAccess
@@ -46,7 +46,7 @@ namespace DafnyLanguageServer.DafnyAccess
             _errors.Add(e);
         }
 
-        public DafnyTranslationUnit(string fname, string source) : this(fname, source, new string[] { }) {}
+        public DafnyTranslationUnit(string fname, string source) : this(fname, source, new string[] { }) { }
         public DafnyTranslationUnit(string fname, string source, string[] args)
         {
             this.fname = fname;
@@ -109,7 +109,7 @@ namespace DafnyLanguageServer.DafnyAccess
         private bool BoogieOnce(string moduleName, Bpl.Program boogieProgram)
         {
             if (boogieProgram.Resolve() == 0 && boogieProgram.Typecheck() == 0)
-            { 
+            {
                 ExecutionEngine.EliminateDeadVariables(boogieProgram);
                 ExecutionEngine.CollectModSets(boogieProgram);
                 ExecutionEngine.CoalesceBlocks(boogieProgram);
@@ -130,16 +130,16 @@ namespace DafnyLanguageServer.DafnyAccess
         }
 
         public List<SymbolTable.SymbolInformation> Symbols()
-        { 
+        {
             ServerUtils.ApplyArgs(args, reporter);
             if (Parse() && Resolve())
             {
                 var symbolTable = new SymbolTable(dafnyProgram);
-                return symbolTable.CalculateSymbols(); 
+                return symbolTable.CalculateSymbols();
             }
             else
             {
-                return new List<SymbolTable.SymbolInformation>(); 
+                return new List<SymbolTable.SymbolInformation>();
             }
         }
 
@@ -168,13 +168,13 @@ namespace DafnyLanguageServer.DafnyAccess
                     return counterExamples;
                 }
             }
-           
+
             catch (Exception e)
             {
                 Console.WriteLine("Error while collecting models: " + e.Message);
             }
 
-            return new List<CounterExampleProvider.CounterExample>(); 
+            return new List<CounterExampleProvider.CounterExample>();
         }
 
         private void RemoveExistingModel()

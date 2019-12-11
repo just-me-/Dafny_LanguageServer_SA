@@ -1,8 +1,5 @@
-using DafnyLanguageServer;
-using NUnit.Framework;
-using OmniSharp.Extensions.LanguageServer.Protocol.Models;
-using System.Collections.Generic;
 using DafnyLanguageServer.ContentManager;
+using NUnit.Framework;
 
 namespace CompletionHandlerTest
 {

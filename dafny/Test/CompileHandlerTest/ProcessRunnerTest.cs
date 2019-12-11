@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.IO;
-using DafnyLanguageServer;
+﻿using DafnyLanguageServer.Services;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Diagnostics;
-using DafnyLanguageServer.Services;
+using System.IO;
 
 namespace CompileHandlerTest
 {
@@ -51,7 +45,7 @@ namespace CompileHandlerTest
                     },
                 EnableRaisingEvents = true
             };
-            
+
             ProcessRunner r = new ProcessRunner(p);
 
             try

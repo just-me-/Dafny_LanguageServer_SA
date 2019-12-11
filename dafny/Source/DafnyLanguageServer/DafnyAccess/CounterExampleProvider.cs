@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.Boogie;
+using Microsoft.Boogie.ModelViewer;
+using Microsoft.Boogie.ModelViewer.Dafny;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
-using Microsoft.Boogie;
-using Microsoft.Boogie.ModelViewer;
-using Microsoft.Boogie.ModelViewer.Dafny;
 
 namespace DafnyLanguageServer.DafnyAccess
 {

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using OmniSharp.Extensions.LanguageServer.Protocol.Models;
+using System;
 using System.Text.RegularExpressions;
-using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 
 namespace DafnyLanguageServer.ContentManager
 {

@@ -1,5 +1,5 @@
-﻿using System;
-using DafnyLanguageServer.DafnyAccess;
+﻿using DafnyLanguageServer.DafnyAccess;
+using System;
 
 namespace DafnyLanguageServer.ContentManager
 {

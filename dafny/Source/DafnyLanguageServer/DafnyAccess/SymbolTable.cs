@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.Boogie;
+using Microsoft.Dafny;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using Microsoft.Boogie;
-using Microsoft.Dafny;
-using Type = Microsoft.Dafny.Type;
 using Function = Microsoft.Dafny.Function;
+using Type = Microsoft.Dafny.Type;
 
 namespace DafnyLanguageServer.DafnyAccess
 {

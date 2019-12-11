@@ -1,8 +1,8 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using DafnyLanguageServer.Services;
+﻿using DafnyLanguageServer.Services;
 using OmniSharp.Extensions.Embedded.MediatR;
 using OmniSharp.Extensions.JsonRpc;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DafnyLanguageServer.Handler
 {

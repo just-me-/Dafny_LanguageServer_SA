@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using DafnyLanguageServer.ContentManager;
+﻿using DafnyLanguageServer.ContentManager;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using SymbolTable = DafnyLanguageServer.DafnyAccess.SymbolTable;
 
 namespace DafnyLanguageServer.Handler
@@ -37,7 +37,7 @@ namespace DafnyLanguageServer.Handler
                 ResolveProvider = false
             };
         }
-        
+
         public async Task<CompletionList> Handle(CompletionParams request, CancellationToken cancellationToken)
         {
             return await Task.Run(() =>
@@ -58,7 +58,7 @@ namespace DafnyLanguageServer.Handler
         public CompletionList ConvertListToCompletionresponse(List<SymbolTable.SymbolInformation> symbols, CompletionParams request)
         {
             var complitionItems = new List<CompletionItem>();
-            foreach(var symbol in symbols)
+            foreach (var symbol in symbols)
             {
                 CompletionItemKind kind = CompletionItemKind.Reference;
                 Enum.TryParse(symbol.SymbolType.ToString(), true, out kind);
@@ -73,11 +73,11 @@ namespace DafnyLanguageServer.Handler
                 complitionItems.Add(
                     new CompletionItem
                     {
-                        #if DEBUG
+#if DEBUG
                         Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Parent: {symbol.ParentClass})",
-                        #else
+#else
                         Label = $"{symbol.Name}", 
-                        #endif
+#endif
                         Kind = kind,
                         TextEdit = textEdit
                     });

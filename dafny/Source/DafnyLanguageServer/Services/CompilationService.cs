@@ -1,9 +1,9 @@
-﻿using System;
+﻿using DafnyLanguageServer.ContentManager;
+using DafnyLanguageServer.Handler;
+using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using DafnyLanguageServer.ContentManager;
-using DafnyLanguageServer.Handler;
 
 namespace DafnyLanguageServer.Services
 {

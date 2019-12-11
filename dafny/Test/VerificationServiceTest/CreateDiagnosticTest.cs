@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using DafnyLanguageServer;
-using DafnyLanguageServer.Services;
+﻿using DafnyLanguageServer.Services;
 using Microsoft.Boogie;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace VerificationServiceTest
 {
@@ -36,7 +34,7 @@ namespace VerificationServiceTest
         {
             var errors = new List<FakeErrorObject>();
             var info = new FakeErrorObject(token, "Msg");
-            errors.Add(info); 
+            errors.Add(info);
 
             var diagnostics = verificationService.CreateDafnyDiagnostics(errors, token.filename, randomFakeSource);
 

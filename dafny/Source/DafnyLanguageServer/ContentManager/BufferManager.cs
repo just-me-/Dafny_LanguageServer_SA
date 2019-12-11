@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DafnyLanguageServer.DafnyAccess;
+using System;
 using System.Collections.Concurrent;
-using DafnyLanguageServer.DafnyAccess;
 
 namespace DafnyLanguageServer.ContentManager
 {
@@ -16,7 +16,7 @@ namespace DafnyLanguageServer.ContentManager
 
             // do not update symboltable if current file state is invalid 
             var symboltable = new FileSymboltable(file.DafnyHelper);
-            if(symboltable.HasEntries)
+            if (symboltable.HasEntries)
             {
                 file.Symboltable = symboltable;
             }
@@ -32,7 +32,7 @@ namespace DafnyLanguageServer.ContentManager
 
         public DafnyFile GetFile(Uri documentPath)
         {
-            return GetOrCreateDafnyfileInstance(documentPath); 
+            return GetOrCreateDafnyfileInstance(documentPath);
         }
 
         public DafnyFile GetFile(string documentPath)
@@ -52,7 +52,7 @@ namespace DafnyLanguageServer.ContentManager
 
         public ConcurrentDictionary<Uri, DafnyFile> GetAllFiles()
         {
-            return _buffers; 
+            return _buffers;
         }
     }
 }

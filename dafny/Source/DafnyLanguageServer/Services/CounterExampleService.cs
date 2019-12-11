@@ -1,19 +1,19 @@
-﻿using System.Threading.Tasks;
-using DafnyLanguageServer.DafnyAccess;
+﻿using DafnyLanguageServer.DafnyAccess;
 using DafnyLanguageServer.Handler;
+using System.Threading.Tasks;
 
 namespace DafnyLanguageServer.Services
 {
     public class CounterExampleService
     {
-        private IDafnyTranslationUnit _helper; 
+        private IDafnyTranslationUnit _helper;
 
         public CounterExampleService(IDafnyTranslationUnit helper)
         {
             _helper = helper;
         }
 
-        public Task <CounterExampleResults> ProvideCounterExamples()
+        public Task<CounterExampleResults> ProvideCounterExamples()
         {
             return Task.Run(() =>
             {
