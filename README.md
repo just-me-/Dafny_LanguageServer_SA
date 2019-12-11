@@ -25,3 +25,6 @@ You will finde more information how to setup this project on your local developm
 There are some helpfull links to getting into Visuel Studio Code Plugins as well. 
 
 You can download the PDF here: <<Hier kommt dann später noch die Verlinkung auf ein PDF>>
+
+## VS Code Plugin
+If you would like to know which features are supported by the Visual Studio Code Plugin, please checkout the [VSCodePlugin-ReadMe](./VSCodePlugin/README.md). 
