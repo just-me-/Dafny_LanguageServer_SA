@@ -25,6 +25,8 @@ You will finde more information how to setup this project on your local developm
 There are some helpfull links to getting into Visuel Studio Code Plugins as well. 
 
 You can [download the PDF here](https://wuza.ch/specials/SA/Entwicklerdokumentation.pdf).
+For future adaptations of the documentation, the Word file will be made available via Git after our Bachelor thesis. 
+For the current processing an alternative Word document synchronization is more suitable (SharePoint).
 
 ## VS Code Plugin Features
 If you would like to know which features are supported by the Visual Studio Code Plugin, please checkout the [VSCodePlugin-ReadMe](./VSCodePlugin/README.md). 
