@@ -70,11 +70,16 @@ namespace DafnyLanguageServer.Handler
                     Range = range
                 };
 
+                var arr = "";
+                foreach (var a in symbol.References)
+                {
+                    arr += $"meth {a.MethodName} ref {a.ReferencedName} string {a.ToString()} type {a.GetType().ToString()}";
+                }
                 complitionItems.Add(
                     new CompletionItem
                     {
 #if DEBUG
-                        Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Parent: {symbol.ParentClass})",
+                        Label = $"{symbol.Name} (Type: {symbol.SymbolType}) (Class: {symbol.ReferencedClass} Module: {symbol.ReferencedModule} Array{arr})",
 #else
                         Label = $"{symbol.Name}", 
 #endif
