@@ -62,7 +62,7 @@ On the first start the plugin asks you to install _Dafny_ automatically.
 
 ![assertions animation](installation.gif)
 
-### Add null check
+### Add null check (coming soon) 
 Some diagnostics can be directly inserted with a quickfix at the beginning of a line.
 
 ![assertions animation](addnullcheck.gif)
@@ -76,6 +76,11 @@ Pressed `F5` to compile and run the program.
 Pressed `F7` to show counter examples.
 
 ![assertions animation](counterexample.gif)
+
+### Auto Completion
+Pressed `control + space` to show auto completion suggestions.
+
+![assertions animation](completionexample.gif)
 
 ## Contribute
 
