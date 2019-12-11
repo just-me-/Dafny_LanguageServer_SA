@@ -14,7 +14,7 @@ const samplesFolder = vscode.extensions.getExtension(extensionID)!.extensionPath
 export class UnitTestCallback {
     // tslint:disable:no-empty
     public backendStarted = () => { };
-    public verificationComplete = () => {  };
+    public verificationComplete = () => { };
     public ideIsIdle = () => { };
     public activated = () => { };
     public viperUpdateComplete = () => { };
@@ -59,9 +59,9 @@ function openFile(fileName: string): Promise<vscode.TextDocument> {
 }
 
 function StartViperIdeTests() {
-    describe("ViperIDE Startup tests:", function() {
+    describe("ViperIDE Startup tests:", function () {
 
-        it("Language Detection, and Backend Startup test.", function(done) {
+        it("Language Detection, and Backend Startup test.", function (done) {
             log("Language Detection, and Backend Startup test.");
             this.timeout(40000);
 
@@ -76,7 +76,7 @@ function StartViperIdeTests() {
             });
         });
 
-        it("Test simple verification", function(done) {
+        it("Test simple verification", function (done) {
             log("Test simple verification");
             this.timeout(25000);
 

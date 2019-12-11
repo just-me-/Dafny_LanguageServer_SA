@@ -48,14 +48,14 @@ export default class Commands {
         {
             name: CommandStrings.Compile,
             callback: () => {
-                return vscode.window.activeTextEditor && 
+                return vscode.window.activeTextEditor &&
                     this.compile(vscode.window.activeTextEditor.document);
             },
         },
         {
             name: CommandStrings.CompileAndRun,
             callback: () => {
-                return vscode.window.activeTextEditor && 
+                return vscode.window.activeTextEditor &&
                     this.compile(vscode.window.activeTextEditor.document, true);
             },
         },
@@ -65,7 +65,7 @@ export default class Commands {
             callback: (uri: string, version: number, edits: vscode.TextEdit[]) => this.applyTextEdits(uri, version, edits),
         },
         { name: CommandStrings.ShowCounterExample, callback: () => this.showCounterExample() },
-        { 
+        {
             name: CommandStrings.HideCounterExample, callback: () => {
                 this.provider.getCounterModelProvider().hideCounterModel()
             }
@@ -132,13 +132,13 @@ export default class Commands {
         if (!vscode.window.activeTextEditor) {
             return;
         }
-        vscode.window.activeTextEditor.document.save(); 
-        const arg = { DafnyFile: vscode.window.activeTextEditor.document.fileName}
+        vscode.window.activeTextEditor.document.save();
+        const arg = { DafnyFile: vscode.window.activeTextEditor.document.fileName }
 
         this.languageServer.sendRequest(LanguageServerRequest.CounterExample, arg)
-        .then((allCounterExamples: any) => {
-            this.provider.getCounterModelProvider().showCounterModel(allCounterExamples);
-        })
+            .then((allCounterExamples: any) => {
+                this.provider.getCounterModelProvider().showCounterModel(allCounterExamples);
+            })
     }
 
     public compile(document: vscode.TextDocument | undefined, run: boolean = false): void {
@@ -149,31 +149,31 @@ export default class Commands {
         vscode.window.showInformationMessage(InfoMsg.CompilationStarted);
 
         //2Do: Production Folder Structure may be different. Sollte man auch auslagern. Ticket #45
-        const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")   
+        const dafnyExe = path.join(__dirname, "../../../../dafny/Binaries/Dafny.exe")
         const arg = {
             DafnyFilePath: document.fileName,
             DafnyExePath: dafnyExe
         }
 
         this.languageServer.sendRequest<ICompilerResult>(LanguageServerRequest.Compile, arg)
-        .then((result) => {
-            if (result.error) {
-                vscode.window.showErrorMessage(result.message || InfoMsg.CompilationFailed);
-                return true;
-            }
-            vscode.window.showInformationMessage(result.message || InfoMsg.CompilationFinished)
-            if (run) {
-                if (result.executable) {
-                    vscode.window.showInformationMessage(InfoMsg.CompilationStartRunner);
-                    this.runner.run(document.fileName);
-                } else {
-                    vscode.window.showInformationMessage(ErrorMsg.NoMainMethod);
+            .then((result) => {
+                if (result.error) {
+                    vscode.window.showErrorMessage(result.message || InfoMsg.CompilationFailed);
+                    return true;
                 }
-            }
-            return false;
-        }, (error: any) => {
-            vscode.window.showErrorMessage("Can't compile: " + error.message);
-        });
+                vscode.window.showInformationMessage(result.message || InfoMsg.CompilationFinished)
+                if (run) {
+                    if (result.executable) {
+                        vscode.window.showInformationMessage(InfoMsg.CompilationStartRunner);
+                        this.runner.run(document.fileName);
+                    } else {
+                        vscode.window.showInformationMessage(ErrorMsg.NoMainMethod);
+                    }
+                }
+                return false;
+            }, (error: any) => {
+                vscode.window.showErrorMessage("Can't compile: " + error.message);
+            });
     }
 
     public applyTextEdits(uri: string, documentVersion: number, edits: vscode.TextEdit[]) {

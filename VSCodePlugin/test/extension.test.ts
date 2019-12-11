@@ -15,7 +15,7 @@ const samplesFolder = vscode.extensions.getExtension(extensionID)!.extensionPath
 
 export class UnitTestCallback {
     // tslint:disable-next-line:no-empty
-    public backendStarted = () => {};
+    public backendStarted = () => { };
     public verificationComplete = (verificationResult: IVerificationResult) => {
         log("Status:" + verificationResult.verificationStatus.toString());
     }
@@ -84,7 +84,7 @@ function executeCommand(command: string, args?: any) {
 
 suite("DafnyServer Tests", () => {
     // tslint:disable-next-line:only-arrow-functions
-    test("Verify simple.dfy", async function() {
+    test("Verify simple.dfy", async function () {
         log("Language Detection, and Backend Startup test.");
         this.timeout(40000);
 
@@ -96,7 +96,7 @@ suite("DafnyServer Tests", () => {
     });
 
     // tslint:disable-next-line:only-arrow-functions
-    test("Verify simple_invalid_assert.dfy", async function() {
+    test("Verify simple_invalid_assert.dfy", async function () {
         log("Test simple verification");
         this.timeout(15000);
         await waitForVerification(samplesFolder + "simple.dfy", { crashed: false, errorCount: 0, proofObligations: 2 });
@@ -104,7 +104,7 @@ suite("DafnyServer Tests", () => {
     });
 
     // tslint:disable-next-line:only-arrow-functions
-    test("Verify countermodel", async function() {
+    test("Verify countermodel", async function () {
         this.timeout(60000);
 
         const verification = waitForVerification(samplesFolder + "abs_failing.dfy", { crashed: false, errorCount: 1, proofObligations: 1 });
@@ -117,7 +117,7 @@ suite("DafnyServer Tests", () => {
     });
 
     // tslint:disable-next-line:only-arrow-functions
-    test("Verify countermodel empty", async function() {
+    test("Verify countermodel empty", async function () {
         this.timeout(60000);
 
         const verification = waitForVerification(samplesFolder + "simple2.dfy", { crashed: false, errorCount: 0, proofObligations: 2 });

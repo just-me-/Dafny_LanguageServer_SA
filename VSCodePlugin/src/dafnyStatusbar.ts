@@ -25,7 +25,7 @@ export class Statusbar {
             this.update();
         });
 
-        languageServer.onNotification(LanguageServerNotification.ServerStarted, ( params: {serverpid: number, serverversion: string}) => {
+        languageServer.onNotification(LanguageServerNotification.ServerStarted, (params: { serverpid: number, serverversion: string }) => {
             this.serverpid = params.serverpid;
             this.serverversion = params.serverversion;
             this.update();
@@ -76,8 +76,8 @@ export class Statusbar {
 
     // This update gets called by server-side events when new error informations are available 
     public updateStatusbarText(errors: number) {
-        this.currentDocumentStatucBar.text = (errors > 0) 
-            ? StatusString.NotVerified + ' - counted Errors: ' + errors 
+        this.currentDocumentStatucBar.text = (errors > 0)
+            ? StatusString.NotVerified + ' - counted Errors: ' + errors
             : StatusString.Verified;
     }
 
@@ -100,7 +100,7 @@ export class Statusbar {
 
         if (!this.serverpid) {
             this.currentDocumentStatucBar.text = StatusString.Pending;
-        } 
+        }
 
         this.serverStatusBar.show();
         this.currentDocumentStatucBar.show();

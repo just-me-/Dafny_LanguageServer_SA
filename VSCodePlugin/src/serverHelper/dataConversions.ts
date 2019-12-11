@@ -1,4 +1,4 @@
-import { Position, Range} from "vscode";
+import { Position, Range } from "vscode";
 
 export function clonePoint(pos: Position): Position {
     return new Position(pos.line, pos.character);

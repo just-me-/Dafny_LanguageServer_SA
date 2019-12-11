@@ -27,28 +27,28 @@ export function activate(extensionContext: vscode.ExtensionContext) {
     if (!Capabilities.hasSupportedMonoVersion()) {
         // Promt the user to install Mono and stop extension execution.
         vscode.window.showErrorMessage(ErrorMsg.NoSupportedMono, ErrorMsg.ConfigureMonoExecutable, ErrorMsg.GetMono)
-        .then((selection) => {
-            if (selection === ErrorMsg.GetMono) {
-                vscode.commands.executeCommand("vscode.open", vscode.Uri.parse(ErrorMsg.GetMonoUri));
-                let restartMessage;
-                if (platform() === EnvironmentConfig.OSX) {
-                    // Mono adds a new folder to PATH; so give the easiest advice... ;)
-                    restartMessage = ErrorMsg.RestartMacAfterMonoInstall;
-                } else {
-                    restartMessage = ErrorMsg.RestartCodeAfterMonoInstall;
+            .then((selection) => {
+                if (selection === ErrorMsg.GetMono) {
+                    vscode.commands.executeCommand("vscode.open", vscode.Uri.parse(ErrorMsg.GetMonoUri));
+                    let restartMessage;
+                    if (platform() === EnvironmentConfig.OSX) {
+                        // Mono adds a new folder to PATH; so give the easiest advice... ;)
+                        restartMessage = ErrorMsg.RestartMacAfterMonoInstall;
+                    } else {
+                        restartMessage = ErrorMsg.RestartCodeAfterMonoInstall;
+                    }
+                    vscode.window.showWarningMessage(restartMessage);
                 }
-                vscode.window.showWarningMessage(restartMessage);
-            }
 
-            if (selection === ErrorMsg.ConfigureMonoExecutable) {
-                vscode.commands.executeCommand("workbench.action.configureLanguageBasedSettings");
-            }
-        });
+                if (selection === ErrorMsg.ConfigureMonoExecutable) {
+                    vscode.commands.executeCommand("workbench.action.configureLanguageBasedSettings");
+                }
+            });
         return;
     }
 
     const languageServer = new DafnyLanguageClient();
-    languageServer.trace = Trace.Verbose; 
+    languageServer.trace = Trace.Verbose;
 
     languageServer.onReady().then(() => {
         provider = new DafnyClientProvider(extensionContext, languageServer);

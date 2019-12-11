@@ -26,8 +26,8 @@ export class DafnyClientProvider {
 
         languageServer.onNotification(LanguageServerNotification.UpdateStatusbar,
             (counter: number) => {
-               this.dafnyStatusbar.update();
-               this.dafnyStatusbar.updateStatusbarText(counter);
+                this.dafnyStatusbar.update();
+                this.dafnyStatusbar.updateStatusbarText(counter);
             });
     }
 
@@ -78,7 +78,7 @@ export class DafnyClientProvider {
     }
 
     public getCounterModelProvider() {
-        return this.counterModelProvider; 
+        return this.counterModelProvider;
     }
 
     private sendDocument(textDocument: vscode.TextDocument, type: string): void {

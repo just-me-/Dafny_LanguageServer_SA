@@ -8,21 +8,21 @@ import * as path from 'path';
 export default class DafnyLanguageClient extends LanguageClient {
 
     constructor() {
-        
+
         // 2do: Production Folder Structure may be different. Ticket #45
         const dafnyLangServerExe = path.join(__dirname, "../../../../dafny/Binaries/DafnyLanguageServer.exe");
 
         window.showInformationMessage("Chosen Server Exe: " + dafnyLangServerExe);
-        
+
         const serverOptions: ServerOptions = {
             run: { command: dafnyLangServerExe, args: [] },
             debug: { command: dafnyLangServerExe, args: [] }
         }
-    
+
         const clientOptions: LanguageClientOptions = {
             documentSelector: [
                 {
-                    pattern: '**/*.dfy', 
+                    pattern: '**/*.dfy',
                 },
                 {
                     language: "dafny",

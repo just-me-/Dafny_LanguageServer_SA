@@ -5,7 +5,7 @@ import * as vscode from "vscode";
 export class CounterModelProvider {
 
     private decorators: { [docPathName: string]: vscode.TextEditorDecorationType } = {};
-    
+
     public hideCounterModel(): void {
         if (this.decorators[this.getActiveFileName()]) {
             this.decorators[this.getActiveFileName()].dispose();
@@ -23,7 +23,7 @@ export class CounterModelProvider {
             let col = currentCounterExample.col;
             if (line < 0) { return }
 
-            let shownText =  "";
+            let shownText = "";
             for (let [key, value] of Object.entries(currentCounterExample.variables)) {
                 shownText += key + " = " + value + "; ";
             }
