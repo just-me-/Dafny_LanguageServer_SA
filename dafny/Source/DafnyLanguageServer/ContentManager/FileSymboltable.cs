@@ -9,11 +9,11 @@ namespace DafnyLanguageServer.ContentManager
     {
         private List<SymbolTable.SymbolInformation> _symbolTable;
         public bool HasEntries => (_symbolTable.Count > 0);
-        private IDafnyTranslationUnit _helper;
+        private IDafnyTranslationUnit _translationUnit;
 
-        public FileSymboltable(IDafnyTranslationUnit helper)
+        public FileSymboltable(IDafnyTranslationUnit translationUnit)
         {
-            _helper = helper;
+            _translationUnit = translationUnit;
             _symbolTable = GetSymbolList();
         }
 
@@ -57,7 +57,7 @@ namespace DafnyLanguageServer.ContentManager
 
         private List<SymbolTable.SymbolInformation> GetSymbolList()
         {
-            return _helper.Symbols();
+            return _translationUnit.Symbols();
         }
 
         private List<SymbolTable.SymbolInformation> RemoveDuplicates(List<SymbolTable.SymbolInformation> list)
