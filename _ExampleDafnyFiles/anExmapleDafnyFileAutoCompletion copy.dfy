@@ -23,12 +23,6 @@ class C {
    }
   }
 
-/* xD wie macht man ne vererbung 2Do... 
-class B : C {
-   constructor()
-}
-*/
-
 method Main() {
    var a := 1+2;
    print "a is ";

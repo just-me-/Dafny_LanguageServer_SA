@@ -5,6 +5,7 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using DafnyLanguageServer.DafnyAccess;
 
 namespace DafnyLanguageServer.Handler
 {
@@ -43,28 +44,31 @@ namespace DafnyLanguageServer.Handler
                 List<CodeLens> items = new List<CodeLens>();
 
                 var fileSymboltable = _bufferManager.GetSymboltable(request.TextDocument.Uri);
-                // die laufzeit ist grottig husthust
                 foreach (var symbol in fileSymboltable.GetFullList())
                 {
-                    var symbolReferencecounter = 0;
-                    foreach (var fileBuffers in _bufferManager.GetAllFiles().Values)
+                    if (symbol.SymbolType == SymbolTable.SymbolInformation.Type.Class ||
+                        symbol.SymbolType == SymbolTable.SymbolInformation.Type.Function ||
+                        symbol.SymbolType == SymbolTable.SymbolInformation.Type.Method)
                     {
-                        foreach (var filesSymboltable in fileBuffers.Symboltable.GetFullList())
+                        var symbolReferencecounter = 0;
+                        foreach (var fileBuffers in _bufferManager.GetAllFiles().Values)
                         {
-                            if (filesSymboltable.Name == symbol.Name)
-                                symbolReferencecounter++;
+                            foreach (var filesSymboltable in fileBuffers.Symboltable.GetFullList())
+                            {
+                                if (filesSymboltable.Name == symbol.Name)
+                                    symbolReferencecounter++;
+                            }
                         }
+
+                        Position position = new Position((long)symbol.Line - 1, 0);
+                        Range range = new Range { Start = position, End = position };
+                        Command command = new Command
+                        {
+                            Title = (symbolReferencecounter - 1) + " reference(s) to " + symbol.Name,
+                            Name = "dafny.showReferences"
+                        };
+                        items.Add(new CodeLens { Data = request.TextDocument.Uri, Range = range, Command = command });
                     }
-
-                    Position position = new Position((long)symbol.Line - 1, 0);
-                    Range range = new Range { Start = position, End = position };
-                    Command command = new Command
-                    {
-                        Title = (symbolReferencecounter - 1) + " reference(s) to " + symbol.Name,
-                        Name = "dafny.showReferences"
-                    };
-
-                    items.Add(new CodeLens { Data = request.TextDocument.Uri, Range = range, Command = command });
                 }
                 return new CodeLensContainer(items);
             });
