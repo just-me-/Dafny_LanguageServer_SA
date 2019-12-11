@@ -34,7 +34,7 @@ build_client:
   script:
     - cd VSCodePlugin
     - npm install
-    - npm run vscode:prepublish
+    - npm run vscode:compile-typescript
   artifacts:
     paths:
       - VSCodePlugin/out/
@@ -97,7 +97,6 @@ test_dafny:
     - cd Test
     - "find . -name '*.dfy' -not -path './compileHandlerFiles/*' -not -path './CounterExampleFiles/*' -exec sed -i 's!/optimize !!g' {} +"
     - lit --time-tests -v .
-
 
 sonar_scanner:
   stage: sonar
