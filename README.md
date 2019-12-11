@@ -24,7 +24,7 @@ Then you can build the main Dafny solution with depends on the subsolutions. Now
 You will finde more information how to setup this project on your local development environment in the developer documentation document. 
 There are some helpfull links to getting into Visuel Studio Code Plugins as well. 
 
-You can download the PDF here: <<Hier kommt dann später noch die Verlinkung auf ein PDF>>
+You can [download the PDF here](https://wuza.ch/specials/SA/Entwicklerdokumentation.pdf).
 
-## VS Code Plugin
+## VS Code Plugin Features
 If you would like to know which features are supported by the Visual Studio Code Plugin, please checkout the [VSCodePlugin-ReadMe](./VSCodePlugin/README.md). 
