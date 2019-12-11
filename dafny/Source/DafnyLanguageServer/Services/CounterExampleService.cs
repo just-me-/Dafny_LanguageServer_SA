@@ -6,11 +6,11 @@ namespace DafnyLanguageServer.Services
 {
     public class CounterExampleService
     {
-        private IDafnyTranslationUnit _helper;
+        private IDafnyTranslationUnit _dafnyTranslationUnit;
 
-        public CounterExampleService(IDafnyTranslationUnit helper)
+        public CounterExampleService(IDafnyTranslationUnit dafnyTranslationUnit)
         {
-            _helper = helper;
+            _dafnyTranslationUnit = dafnyTranslationUnit;
         }
 
         public Task<CounterExampleResults> ProvideCounterExamples()
@@ -18,7 +18,7 @@ namespace DafnyLanguageServer.Services
             return Task.Run(() =>
             {
                 var allCounterExamplesReturnContainer = new CounterExampleResults();
-                var models = _helper.CounterExample();
+                var models = _dafnyTranslationUnit.CounterExample();
 
                 if (models.Count == 0)
                 {

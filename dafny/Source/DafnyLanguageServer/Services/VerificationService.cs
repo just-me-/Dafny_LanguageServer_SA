@@ -12,12 +12,12 @@ namespace DafnyLanguageServer.Services
     public class VerificationService
     {
         private readonly ILanguageServer _router;
-        private IDafnyTranslationUnit _dafnyHelper;
+        private IDafnyTranslationUnit _dafnyTranslationUnit;
 
-        public VerificationService(ILanguageServer router, IDafnyTranslationUnit helper)
+        public VerificationService(ILanguageServer router, IDafnyTranslationUnit translationUnit)
         {
             _router = router;
-            _dafnyHelper = helper;
+            _dafnyTranslationUnit = translationUnit;
         }
 
         public void Verify(DafnyFile file)
@@ -26,7 +26,7 @@ namespace DafnyLanguageServer.Services
             _router.Window.SendNotification("activeVerifiyingDocument", file.Filepath);
             try
             {
-                var errors = file.DafnyHelper.GetErrors();
+                var errors = file.DafnyTranslationUnit.GetErrors();
                 var diagnostics = CreateDafnyDiagnostics(errors, file.Filepath, file.Sourcecode);
 
                 PublishDiagnosticsParams p = new PublishDiagnosticsParams

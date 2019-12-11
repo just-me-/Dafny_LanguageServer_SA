@@ -54,7 +54,7 @@ namespace DafnyLanguageServer.Handler
 
         private void Verify(DafnyFile file)
         {
-            var verificationService = new VerificationService(_router, file.DafnyHelper);
+            var verificationService = new VerificationService(_router, file.DafnyTranslationUnit);
             verificationService.Verify(file);
         }
 
