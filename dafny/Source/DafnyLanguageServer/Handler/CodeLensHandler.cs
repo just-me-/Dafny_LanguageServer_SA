@@ -55,11 +55,20 @@ namespace DafnyLanguageServer.Handler
                         {
                             foreach (var filesSymboltable in fileBuffers.Symboltable.GetFullList())
                             {
-                                if (filesSymboltable.Name == symbol.Name)
-                                    symbolReferencecounter++;
+                                if (symbol.SymbolType == SymbolTable.SymbolInformation.Type.Class)
+                                {
+                                    // // not in range of class (method, constrcutor) 
+                                    if (filesSymboltable.ParentClass == symbol.Name
+                                        && filesSymboltable.SymbolType == SymbolTable.SymbolInformation.Type.Definition)
+                                        symbolReferencecounter++;
+                                }
+                                else
+                                {
+                                    if (filesSymboltable.Name == symbol.Name)
+                                        symbolReferencecounter++;
+                                }
                             }
                         }
-
                         Position position = new Position((long)symbol.Line - 1, 0);
                         Range range = new Range { Start = position, End = position };
                         Command command = new Command

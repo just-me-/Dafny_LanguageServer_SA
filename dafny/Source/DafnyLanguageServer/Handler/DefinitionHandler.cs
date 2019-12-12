@@ -40,14 +40,7 @@ namespace DafnyLanguageServer.Handler
             return await Task.Run(() =>
             {
                 List<LocationOrLocationLink> links = new List<LocationOrLocationLink>();
-
-                // function? definition... variable? declaration 
-
-                // quiick n dirty annahme für v1: 
-                // das erste vorkommen des symbols muss die definition sein 
-
                 var symbols = _bufferManager.GetSymboltable(request.TextDocument.Uri);
-
                 var word = FileHelper.GetFollowingWord(
                     _bufferManager.GetSourceCodeAsText(request.TextDocument.Uri),
                     (int)request.Position.Line,
