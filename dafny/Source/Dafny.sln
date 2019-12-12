@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DafnyServer", "DafnyServer\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSPIntegrationTests", "..\Test\LSPIntegrationTests\LSPIntegrationTests.csproj", "{FE13958F-22F0-4AD6-B795-B2A2299ACF6F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileHelperTests", "..\Test\FileHelperTests\FileHelperTests.csproj", "{472CF6CA-0D9B-4399-9242-85D944CD6054}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContentManagerTests", "..\Test\FileHelperTests\ContentManagerTests.csproj", "{472CF6CA-0D9B-4399-9242-85D944CD6054}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
