@@ -46,6 +46,7 @@ namespace DafnyLanguageServer.Handler
                     (int)request.Position.Line,
                     (int)request.Position.Character
                 );
+                // not optimized yet - ticket #40
                 foreach (var symbol in symbols.GetFullList())
                 {
                     if (word == symbol.Name)

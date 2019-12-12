@@ -57,7 +57,7 @@ namespace DafnyLanguageServer.Handler
                             {
                                 if (symbol.SymbolType == SymbolTable.SymbolInformation.Type.Class)
                                 {
-                                    // // not in range of class (method, constrcutor) 
+                                    // not working well yet - ticket #40
                                     if (filesSymboltable.ParentClass == symbol.Name
                                         && filesSymboltable.SymbolType == SymbolTable.SymbolInformation.Type.Definition)
                                         symbolReferencecounter++;
