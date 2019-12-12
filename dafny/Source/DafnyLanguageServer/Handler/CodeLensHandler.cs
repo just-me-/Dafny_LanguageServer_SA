@@ -50,7 +50,7 @@ namespace DafnyLanguageServer.Handler
                         symbol.SymbolType == SymbolTable.SymbolInformation.Type.Function ||
                         symbol.SymbolType == SymbolTable.SymbolInformation.Type.Method)
                     {
-                        var symbolReferencecounter = 0;
+                        var symbolReferencecounter = symbol.SymbolType == SymbolTable.SymbolInformation.Type.Class ? 1 : 0;
                         foreach (var fileBuffers in _bufferManager.GetAllFiles().Values)
                         {
                             foreach (var filesSymboltable in fileBuffers.Symboltable.GetFullList())
@@ -59,7 +59,8 @@ namespace DafnyLanguageServer.Handler
                                 {
                                     // not working well yet - ticket #40
                                     if (filesSymboltable.ParentClass == symbol.Name
-                                        && filesSymboltable.SymbolType == SymbolTable.SymbolInformation.Type.Definition)
+                                        && filesSymboltable.SymbolType == SymbolTable.SymbolInformation.Type.Definition
+                                        && filesSymboltable.Module is null)
                                         symbolReferencecounter++;
                                 }
                                 else
