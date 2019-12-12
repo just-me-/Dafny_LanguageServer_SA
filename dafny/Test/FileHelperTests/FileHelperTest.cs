@@ -1,9 +1,9 @@
+using System;
 using DafnyLanguageServer.ContentManager;
 using NUnit.Framework;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
-using System;
 
-namespace FileHelperTest
+namespace ContentManagerTests
 {
     internal class ParentChildTests
     {
