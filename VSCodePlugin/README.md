@@ -62,25 +62,35 @@ On the first start the plugin asks you to install _Dafny_ automatically.
 
 ![assertions animation](installation.gif)
 
-### Add null check (coming soon) 
-Some diagnostics can be directly inserted with a quickfix at the beginning of a line.
-
-![assertions animation](addnullcheck.gif)
+### Syntax Error Underlining
+![Syntax](Syntax.png)
+Whenever a postcondition statement does not hold, the user will be informed.
 
 ### Compile and Run
 Pressed `F5` to compile and run the program.
 
-![assertions animation](compileandrun.gif)
+![Compile](Compile.png)
 
 ### Show Counter Example
 Pressed `F7` to show counter examples.
 
-![assertions animation](counterexample.gif)
+![Counter](Counter.png)
 
 ### Auto Completion
 Pressed `control + space` to show auto completion suggestions.
 
-![assertions animation](completionexample.gif)
+![Completion](Completion.png)
+
+### Go to Definition
+Pressed `control + space` to show auto completion suggestions.
+
+![Go to Definition](GoTo.png)
+Press `F12` to jump to the definition. 
+
+### Add null check (coming soon) 
+Some diagnostics can be directly inserted with a quickfix at the beginning of a line.
+
+![assertions animation](addnullcheck.gif)
 
 ## Contribute
 
